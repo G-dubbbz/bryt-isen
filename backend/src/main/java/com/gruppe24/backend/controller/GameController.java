@@ -9,26 +9,27 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * <b>Game Controller</b>
- * <p>
- * This controller provides API endpoints for managing {@link Game} entities. It serves as the interface
+ * <strong>Game Controller</strong>
+ *
+ * <p> This controller provides API endpoints for managing {@link Game} entities. It serves as the interface
  * between the front-end and the service layer, handling web requests to perform CRUD operations
- * on game data.
- * </p>
- * <p>
- * Responsibilities include:
- * - Retrieving a list of all games from the database.
- * - (Future methods might include creating, updating, and deleting games, as well as authentication and authorization.)
- * </p>
- * <p>
- * All responses are formatted as JSON, making it easy for clients to parse and use the data. This
- * controller works closely with the {@link GameService} to delegate business logic operations, ensuring
- * that the controller remains focused on web-related tasks.
- * </p>
+ * on game data. </p>
+ *
  * <ul>
- * Usage:
+ *  <strong>Responsibilities include</strong>:
+ *  <li>Retrieving a list of all games from the database.</li>
+ *  <li>(Future methods might include creating, updating, and deleting games, as well as authentication and authorization.)</li>
+ * </ul>
+ *
+ * <p> All responses are formatted as JSON, making it easy for clients to parse and use the data. This
+ * controller works closely with the {@link GameService} to delegate business logic operations, ensuring
+ * that the controller remains focused on web-related tasks. </p>
+ *
+ * <ul>
+ * <strong>Usage</strong>:
  *   <li>GET /games: Retrieves a list of all games</li>
  * </ul>
+ *
  * @version 1.0
  */
 @RestController

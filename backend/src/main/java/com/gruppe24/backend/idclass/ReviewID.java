@@ -7,6 +7,26 @@ import jakarta.persistence.Id;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * <strong>Composite key class for Review entities.</strong>
+ *
+ * <p>This class is used to define a composite primary key for Review entities that are uniquely
+ * identified by a combination of a {@link User} and a {@link Game}. This approach allows the application
+ * to associate a single review with a specific user and game pair, ensuring that each user
+ * can submit only one review per game.</p>
+ *
+ * <p>Implements {@link java.io.Serializable} as required by JPA for composite key classes.</p>
+ *
+ * <p><strong>Note:</strong> This class overrides {@code equals()} and {@code hashCode()} to ensure proper identification
+ * of Review entity instances by their composite key components.</p>
+ *
+ * <ul>
+ *   <strong>Usage:</strong>
+ *   <li>Should be used as the {@code @IdClass} annotation value in the Review entity.</li>
+ *   <li>Does not contain JPA annotations on fields as it serves as the ID class, not an entity.</li>
+ *   <li>Requires both user and game objects to be set for a valid composite key.</li>
+ * </ul>
+ */
 public class ReviewID implements Serializable {
 
   private User user;

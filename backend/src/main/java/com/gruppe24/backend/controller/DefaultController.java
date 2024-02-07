@@ -11,4 +11,8 @@ public class DefaultController {
         return "Hello World";
     }
 
+    @GetMapping("/secured")
+    public String secured() {
+        return "Hello, secured!";
+    }
 }

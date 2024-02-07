@@ -144,10 +144,10 @@
                     <mxGeometry x="15" y="5" width="60" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="88" value="" style="group" vertex="1" connectable="0" parent="1">
-                    <mxGeometry x="271" y="420" width="123" height="190" as="geometry"/>
+                    <mxGeometry x="271" y="420" width="123" height="230" as="geometry"/>
                 </mxCell>
                 <mxCell id="11" value="" style="whiteSpace=wrap;html=1;" vertex="1" parent="88">
-                    <mxGeometry x="3" width="120" height="190" as="geometry"/>
+                    <mxGeometry x="3" width="120" height="230" as="geometry"/>
                 </mxCell>
                 <mxCell id="12" value="Game" style="text;html=1;strokeColor=default;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1" vertex="1" parent="88">
                     <mxGeometry x="3" width="120" height="40" as="geometry"/>
@@ -168,10 +168,16 @@
                     <mxGeometry x="13" y="120" width="60" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="19" value="ReportCount" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=15;" vertex="1" parent="88">
-                    <mxGeometry x="27" y="140" width="60" height="30" as="geometry"/>
+                    <mxGeometry x="27" y="176" width="60" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="33" value="Category" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=15;" vertex="1" parent="88">
-                    <mxGeometry x="14" y="160" width="60" height="30" as="geometry"/>
+                    <mxGeometry x="14" y="196" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="105" value="ReviewCount" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=15;" vertex="1" parent="88">
+                    <mxGeometry x="29" y="140" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="106" value="Stars" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=15;" vertex="1" parent="88">
+                    <mxGeometry x="3" y="159" width="60" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="89" value="" style="group" vertex="1" connectable="0" parent="1">
                     <mxGeometry x="140" y="370" width="80" height="30" as="geometry"/>

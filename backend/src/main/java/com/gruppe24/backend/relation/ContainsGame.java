@@ -3,8 +3,8 @@ package com.gruppe24.backend.relation;
 import com.gruppe24.backend.entity.Game;
 import com.gruppe24.backend.entity.GameList;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import com.gruppe24.backend.idclass.ContainsGameID;
+import jakarta.persistence.*;
 
 /**
  * Represents a ContainsGame relationship in the database.
@@ -13,16 +13,35 @@ import jakarta.persistence.Id;
  * </p>
  */
 @Entity
+@IdClass(ContainsGameID.class)
 public class ContainsGame {
 
     @Id
+    @ManyToOne
+    @JoinColumn(name = "GameId")
     private Game game;
 
     @Id
+    @ManyToOne
+    @JoinColumn(name = "ListID")
     private GameList gameList;
 
-    // TODO: ADD GETTERS AND SETTERS FOR KEYS
-    
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public GameList getGameList() {
+        return gameList;
+    }
+
+    public void setGameList(GameList gameList) {
+        this.gameList = gameList;
+    }
+
     // TODO: ADD TOSTRING
 
 }

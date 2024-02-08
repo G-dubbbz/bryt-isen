@@ -5,8 +5,8 @@ import java.security.Timestamp;
 import com.gruppe24.backend.entity.Game;
 import com.gruppe24.backend.entity.User;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import com.gruppe24.backend.idclass.MadeGameID;
+import jakarta.persistence.*;
 
 
 /**
@@ -16,18 +16,36 @@ import jakarta.persistence.Id;
  * </p>
  */
 @Entity
+@IdClass(MadeGameID.class)
 public class MadeGame {
     
     @Id
+    @ManyToOne
+    @JoinColumn(name = "UserName")
     private User user;
 
     @Id
+    @ManyToOne
+    @JoinColumn(name = "GameID")
     private Game game;
 
     private Timestamp timestamp;
 
-    // TODO: ADD GETTERS AND SETTERS FOR KEYS
+    public User getUser() {
+        return user;
+    }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
 
     public Timestamp getTimestamp() {
         return timestamp;

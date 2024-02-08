@@ -3,8 +3,8 @@ package com.gruppe24.backend.relation;
 import com.gruppe24.backend.entity.Category;
 import com.gruppe24.backend.entity.Game;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import com.gruppe24.backend.idclass.HasCategoryID;
+import jakarta.persistence.*;
 
 /**
  * Represents a HasCategory relationship in the database.
@@ -13,15 +13,34 @@ import jakarta.persistence.Id;
  * </p>
  */
 @Entity
+@IdClass(HasCategoryID.class)
 public class HasCategory {
 
     @Id
+    @ManyToOne
+    @JoinColumn(name = "GameID")
     private Game game;
 
     @Id
+    @ManyToOne
+    @JoinColumn(name = "CategoryName")
     private Category category;
 
-    // TODO: ADD GETTERS AND SETTERS
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
     // TODO: ADD TOSTRING
     

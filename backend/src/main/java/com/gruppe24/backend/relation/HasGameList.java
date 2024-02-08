@@ -3,10 +3,8 @@ package com.gruppe24.backend.relation;
 import com.gruppe24.backend.entity.GameList;
 import com.gruppe24.backend.entity.User;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import com.gruppe24.backend.idclass.HasGameListID;
+import jakarta.persistence.*;
 
 /**
  * Represents a HasGameList relationship in the database.
@@ -15,17 +13,34 @@ import jakarta.persistence.OneToOne;
  * </p>
  */
 @Entity
+@IdClass(HasGameListID.class)
 public class HasGameList {
     
     @Id
     @ManyToOne
+    @JoinColumn(name = "UserName")
     private User user;
     
     @Id
     @OneToOne
+    @JoinColumn(name = "ListId")
     private GameList gameList;
 
-    // TODO: ADD GETTERS AND SETTERS FOR KEYS
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public GameList getGameList() {
+        return gameList;
+    }
+
+    public void setGameList(GameList gameList) {
+        this.gameList = gameList;
+    }
 
     // TODO: ADD TOSTRING
 

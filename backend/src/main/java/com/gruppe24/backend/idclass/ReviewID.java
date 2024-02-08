@@ -2,8 +2,6 @@ package com.gruppe24.backend.idclass;
 
 import com.gruppe24.backend.entity.Game;
 import com.gruppe24.backend.entity.User;
-import jakarta.persistence.Id;
-
 import java.io.Serializable;
 import java.util.Objects;
 

@@ -21,8 +21,8 @@ public class ContainsGame {
     @Id
     private GameList gameList;
 
-    // ADD GETTERS AND SETTERS FOR KEYS
+    // TODO: ADD GETTERS AND SETTERS FOR KEYS
     
-    // ADD TOSTRING
+    // TODO: ADD TOSTRING
 
 }

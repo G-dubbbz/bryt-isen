@@ -21,8 +21,8 @@ public class HasCategory {
     @Id
     private Category category;
 
-    // ADD GETTERS AND SETTERS
+    // TODO: ADD GETTERS AND SETTERS
 
-    // ADD TOSTRING
+    // TODO: ADD TOSTRING
     
 }

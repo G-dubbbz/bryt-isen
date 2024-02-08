@@ -5,6 +5,8 @@ import com.gruppe24.backend.entity.User;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 /**
  * Represents a HasGameList relationship in the database.
@@ -15,16 +17,16 @@ import jakarta.persistence.Id;
 @Entity
 public class HasGameList {
     
-    
-    // Skal id være både User.UserName og GameList.ID? hvordan skriver man i så fall det
     @Id
-    private User user;      // men bare brukernavnet??
+    @ManyToOne
+    private User user;
     
     @Id
+    @OneToOne
     private GameList gameList;
 
-    // ADD GETTERS AND SETTERS FOR KEYS
+    // TODO: ADD GETTERS AND SETTERS FOR KEYS
 
-    /// ADD TOSTRING
+    // TODO: ADD TOSTRING
 
 }

@@ -1,9 +1,15 @@
 package com.gruppe24.backend.controller;
 
+import com.gruppe24.backend.dto.GameDTO;
 import com.gruppe24.backend.entity.Game;
 import com.gruppe24.backend.service.GameService;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -49,6 +55,12 @@ public class GameController {
   @GetMapping
   public List<Game> readGames() {
     return gameService.readGames();
+  }
+
+  @PostMapping
+  public ResponseEntity<?> createGame(@RequestBody GameDTO gameDTO) {
+    gameService.createGame(gameDTO);
+    return ResponseEntity.ok().build();
   }
 
 }

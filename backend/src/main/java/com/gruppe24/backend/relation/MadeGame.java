@@ -26,7 +26,7 @@ public class MadeGame {
 
     private Timestamp timestamp;
 
-    // ADD GETTERS AND SETTERS FOR KEYS
+    // TODO: ADD GETTERS AND SETTERS FOR KEYS
 
 
     public Timestamp getTimestamp() {
@@ -37,6 +37,6 @@ public class MadeGame {
         this.timestamp = timestamp;
     }
 
-    // ADD TOSTRING
+    // TODO: ADD TOSTRING
 
 }

@@ -1,5 +1,6 @@
 package com.gruppe24.backend.service;
 
+import com.gruppe24.backend.dto.GameDTO;
 import com.gruppe24.backend.entity.Game;
 import com.gruppe24.backend.repository.GameRepository;
 import jakarta.transaction.Transactional;
@@ -45,4 +46,17 @@ public class GameService {
   public List<Game> readGames() {
     return gameRepository.findAll();
   }
+
+  @Transactional
+  public void createGame(GameDTO gameDTO) {
+    // TODO: validation
+    Game game = new Game();
+    game.setName(gameDTO.getName());
+    game.setCategory(gameDTO.getCategory());
+    game.setDescription(gameDTO.getDescription());
+    game.setDuration(gameDTO.getDuration());
+    game.setPlayers(gameDTO.getPlayers());
+    gameRepository.save(game);
+  }
+
 }

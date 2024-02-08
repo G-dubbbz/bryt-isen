@@ -66,4 +66,5 @@ public class ReviewID implements Serializable {
   public int hashCode() {
     return Objects.hash(user, game);
   }
+  
 }

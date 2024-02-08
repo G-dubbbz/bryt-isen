@@ -1,5 +1,6 @@
 package com.gruppe24.backend.idclass;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import com.gruppe24.backend.entity.GameList;
@@ -37,11 +38,19 @@ import com.gruppe24.backend.entity.User;
  * key.</li>
  * </ul>
  */
-public class HasGameListID {
+public class HasGameListID implements Serializable {
 
     private User user;
 
     private GameList gameList;
+
+    public HasGameListID() {
+    }
+
+    public HasGameListID(User user, GameList gameList) {
+        this.user = user;
+        this.gameList = gameList;
+    }
 
     public User getUser() {
         return user;

@@ -2,16 +2,12 @@ package com.gruppe24.backend.relation;
 
 import java.security.Timestamp;
 
+import jakarta.persistence.*;
 import org.hibernate.annotations.ManyToAny;
 
 import com.gruppe24.backend.entity.Game;
 import com.gruppe24.backend.entity.User;
 import com.gruppe24.backend.idclass.ReviewID;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
-import jakarta.persistence.JoinColumn;
 
 /**
  * Represents a Review relationship in the database.
@@ -24,12 +20,12 @@ import jakarta.persistence.JoinColumn;
 public class Review {
 
     @Id
-    @ManyToAny
+    @ManyToOne
     @JoinColumn(name = "UserName")
     private User user;
     
     @Id
-    @ManyToAny
+    @ManyToOne
     @JoinColumn(name = "ID")
     private Game game;
 

@@ -44,6 +44,9 @@ public class MadeGameID implements Serializable {
 
     private Game game;
 
+    public MadeGameID() {
+    }
+
     public MadeGameID(User user, Game game) {
         this.user = user;
         this.game = game;

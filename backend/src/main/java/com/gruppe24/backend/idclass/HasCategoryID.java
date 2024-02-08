@@ -3,6 +3,7 @@ package com.gruppe24.backend.idclass;
 import com.gruppe24.backend.entity.Category;
 import com.gruppe24.backend.entity.Game;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -25,11 +26,14 @@ import java.util.Objects;
  *   <li>Requires both category and game objects to be set for a valid composite key.</li>
  * </ul>
  */
-public class HasCategoryID {
+public class HasCategoryID implements Serializable {
     
     private Game game;
     
     private Category category;
+
+    public HasCategoryID() {
+    }
 
     public HasCategoryID(Game game, Category category) {
         this.game = game;

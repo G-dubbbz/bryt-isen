@@ -31,6 +31,9 @@ public class ReviewID implements Serializable {
 
   private Game game;
 
+  public ReviewID() {
+  }
+
   public ReviewID(User user, Game game) {
     this.user = user;
     this.game = game;

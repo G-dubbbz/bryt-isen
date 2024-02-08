@@ -33,6 +33,9 @@ public class ContainsGameID implements Serializable {
     
     private GameList gameList;
 
+    public ContainsGameID() {
+    }
+
     public ContainsGameID(Game game, GameList gameList) {
         this.game = game;
         this.gameList = gameList;

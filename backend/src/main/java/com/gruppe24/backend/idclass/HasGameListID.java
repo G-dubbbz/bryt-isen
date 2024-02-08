@@ -1,20 +1,19 @@
 package com.gruppe24.backend.idclass;
 
-import java.io.Serializable;
 import java.util.Objects;
 
-import com.gruppe24.backend.entity.Game;
+import com.gruppe24.backend.entity.GameList;
 import com.gruppe24.backend.entity.User;
 
 /**
  * <strong>Composite key class for MadeGame entities.</strong>
  *
  * <p>
- * This class is used to define a composite primary key for MadeGame entities
+ * This class is used to define a composite primary key for HasGameList entities
  * that are uniquely
- * identified by a combination of a {@link User} and a {@link Game}. This
+ * identified by a combination of a {@link User} and a {@link GameList}. This
  * approach allows the application
- * to associate a single game with a specific user.
+ * to associate a single gamelist with a specific user.
  * </p>
  *
  * <p>
@@ -25,12 +24,12 @@ import com.gruppe24.backend.entity.User;
  * <p>
  * <strong>Note:</strong> This class overrides {@code equals()} and
  * {@code hashCode()} to ensure proper identification
- * of MadeGame entity instances by their composite key components.
+ * of HasGameList entity instances by their composite key components.
  * </p>
  *
  * <ul>
  * <strong>Usage:</strong>
- * <li>Should be used as the {@code @IdClass} annotation value in the MadeGame
+ * <li>Should be used as the {@code @IdClass} annotation value in the HasGameList
  * entity.</li>
  * <li>Does not contain JPA annotations on fields as it serves as the ID class,
  * not an entity.</li>
@@ -38,16 +37,11 @@ import com.gruppe24.backend.entity.User;
  * key.</li>
  * </ul>
  */
-public class MadeGameID implements Serializable {
+public class HasGameListID {
 
     private User user;
 
-    private Game game;
-
-    public MadeGameID(User user, Game game) {
-        this.user = user;
-        this.game = game;
-    }
+    private GameList gameList;
 
     public User getUser() {
         return user;
@@ -57,27 +51,27 @@ public class MadeGameID implements Serializable {
         this.user = user;
     }
 
-    public Game getGame() {
-        return game;
+    public GameList getGameList() {
+        return gameList;
     }
 
-    public void setGame(Game game) {
-        this.game = game;
+    public void setGameList(GameList gameList) {
+        this.gameList = gameList;
     }
-
+    
     @Override
     public boolean equals(Object o) {
         if (this == o)
             return true;
         if (o == null || getClass() != o.getClass())
             return false;
-        MadeGameID madeGameID = (MadeGameID) o;
-        return Objects.equals(user, madeGameID.user) && Objects.equals(game, madeGameID.game);
+        HasGameListID hasGameListID = (HasGameListID) o;
+        return Objects.equals(user, hasGameListID.user) && Objects.equals(gameList, hasGameListID.gameList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(user, game);
+        return Objects.hash(user, gameList);
     }
 
 }

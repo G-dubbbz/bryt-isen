@@ -2,6 +2,7 @@ package com.gruppe24.backend.controller;
 
 import com.gruppe24.backend.entity.User;
 import com.gruppe24.backend.service.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,10 +45,10 @@ public class UserController {
 
   /**
    * Retrieves a list of all user
-   * @return A list of {@link User} entites
+   * @return HTTP response <b>200 OK</b> list of {@link User} entities
    */
   @GetMapping
-  public List<User> readUsers() {
-    return userService.readUsers();
+  public ResponseEntity<?> readUsers() {
+    return ResponseEntity.ok(userService.readUsers());
   }
 }

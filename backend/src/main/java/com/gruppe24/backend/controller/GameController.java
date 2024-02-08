@@ -53,8 +53,8 @@ public class GameController {
    * @return A list of {@link Game} entites
    */
   @GetMapping
-  public List<Game> readGames() {
-    return gameService.readGames();
+  public ResponseEntity<?> readGames() {
+    return ResponseEntity.ok(gameService.readGames());
   }
 
   @PostMapping

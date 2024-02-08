@@ -3,6 +3,7 @@ package com.gruppe24.backend.controller;
 import com.gruppe24.backend.service.GameListService;
 import com.gruppe24.backend.entity.GameList;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,11 +45,11 @@ public class ListController {
 
   /**
    * Retrieves a list of all gamelists
-   * @return A list of {@link GameList} entites
+   * @return HTTP response <b>200 OK</b> list of {@link GameList} entites
    */
   @GetMapping
-  public List<GameList> readLists() {
-    return gameListService.readLists();
+  public ResponseEntity<?> readLists() {
+    return ResponseEntity.ok(gameListService.readLists());
   }
 
 }

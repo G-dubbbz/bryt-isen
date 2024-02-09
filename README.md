@@ -9,7 +9,7 @@
 ## To preview the backend:  
 `cd backend`  
 ### Windows:
-`./mvnw.cmd spring-boot:run`
+`.\mvnw spring-boot:run`
 ### MacOS/Linux:
 `./mvnw spring-boot:run`
 

@@ -31,7 +31,7 @@ public class DefaultController {
 
     @GetMapping("/secured")
     public String secured() {
-        return "Hello, secured!";
+        return "Hello User!";
     }
 
 }

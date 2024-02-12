@@ -93,11 +93,12 @@ public class UserService {
   public void createUser(UserDTO userDTO) {
     // TODO: Make sure username is not null
     try {
-      User user = userRepository.getReferenceById(userDTO.getName());
+      User user = userRepository.getReferenceById(userDTO.getName().orElseThrow(EntityNotFoundException::new));
       // TODO: Throw an exception if username is already taken
     } catch (EntityNotFoundException e) {
       User user = new User();
-      user.setUserName(userDTO.getName());
+      // TODO: change exception
+      userDTO.getName().ifPresentOrElse(user::setUserName, UserNotFoundException::new);
       // TODO: Add user attributts
       // user.setEmail(email);
       // user.setAdmin(false);

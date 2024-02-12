@@ -114,21 +114,21 @@ Ensure that your local development server is running before attempting to access
 - **Update Game**
   - **PATCH** `/games/{ID}`
   - Updates a game with the given id
-    - **Path Parameters:**
-      - `ID` (required): The username of the user to retrieve.
-    - **Request Body:** JSON object containing information to be updated. e.g {`description`: `new description`}
-    - **Responses:**
-      - `200 OK` if the information was successfully updated.
-      - `400 Bad Request` if the request fails to update the game.
+  - **Path Parameters:**
+    - `ID` (required): The username of the user to retrieve.
+  - **Request Body:** JSON object containing information to be updated. e.g {`description`: `new description`}
+  - **Responses:**
+    - `200 OK` if the information was successfully updated.
+    - `400 Bad Request` if the request fails to update the game.
       
 - **Delete Game**
   - **DELETE** `/games/{ID}`
-    - Tries to delete game with given id
-    - **Path Parameters:**
-    - `ID` (required): The id of the game to delete.
-    - **Responses:**
-      - `200 OK` if the game was deleted.
-      - `400 Bad Request` if the request fails to delete.
+  - Tries to delete game with given id
+  - **Path Parameters:**
+  - `ID` (required): The id of the game to delete.
+  - **Responses:**
+    - `200 OK` if the game was deleted.
+    - `400 Bad Request` if the request fails to delete.
       
 - **Get Game**
   - **Get** `/games/{ID}`
@@ -161,8 +161,29 @@ Ensure that your local development server is running before attempting to access
 
 #### To be added
 - **Create Game-list**
+  - **POST** `/lists`
+  - Creates a new game-list with the provided data.
+  - **Request Body:** JSON object containing game details (`name`)
+  - **Responses:**
+    - `201 Created` if the game-list is successfully created.
+    - `400 Bad Request` if the request data is invalid.
 - **Update Game-list**
+  - **PATCH** `/games/{ID}`
+  - Updates a game-list with the given id
+  - **Path Parameters:**
+    - `ID` (required): The username of the user to retrieve.
+  - **Request Body:** JSON object containing information to be updated. e.g {`name`: `new name`}
+  - **Responses:**
+    - `200 OK` if the information was successfully updated.
+    - `400 Bad Request` if the request fails to update the game.
 - **Delete Game-list**
+  - **DELETE** `/games/{ID}`
+  - Tries to delete game-list with given id
+  - **Path Parameters:**
+  - `ID` (required): The id of the game to delete.
+  - **Responses:**
+    - `200 OK` if the game was deleted.
+    - `400 Bad Request` if the request fails to delete.
 - **Get Game-list**
 - **Get Game-list games**
 

@@ -8,6 +8,6 @@ import com.gruppe24.backend.entity.Category;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, String>{
     
-    public Category findBCategoryName(String category);
+    Category findByName(String name);
 
 }

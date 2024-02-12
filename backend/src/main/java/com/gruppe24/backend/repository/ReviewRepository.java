@@ -8,8 +8,8 @@ import com.gruppe24.backend.relation.Review;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
     
-    public Review findByUserName(String name);
+    Review findByUser_UserName(String name);
 
-    public Review findByGameID(Long gameID);
+    Review findByGame_ID(Long gameID);
 
 }

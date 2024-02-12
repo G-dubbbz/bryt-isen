@@ -9,8 +9,8 @@ import com.gruppe24.backend.relation.HasCategory;
 @Repository
 public interface HasCategoryRepository extends JpaRepository<HasCategory, HasCategoryID> {
     
-    public HasCategory findByGameID(Long gameID);
+    HasCategory findByGame_ID(Long gameID);
 
-    public HasCategory findByCategoryName(String categoryName);
+    HasCategory findByCategory_Name(String categoryName);
 
 }

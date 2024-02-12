@@ -9,6 +9,6 @@ import com.gruppe24.backend.relation.ContainsGame;
 @Repository
 public interface ContainsGameRepository extends JpaRepository<ContainsGame, ContainsGameID> {
     
-    public ContainsGame findByGameListID(Long ID);
+    ContainsGame findByGameListID(Long ID);
 
 }

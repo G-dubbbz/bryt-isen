@@ -9,8 +9,8 @@ import com.gruppe24.backend.relation.MadeGame;
 @Repository
 public interface MadeGameRepository extends JpaRepository<MadeGame, MadeGameID> {
     
-    public MadeGame findByUserName(String name);
+    MadeGame findByUser_UserName(String name);
 
-    public MadeGame findByGameID(Long gameID);
+    MadeGame findByGame_ID(Long gameID);
 
 }

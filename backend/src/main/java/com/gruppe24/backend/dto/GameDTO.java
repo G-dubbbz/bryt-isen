@@ -1,5 +1,7 @@
 package com.gruppe24.backend.dto;
 
+import java.util.Optional;
+
 /**
  * Represents a Game-Data Transfer Object.
  * <p>
@@ -14,40 +16,40 @@ public class GameDTO {
     private int duration;
     private int category;
 
-    public String getName() {
-        return name;
+    public Optional<String> getName() {
+        return Optional.ofNullable(name);
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public Optional<String> getDescription() {
+        return Optional.ofNullable(description);
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public int getPlayers() {
-        return players;
+    public Optional<Integer> getPlayers() {
+        return Optional.ofNullable(players);
     }
 
     public void setPlayers(int players) {
         this.players = players;
     }
 
-    public int getDuration() {
-        return duration;
+    public Optional<Integer> getDuration() {
+        return Optional.ofNullable(duration);
     }
 
     public void setDuration(int duration) {
         this.duration = duration;
     }
 
-    public int getCategory() {
-        return category;
+    public Optional<Integer> getCategory() {
+        return Optional.ofNullable(category);
     }
 
     public void setCategory(int category) {

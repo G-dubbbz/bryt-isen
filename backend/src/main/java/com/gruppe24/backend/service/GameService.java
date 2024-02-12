@@ -2,9 +2,11 @@ package com.gruppe24.backend.service;
 
 import com.gruppe24.backend.dto.GameDTO;
 import com.gruppe24.backend.entity.Game;
+import com.gruppe24.backend.exception.GameNotFoundException;
 import com.gruppe24.backend.repository.GameRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import org.yaml.snakeyaml.events.Event.ID;
 
 import java.util.List;
 
@@ -51,12 +53,44 @@ public class GameService {
   public void createGame(GameDTO gameDTO) {
     // TODO: validation
     Game game = new Game();
-    game.setName(gameDTO.getName());
-    game.setCategory(gameDTO.getCategory());
-    game.setDescription(gameDTO.getDescription());
-    game.setDuration(gameDTO.getDuration());
-    game.setPlayers(gameDTO.getPlayers());
+    gameDTO.getName().ifPresentOrElse(game::setName, GameNotFoundException::new);
+    gameDTO.getCategory().ifPresentOrElse(game::setCategory, GameNotFoundException::new);
+    gameDTO.getDescription().ifPresentOrElse(game::setDescription, GameNotFoundException::new);
+    gameDTO.getDuration().ifPresentOrElse(game::setDuration, GameNotFoundException::new);
+    gameDTO.getPlayers().ifPresentOrElse(game::setPlayers, GameNotFoundException::new);
     gameRepository.save(game);
   }
 
+  @Transactional
+  public Game getGame(Long ID) {
+    try {
+      Game game = gameRepository.getReferenceById(ID);
+      return game;
+    } catch (Exception e) {
+      throw new GameNotFoundException();
+    }
+  }
+
+  @Transactional
+  public void updateGame(GameDTO gameDTO, Long ID) {
+    Game game = gameRepository.getReferenceById(ID);
+    gameDTO.getName().ifPresent(game::setName);
+    gameDTO.getCategory().ifPresent(game::setCategory);
+    gameDTO.getDescription().ifPresent(game::setDescription);
+    gameDTO.getDuration().ifPresent(game::setDuration);
+    gameDTO.getPlayers().ifPresent(game::setPlayers);
+    gameRepository.save(game);
+  }
+
+  @Transactional
+  public void deleteGame(Long ID) {
+    try {
+      gameRepository.deleteById(ID);
+    
+    } catch (Exception e) {
+      throw new GameNotFoundException();
+    }
+    
+
+  }
 }

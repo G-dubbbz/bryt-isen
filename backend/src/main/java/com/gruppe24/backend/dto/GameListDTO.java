@@ -1,5 +1,7 @@
 package com.gruppe24.backend.dto;
 
+import java.util.Optional;
+
 /**
  * Represents a GameList-Data Transfer Object.
  * <p>
@@ -11,8 +13,8 @@ public class GameListDTO {
 
     private String name;
 
-    public String getName() {
-        return name;
+    public Optional<String> getName() {
+        return Optional.ofNullable(name);
     }
 
     public void setName(String name) {

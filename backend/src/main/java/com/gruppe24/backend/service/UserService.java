@@ -99,7 +99,8 @@ public class UserService {
       User user = new User();
       // TODO: change exception
       userDTO.getName().ifPresentOrElse(user::setUserName, UserNotFoundException::new);
-      // TODO: Add user attributts
+      userDTO.getEmail().ifPresentOrElse(user::setEmail, UserNotFoundException::new);
+      // TODO: Add user attributes
       // user.setEmail(email);
       // user.setAdmin(false);
     }

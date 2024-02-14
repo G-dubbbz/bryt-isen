@@ -8,7 +8,7 @@ import com.gruppe24.backend.entity.User;
 import com.gruppe24.backend.exception.GameNotFoundException;
 import com.gruppe24.backend.relation.Review;
 import com.gruppe24.backend.repository.GameRepository;
-import com.gruppe24.backend.repository.CategoryRepository;
+import com.gruppe24.backend.repository.HasCategoryRepository;
 import com.gruppe24.backend.repository.MadeGameRepository;
 import com.gruppe24.backend.repository.ReviewRepository;
 
@@ -20,7 +20,7 @@ public class GameRelationService {
     private final GameRepository gameRepository;
     private final ReviewRepository reviewRepository;
     private final MadeGameRepository madeGameRepository;
-    private final CategoryRepository categoryRepository;
+    private final HasCategoryRepository hasCategoryRepository;
 
 
 
@@ -28,7 +28,7 @@ public class GameRelationService {
         this.gameRepository = gameRepository;
         this.reviewRepository = reviewRepository;
         this.madeGameRepository = madeGameRepository;
-        this.categoryRepository = categoryRepository;
+        this.hasCategoryRepository = hasCategoryRepository;
     }
 
     @Transactional

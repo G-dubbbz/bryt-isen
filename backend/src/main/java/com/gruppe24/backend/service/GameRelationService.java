@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.gruppe24.backend.entity.Category;
 import com.gruppe24.backend.entity.User;
 import com.gruppe24.backend.exception.GameNotFoundException;
 import com.gruppe24.backend.relation.Review;
@@ -12,7 +13,6 @@ import com.gruppe24.backend.repository.HasCategoryRepository;
 import com.gruppe24.backend.repository.MadeGameRepository;
 import com.gruppe24.backend.repository.ReviewRepository;
 
-import jakarta.transaction.TransactionScoped;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -51,4 +51,13 @@ public class GameRelationService {
         }
     }
     
+    @Transactional
+    public List<Category> getGamesCategories(Long ID) {
+        try {
+            List<Category> category = hasCategoryRepository.findByGame_ID(ID);
+            return category;
+        } catch (Exception e) {
+            return List.of();
+        }
+    }
 }

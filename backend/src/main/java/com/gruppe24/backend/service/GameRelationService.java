@@ -34,7 +34,7 @@ public class GameRelationService {
     @Transactional
     public User getGamesCreator(Long ID) {
         try {
-            User creator = madeGameRepository.findByGame_ID(ID).getUser();
+            User creator = madeGameRepository.findByGame_ID(ID);
             return creator;
         } catch (Exception e) {
             throw new GameNotFoundException();

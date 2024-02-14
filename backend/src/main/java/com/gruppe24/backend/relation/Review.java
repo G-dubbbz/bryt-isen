@@ -3,8 +3,6 @@ package com.gruppe24.backend.relation;
 import java.security.Timestamp;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.ManyToAny;
-
 import com.gruppe24.backend.entity.Game;
 import com.gruppe24.backend.entity.User;
 import com.gruppe24.backend.idclass.ReviewID;

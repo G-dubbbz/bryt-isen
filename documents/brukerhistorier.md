@@ -9,9 +9,9 @@ Denne seksjonen inneholder brukerhistorier ment å avdekke behovene til applikas
 
 > "Som en interessent, ønsker jeg å lage en god hjemmeside som vil vise funksjonalitetene til nettstedet vårt, slik at brukere raskt kan forstå de tilbudte funksjonene."
 
-## Oversikt over Isbryterspill (Brukerhistorie 2)
+## Oversikt over Bli kjent leker (Brukerhistorie 2)
 
-> "Som en bruker, vil jeg bla gjennom forskjellige isbryterspill tilgjengelig på plattformen, med fremhevede statistikker som vurderinger, slik at jeg kan velge det mest passende spillet for mine behov."
+> "Som en bruker, vil jeg bla gjennom forskjellige bli kjent leker tilgjengelig på plattformen, med fremhevede statistikker som vurderinger, slik at jeg kan velge det mest passende spillet for mine behov."
 
 ## Brukerinnlogging og Autentisering (Brukerhistorie 3)
 

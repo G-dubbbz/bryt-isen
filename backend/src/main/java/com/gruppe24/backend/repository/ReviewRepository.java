@@ -5,11 +5,13 @@ import org.springframework.stereotype.Repository;
 
 import com.gruppe24.backend.relation.Review;
 
+import java.util.List;
+
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
     
-    Review findByUser_UserName(String name);
+    List<Review> findByUser_UserName(String name);
 
-    Review findByGame_ID(Long gameID);
+    List<Review> findByGame_ID(Long gameID);
 
 }

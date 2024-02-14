@@ -5,9 +5,11 @@ import org.springframework.stereotype.Repository;
 
 import com.gruppe24.backend.entity.Category;
 
+import java.util.List;
+
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, String>{
     
-    Category findByName(String name);
+    List<Category> findByName(String name);
 
 }

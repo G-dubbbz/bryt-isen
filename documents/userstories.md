@@ -19,11 +19,11 @@ This section contains user stories intended to unravel the needs of the applicat
 
 ## Posting Own Games (User Story 4)
 
-> "As a user, I want to post my own games on the platform, including layout, rules, descriptions, and other attributes, for future filtering and searching."
+> "As a user, I want to post my own games on the platform, including layout, rules, descriptions, and other attributes, so that i can play games not yet found on the site"
 
 ## Queue Functionality (User Story 5)
 
-> "As a user, I want to create queues of games and share them with others, facilitating organized gaming sessions."
+> "As a user, I want to create queues of games and share them with others, so that i can facilitate organized gaming sessions."
 
 ## Favorite Games (Playlist Feature) (User Story 6)
 
@@ -31,28 +31,29 @@ This section contains user stories intended to unravel the needs of the applicat
 
 ## Game Filtering (User Story 7)
 
-> "As a user, I want to sort games by different attributes such as number of likes or times played, enabling easy discovery of content."
+> "As a user, I want to sort games by different attributes such as number of likes or times played, so that i can easily discover new content."
 
 ## Rating and Reviewing Games (User Story 8)
 
-> "As a user, I want to rate and review games on the platform, providing feedback to the community and helping others make informed decisions."
+> "As a user, I want to rate and review games on the platform, so that i can provide feedback to the community and help others make informed decisions."
 
 ## Overview of Own Reviews (User Story 9)
 
-> "As a user, I want to access an overview of my own reviews, allowing me to track my contributions and feedback on games."
+> "As a user, I want to access an overview of my own reviews, so that i can track my contributions and feedback on games."
 
 ## Search Functionality (User Story 10)
 
-> "As a user, I want to search for games by their name, facilitating quick access to specific titles."
+> "As a user, I want to search for games by their name, so that i can easily access specific titles."
 
 ## Reporting Games and Reviews (User Story 11)
 
-> "As a user, I want to report inappropriate games and reviews, enabling the community to maintain a safe and respectful environment."
+> "As a user, I want to report inappropriate games and reviews, so that i can enable the community to maintain a safe and respectful environment."
 
 ## Light and Dark Mode (User Story 12)
 
-> "As a user, I want the option to switch between light and dark mode for the website, allowing me to choose a preferred visual style."
+> "As a user, I want the option to switch between light and dark mode for the website, so that i can choose a preferred visual style."
 
 ## Advertisement Integration (User Story 13)
 
-> "As a stakeholder, I want to integrate advertisements on the website, providing a source of revenue for the platform."
+> "As a stakeholder, I want to integrate advertisements on the website, so that i can provide a source of revenue for the platform."
+

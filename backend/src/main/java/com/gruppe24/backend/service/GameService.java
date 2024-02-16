@@ -64,8 +64,7 @@ public class GameService {
   @Transactional
   public Game getGame(Long ID) {
     try {
-      Game game = gameRepository.getReferenceById(ID);
-      return game;
+      return gameRepository.findByID(ID).orElseThrow(GameNotFoundException::new);
     } catch (Exception e) {
       throw new GameNotFoundException();
     }
@@ -73,7 +72,7 @@ public class GameService {
 
   @Transactional
   public void updateGame(GameDTO gameDTO, Long ID) {
-    Game game = gameRepository.getReferenceById(ID);
+    Game game = gameRepository.findByID(ID).orElseThrow(GameNotFoundException::new);
     gameDTO.getName().ifPresent(game::setName);
     gameDTO.getCategory().ifPresent(game::setCategory);
     gameDTO.getDescription().ifPresent(game::setDescription);
@@ -85,8 +84,8 @@ public class GameService {
   @Transactional
   public void deleteGame(Long ID) {
     try {
+      gameRepository.findByID(ID).orElseThrow(GameNotFoundException::new);
       gameRepository.deleteById(ID);
-    
     } catch (Exception e) {
       throw new GameNotFoundException();
     }

@@ -2,17 +2,15 @@ package com.gruppe24.backend.controller;
 
 import com.gruppe24.backend.dto.GameDTO;
 import com.gruppe24.backend.entity.Game;
+import com.gruppe24.backend.service.GameRelationService;
 import com.gruppe24.backend.service.GameService;
+import com.gruppe24.backend.exception.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <strong>Game Controller</strong>
@@ -43,9 +41,13 @@ import java.util.List;
 public class GameController {
 
   private final GameService gameService;
+  private final GameRelationService gameRelationService;
 
-  private GameController(GameService gameService) {
+  private static final Logger log = LoggerFactory.getLogger(GameController.class);
+
+  private GameController(GameService gameService, GameRelationService gameRelationService) {
     this.gameService = gameService;
+    this.gameRelationService = gameRelationService;
   }
 
   /**
@@ -57,10 +59,48 @@ public class GameController {
     return ResponseEntity.ok(gameService.readGames());
   }
 
-  @PostMapping
-  public ResponseEntity<?> createGame(@RequestBody GameDTO gameDTO) {
-    gameService.createGame(gameDTO);
-    return ResponseEntity.ok().build();
+  @GetMapping("/{ID}")
+  public ResponseEntity<Game> getGame(@PathVariable Long ID) {
+    try {
+      Game game = gameService.getGame(ID);
+      log.info("Game found with id:" + ID + "\n" + game);
+      return new ResponseEntity<>(game, HttpStatus.FOUND);
+    } catch (UserNotFoundException e) {
+      log.error(e.getMessage());
+      return ResponseEntity.badRequest().build();
+    }
   }
 
+  @PostMapping("/create")
+  public ResponseEntity<?> createGame(@RequestBody GameDTO gameDTO) {
+    try {
+      gameService.createGame(gameDTO);
+      return ResponseEntity.ok().build();
+    } catch (ErrorCreatingGameException e) {
+      log.error(e.getMessage());
+      return ResponseEntity.badRequest().build();
+    }
+  }
+
+  @PatchMapping("/{ID}/update")
+  public  ResponseEntity<?> updateGame(@PathVariable Long ID, @RequestBody GameDTO gameDTO) {
+    try {
+      gameService.updateGame(gameDTO, ID);
+      return ResponseEntity.ok().build();
+    } catch (Exception e) {
+      log.error("Error updating game:" + e);
+      return ResponseEntity.badRequest().build();
+    }
+  }
+
+  @DeleteMapping("/{ID}")
+  public ResponseEntity<?> deleteGame(@PathVariable Long ID) {
+    try {
+      gameService.deleteGame(ID);
+      return ResponseEntity.ok().build();
+    } catch (Exception e) {
+      log.error("Error deleting game:" + e);
+      return ResponseEntity.badRequest().build();
+    }
+  }
 }

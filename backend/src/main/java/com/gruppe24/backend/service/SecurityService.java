@@ -1,17 +1,16 @@
 package com.gruppe24.backend.service;
 
-import com.gruppe24.backend.controller.GameController;
 import com.gruppe24.backend.entity.User;
+import com.gruppe24.backend.exception.UserNotFoundException;
 import com.gruppe24.backend.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Service
 public class SecurityService {
@@ -45,7 +44,12 @@ public class SecurityService {
       throw new RuntimeException("User email not found in authentication");
     }
 
-    return (User) userRepository.findByEmail(email)
-            .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
+    return userRepository.findByEmail(email)
+            .orElseThrow(() -> new UserNotFoundException("Could not find user with email: " + email));
+  }
+
+  public boolean isAdmin() {
+    User user = getAuthenticatedUser();
+    return user.isAdmin();
   }
 }

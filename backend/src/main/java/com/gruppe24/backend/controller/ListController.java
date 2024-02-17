@@ -1,6 +1,7 @@
 package com.gruppe24.backend.controller;
 
 import com.gruppe24.backend.dto.GameListDTO;
+import com.gruppe24.backend.entity.Game;
 import com.gruppe24.backend.entity.GameList;
 import com.gruppe24.backend.service.GameListRelationService;
 import com.gruppe24.backend.service.GameListService;
@@ -95,6 +96,11 @@ public class ListController {
   }
 
   // GameList relation handling
+
+  @GetMapping("/{ID}/games")
+  public ResponseEntity<List<Game>> getListsGames(@PathVariable Long ID) {
+    return new ResponseEntity<>(gameListRelationService.getGames(ID), HttpStatus.OK);
+  }
 
   @PostMapping("/{ID}/{gameID}")
   public ResponseEntity<String> addGameToList(@PathVariable Long ID, @PathVariable Long gameID) {

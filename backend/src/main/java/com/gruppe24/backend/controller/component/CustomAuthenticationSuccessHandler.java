@@ -41,7 +41,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     } else {
       log.info("User does not exist, redirect to registration page");
       assert email != null;
-      response.sendRedirect("/register?email=" + URLEncoder.encode(email, StandardCharsets.UTF_8));
+      response.sendRedirect("/register");
     }
   }
 

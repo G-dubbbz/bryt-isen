@@ -13,6 +13,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,8 +59,18 @@ public class GameRelationService {
   }
 
   @Transactional
-  public List<Review> getGamesReviews(Long ID) {
-    return reviewRepository.findByGame_ID(ID).orElseThrow(ReviewNotFoundException::new);
+  public List<ReviewDTO> getGamesReviews(Long ID) {
+    List<Review> reviews = reviewRepository.findByGame_ID(ID).orElseThrow(ReviewNotFoundException::new);
+    return reviews.stream().map(this::convertToReviewDTO).toList();
+  }
+
+  private ReviewDTO convertToReviewDTO(Review review) {
+    ReviewDTO dto = new ReviewDTO();
+    dto.setTitle(review.getTitle());
+    dto.setDescription(review.getDescription());
+    dto.setStars(review.getStars());
+    dto.setCreatedAt(review.getCreatedAt());
+    return dto;
   }
 
   @Transactional
@@ -77,7 +88,7 @@ public class GameRelationService {
     MadeGame madeGame = new MadeGame();
     madeGame.setGame(game);
     madeGame.setUser(authenticatedUser);
-    madeGame.setTimestamp(Instant.now());
+    madeGame.setCreatedAt(LocalDateTime.now());
     madeGameRepository.save(madeGame);
   }
 
@@ -128,7 +139,7 @@ public class GameRelationService {
     review.setTitle(reviewDTO.getTitle().get());
     review.setDescription(reviewDTO.getDescription().get());
     review.setStars(reviewDTO.getStars().get());
-    review.setTimestamp(Instant.now());
+    review.setCreatedAt(LocalDateTime.now());
 
     game.setReviewCount(game.getReviewCount() + 1);
     float newRating = ((game.getRating() * game.getReviewCount() - 1) - review.getStars()) / (game.getReviewCount());

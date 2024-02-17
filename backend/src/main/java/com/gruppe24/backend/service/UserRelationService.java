@@ -1,90 +1,114 @@
 package com.gruppe24.backend.service;
 
-import java.util.List;
-
-import com.gruppe24.backend.exception.RelationNotFoundException;
-import com.gruppe24.backend.exception.ReviewNotFoundException;
-import com.gruppe24.backend.relation.HasGameList;
-import com.gruppe24.backend.relation.MadeGame;
-import org.springframework.stereotype.Service;
-
 import com.gruppe24.backend.entity.Game;
 import com.gruppe24.backend.entity.GameList;
+import com.gruppe24.backend.exception.RelationNotFoundException;
+import com.gruppe24.backend.exception.ReviewNotFoundException;
 import com.gruppe24.backend.exception.UserNotFoundException;
+import com.gruppe24.backend.relation.HasGameList;
+import com.gruppe24.backend.relation.MadeGame;
 import com.gruppe24.backend.relation.Review;
-import com.gruppe24.backend.repository.HasGameListRepository;
-import com.gruppe24.backend.repository.MadeGameRepository;
-import com.gruppe24.backend.repository.ReviewRepository;
-import com.gruppe24.backend.repository.UserRepository;
-
+import com.gruppe24.backend.repository.*;
 import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
- * <strong>Service layer for managing {@link Game} entity's relations.</strong>
+ * <strong>User Relation Service</strong>
  *
- * <p>
- * Methods in this service are transactional, ensuring data integrity and
- * consistency during
- * operations that involve multiple steps or queries. This transactional
- * management is crucial
- * for operations that modify data, safeguarding against partial updates and
- * data anomalies.
- * </p>
+ * <p>This service offers a comprehensive suite of functionalities for managing the relationships associated with
+ * the {@link Game} entity, focusing on interactions tied to user activities within the application. It ensures the
+ * integrity and consistency of user-related data through transactional management, crucial for maintaining the
+ * application's stability and data accuracy.</p>
  *
+ * <strong>Core Functionalities:</strong>
  * <ul>
- * <strong>Key Functionalities Include:</strong>
- * <li>Retrieving all the user's {@link GameList} from the database.</li>
- * <li>Retrieving all the {@link Game} the user has made from the database.</li>
- * <li>Retrieving all the {@link Review} the user has written from the database.</li>
+ *   <li><strong>Retrieving User-specific Data:</strong> Fetches collections of {@link GameList}, {@link Game},
+ *   and {@link Review} entities associated with a specific user, providing insights into their activities and
+ *   contributions.</li>
+ *   <li><strong>Managing User Relations:</strong> Handles the creation and deletion of various user relations,
+ *   including game lists created by users, games made by users, and reviews authored by users, ensuring a cohesive
+ *   user experience.</li>
+ *   <li><strong>Deleting User Relations:</strong> Offers a robust mechanism for systematically removing all relational
+ *   data linked to a user, including their game lists, made games, and written reviews, thereby facilitating
+ *   comprehensive account management and data cleanup.</li>
  * </ul>
- *
  * <p>
- * Usage of this service should be limited to interaction through higher-level
- * components
- * such as REST controllers or other services requiring user manipulation and
- * retrieval.
- * </p>
+ <p>Usage of this service is pivotal for ensuring that user engagement with game lists, game creation, and review
+ processes is efficiently managed, safeguarded, and reflective of the dynamic interactions users have within
+ the application's ecosystem.</p>
  */
 @Service
 public class UserRelationService {
 
-    private final UserRepository userRepository;
-    private final HasGameListRepository hasGameListRepository;
-    private final MadeGameRepository madeGameRepository;
-    private final ReviewRepository reviewRepository;
+  private final UserRepository userRepository;
+  private final HasGameListRepository hasGameListRepository;
+  private final MadeGameRepository madeGameRepository;
+  private final ReviewRepository reviewRepository;
 
-    public UserRelationService(UserRepository userRepository, HasGameListRepository 
-        hasGameListRepository, MadeGameRepository madeGameRepository, ReviewRepository reviewRepository) {
-        this.userRepository = userRepository;
-        this.hasGameListRepository = hasGameListRepository;
-        this.madeGameRepository = madeGameRepository;
-        this.reviewRepository = reviewRepository;
+  private final GameRepository gameRepository;
+  private final GameListRepository gameListRepository;
+  private final HasCategoryRepository hasCategoryRepository;
+  private final ContainsGameRepository containsGameRepository;
+
+  public UserRelationService(UserRepository userRepository, HasGameListRepository hasGameListRepository,
+                             MadeGameRepository madeGameRepository, ReviewRepository reviewRepository,
+                             GameRepository gameRepository, GameListRepository gameListRepository,
+                             HasCategoryRepository hasCategoryRepository,
+                             ContainsGameRepository containsGameRepository) {
+    this.userRepository = userRepository;
+    this.hasGameListRepository = hasGameListRepository;
+    this.madeGameRepository = madeGameRepository;
+    this.reviewRepository = reviewRepository;
+    this.gameRepository = gameRepository;
+    this.gameListRepository = gameListRepository;
+    this.hasCategoryRepository = hasCategoryRepository;
+    this.containsGameRepository = containsGameRepository;
+  }
+
+  @Transactional
+  public List<GameList> getUsersLists(String username) {
+    return hasGameListRepository.findByUser_UserName(username).orElse(List.of())
+            .stream().map(HasGameList::getGameList).toList();
+  }
+
+  @Transactional
+  public List<Game> getUsersMadeGame(String username) {
+    return madeGameRepository.findByUser_UserName(username).orElse(List.of()).stream()
+            .map(MadeGame::getGame).toList();
+  }
+
+  @Transactional
+  public List<Review> getUsersReviews(String username) {
+    return reviewRepository.findByUser_UserName(username).orElse(List.of());
+  }
+
+  @Transactional
+  public void deleteUserRelations(String username) {
+    if (userRepository.findById(username).isEmpty()) {
+      throw new UserNotFoundException();
     }
 
-    @Transactional
-    public List<GameList> getUsersLists(String username) {
-        if (hasGameListRepository.findByUser_UserName(username).isEmpty()) {
-            throw new RelationNotFoundException("Could not find " + username + "s lists");
-        }
-        return hasGameListRepository.findByUser_UserName(username).get()
-                .stream().map(HasGameList::getGameList).toList();
-    }
+    hasGameListRepository.findByUser_UserName(username).ifPresent(hasGameLists -> {
+      List<GameList> lists = hasGameLists.stream().map(HasGameList::getGameList).toList();
+      hasGameListRepository.deleteAllInBatch(hasGameLists);
+      lists.forEach(list -> {
+        containsGameRepository.findByGameListID(list.getID()).ifPresent(containsGameRepository::deleteAllInBatch);
+        gameListRepository.delete(list);
+      });
+    });
 
-    @Transactional
-    public List<Game> getUsersMadeGame(String username) {
-        if (madeGameRepository.findByUser_UserName(username).isEmpty()) {
-            throw new RelationNotFoundException();
-        }
-        return madeGameRepository.findByUser_UserName(username).get().stream()
-                .map(MadeGame::getGame).toList();
-    }
+    madeGameRepository.findByUser_UserName(username).ifPresent(madeGames -> {
+      List<Game> games = madeGames.stream().map(MadeGame::getGame).toList();
+      madeGameRepository.deleteAllInBatch(madeGames);
+      games.forEach(game -> {
+        hasCategoryRepository.findByGame_ID(game.getID()).ifPresent(hasCategoryRepository::deleteAllInBatch);
+        gameRepository.delete(game);
+      });
+    });
 
-    @Transactional
-    public List<Review> getUsersReviews(String username) {
-        if (reviewRepository.findByUser_UserName(username).isEmpty()) {
-            throw new ReviewNotFoundException();
-        }
-        return reviewRepository.findByUser_UserName(username).get();
-    }
-    
+    reviewRepository.findByUser_UserName(username).ifPresent(reviewRepository::deleteAllInBatch);
+
+  }
 }

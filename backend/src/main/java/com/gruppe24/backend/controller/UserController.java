@@ -9,7 +9,9 @@ import com.gruppe24.backend.service.UserRelationService;
 import com.gruppe24.backend.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -24,7 +26,8 @@ import java.util.List;
  * <ul>
  *  <strong>Responsibilities include:</strong>
  *  <li>Retrieving a list of all users from the database.</li>
- *  <li>(Future methods might include creating, updating, and deleting users, as well as authentication and authorization.)</li>
+ *  <li>(Future methods might include creating, updating, and deleting users, as well as
+ *  authentication and authorization.)</li>
  * </ul>
  *
  * <p> All responses are formatted as JSON, making it easy for clients to parse and use the data. This
@@ -41,7 +44,7 @@ import java.util.List;
  *
  * </ul>
  *
- * @version 1.0
+ * @version 1.2
  */
 @RestController
 public class UserController {
@@ -50,7 +53,9 @@ public class UserController {
   private final UserRelationService userRelationService;
   private final SecurityService securityService;
 
-  public UserController(UserService userService, UserRelationService userRelationService, SecurityService securityService) {
+  public UserController(UserService userService,
+                        UserRelationService userRelationService,
+                        SecurityService securityService) {
     this.userService = userService;
     this.userRelationService = userRelationService;
     this.securityService = securityService;
@@ -61,6 +66,11 @@ public class UserController {
     return new ResponseEntity<>(userService.readUsers(), HttpStatus.OK);
   }
 
+  @GetMapping("/{username}")
+  public ResponseEntity<User> readUser(@PathVariable String username) {
+    return new ResponseEntity<>(userService.getUser(username), HttpStatus.OK);
+  }
+
   @GetMapping("/myProfile")
   public ResponseEntity<User> getUser() {
     return new ResponseEntity<>(securityService.getAuthenticatedUser(), HttpStatus.OK);
@@ -68,17 +78,30 @@ public class UserController {
 
   @GetMapping("/myProfile/games")
   public ResponseEntity<List<Game>> getUsersGames() {
-    return new ResponseEntity<>(userRelationService.getUsersMadeGame(securityService.getAuthenticatedUser().getUserName()), HttpStatus.OK);
+    return new ResponseEntity<>(userRelationService.getUsersMadeGame(securityService.getAuthenticatedUser()
+            .getUserName()), HttpStatus.OK);
   }
 
   @GetMapping("/myProfile/lists")
   public ResponseEntity<List<GameList>> getUsersLists() {
-    return new ResponseEntity<>(userRelationService.getUsersLists(securityService.getAuthenticatedUser().getUserName()), HttpStatus.OK);
+    return new ResponseEntity<>(userRelationService.getUsersLists(securityService.getAuthenticatedUser()
+            .getUserName()), HttpStatus.OK);
   }
 
   @GetMapping("/myProfile/review")
   public ResponseEntity<List<Review>> getUsersReviews() {
-    return new ResponseEntity<>(userRelationService.getUsersReviews(securityService.getAuthenticatedUser().getUserName()), HttpStatus.OK);
+    return new ResponseEntity<>(userRelationService.getUsersReviews(securityService.
+            getAuthenticatedUser().getUserName()), HttpStatus.OK);
+  }
+
+  @DeleteMapping("/{username}")
+  public ResponseEntity<String> deleteUser(@PathVariable String username) {
+    if (securityService.isAdmin()) {
+      userRelationService.deleteUserRelations(username);
+      userService.deleteUser(username);
+      return new ResponseEntity<>("Successfully deleted user", HttpStatus.OK);
+    }
+    return new ResponseEntity<>("You dont have permission to delete user", HttpStatus.UNAUTHORIZED);
   }
 
 }

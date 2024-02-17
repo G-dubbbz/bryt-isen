@@ -40,7 +40,7 @@ import java.util.List;
  *   <li>Delete /games/{ID}: Tries to delete the game with given ID</li>
  * </ul>
  *
- * @version 1.0
+ * @version 1.1
  */
 @RestController
 @RequestMapping("/games")
@@ -92,7 +92,7 @@ public class GameController {
   }
 
   @GetMapping("/{ID}/reviews")
-  public ResponseEntity<List<Review>> getGameReviews(@PathVariable Long ID) {
+  public ResponseEntity<List<ReviewDTO>> getGameReviews(@PathVariable Long ID) {
     return new ResponseEntity<>(gameRelationService.getGamesReviews(ID), HttpStatus.OK);
   }
 

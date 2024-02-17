@@ -4,17 +4,44 @@ import com.gruppe24.backend.dto.UserDTO;
 import com.gruppe24.backend.entity.User;
 import com.gruppe24.backend.repository.UserRepository;
 import com.gruppe24.backend.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
 
+/**
+ * <strong>Register Controller</strong>
+ *
+ * <p>This controller facilitates the user registration process, interfacing between the client-side application
+ * and the backend service layer. It handles web requests for registering new {@link User} entities
+ * within the application.</p>
+ *
+ * <ul>
+ *  <strong>Responsibilities include:</strong>
+ *  <li>Processing user registration requests and creating new user accounts.</li>
+ *  <li>Redirecting users to appropriate pages upon successful registration or in case of errors.</li>
+ * </ul>
+ *
+ * <p>All interactions are managed through HTTP requests and responses, with considerations for RESTful principles and
+ * user authentication states. This controller collaborates closely with the {@link UserService} to execute business
+ * logic operations related to user creation and validation, ensuring the integrity and security of user data.</p>
+ *
+ * <ul>
+ * <strong>Usage:</strong>
+ *   <li>GET /register: Shows the registration form to the user, pre-filled with OAuth2 authentication
+ *   details if available.</li>
+ *   <li>POST /register: Accepts and processes the registration form, creating a new user account.
+ *   Redirects to a specified URL upon success or returns error details if the registration fails.</li>
+ * </ul>
+ *
+ * @version 1.0
+ */
 @RestController
 @RequestMapping("/register")
 public class RegisterController {
@@ -29,28 +56,17 @@ public class RegisterController {
     this.userService = userService;
   }
 
-  @GetMapping
-  public String showRegistrationForm(@RequestParam(required = false) String email, HttpServletRequest request, Model model) {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    if (!(authentication instanceof OAuth2AuthenticationToken) || userRepository.findByEmail(email).isPresent()) {
-      return "redirect:/";
-    }
-
-    model.addAttribute("email", email);
-    return "register";
-  }
-
   @PostMapping
-  public String registerUserAccount(@RequestBody UserDTO userDto, BindingResult result) {
+  public ResponseEntity<Map<String, String>> registerUserAccount(@RequestBody UserDTO userDto) {
     log.info(userDto.toString());
     String username = userDto.getName().orElseThrow(IllegalArgumentException::new);
     if (userRepository.findById(username).isPresent()) {
-      result.rejectValue("username", null, "There is already an account registered with that username");
-      return "register";
+      return ResponseEntity.badRequest()
+              .body(Map.of("error", "There is already an account registered with that username"));
     }
-
-    User user = userService.createUser(userDto);
-    return "redirect:/secured";
+    userService.createUser(userDto);
+    return ResponseEntity
+            .status(HttpStatus.SEE_OTHER).header("Location", "/secured")
+            .body(Map.of("redirectUrl", "/secured"));
   }
-
 }

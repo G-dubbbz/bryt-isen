@@ -1,6 +1,7 @@
 package com.gruppe24.backend.relation;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 import com.gruppe24.backend.entity.Game;
 import com.gruppe24.backend.entity.User;
@@ -29,7 +30,7 @@ public class MadeGame {
     @JoinColumn(name = "GameID")
     private Game game;
 
-    private Instant timestamp;
+    private LocalDateTime createdAt;
 
     public User getUser() {
         return user;
@@ -47,12 +48,12 @@ public class MadeGame {
         this.game = game;
     }
 
-    public Instant getTimestamp() {
-        return timestamp;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setTimestamp(Instant timestamp) {
-        this.timestamp = timestamp;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     @Override
@@ -60,7 +61,7 @@ public class MadeGame {
         return "MadeGame{" +
                 "user=" + user +
                 ", game=" + game +
-                ", timestamp=" + timestamp +
+                ", timestamp=" + createdAt +
                 '}';
     }
 }

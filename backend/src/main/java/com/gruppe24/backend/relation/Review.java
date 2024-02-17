@@ -1,6 +1,6 @@
 package com.gruppe24.backend.relation;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
 import com.gruppe24.backend.entity.Game;
@@ -30,7 +30,8 @@ public class Review {
     private String title;
     private String description;
     private int stars;
-    private Instant timestamp;
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
 
     public User getUser() {
         return user;
@@ -72,17 +73,18 @@ public class Review {
         this.stars = stars;
     }
 
-    public Instant getTimestamp() {
-        return timestamp;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setTimestamp(Instant timestamp) {
-        this.timestamp = timestamp;
+    public void setCreatedAt(LocalDateTime timestamp) {
+        this.createdAt = timestamp;
     }
+
     @Override
     public String toString() {
         return "Review [user=" + user + ", game=" + game + ", title=" + title + ", description=" + description
-                + ", stars=" + stars + ", timestamp=" + timestamp + "]";
+                + ", stars=" + stars + ", timestamp=" + createdAt + "]";
     }
 
     

@@ -88,7 +88,7 @@ public class UserController {
             .getUserName()), HttpStatus.OK);
   }
 
-  @GetMapping("/myProfile/review")
+  @GetMapping("/myProfile/reviews")
   public ResponseEntity<List<Review>> getUsersReviews() {
     return new ResponseEntity<>(userRelationService.getUsersReviews(securityService.
             getAuthenticatedUser().getUserName()), HttpStatus.OK);

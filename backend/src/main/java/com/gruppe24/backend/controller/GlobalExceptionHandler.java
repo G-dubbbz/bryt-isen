@@ -49,6 +49,20 @@ public class GlobalExceptionHandler {
     return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
   }
 
+  @ExceptionHandler(ReviewNotFoundException.class)
+  public ResponseEntity<ApiErrorResponse> handleReviewNotFoundException(ReviewNotFoundException e) {
+    log.error("Review not found: " + e.getMessage() + ":" + e.getCause());
+    ApiErrorResponse response = new ApiErrorResponse(e.getMessage(), "REVIEW_NOT_FOUND");
+    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+  }
+
+  @ExceptionHandler(CategoryNotFoundException.class)
+  public ResponseEntity<ApiErrorResponse> handleCategoryNotFoundException(CategoryNotFoundException e) {
+    log.error("Category(ies) not found: " + e.getMessage() + ":" + e.getCause());
+    ApiErrorResponse response = new ApiErrorResponse(e.getMessage(), "CATEGORY_NOT_FOUND");
+    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+  }
+
   @ExceptionHandler(ErrorCreatingGameException.class)
   public ResponseEntity<ApiErrorResponse> handleErrorCreatingGameException(ErrorCreatingGameException e) {
     log.error("Error creating game: " + e.getMessage() + ":" + e.getCause());
@@ -76,6 +90,7 @@ public class GlobalExceptionHandler {
     ApiErrorResponse response = new ApiErrorResponse(e.getMessage(), "INVALID_DTO");
     return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
   }
+
 
   @ExceptionHandler(Exception.class)
   public ResponseEntity<ApiErrorResponse> handleAllUncaughtException(Exception e) {

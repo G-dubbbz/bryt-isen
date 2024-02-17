@@ -9,6 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+/**
+ * Global exception handler class that centralizes the handling of exceptions thrown by controllers
+ * throughout the application. Utilizes the @ControllerAdvice annotation to apply to all controllers,
+ * capturing specified exceptions and converting them into user-friendly API error responses.
+ * Each handler method logs the exception and returns a standardized {@link ApiErrorResponse}
+ * with appropriate HTTP status codes.
+ */
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -68,5 +75,12 @@ public class GlobalExceptionHandler {
     log.error("Invalid DTO: " + e.getMessage() + ":" + e.getCause());
     ApiErrorResponse response = new ApiErrorResponse(e.getMessage(), "INVALID_DTO");
     return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(Exception.class)
+  public ResponseEntity<ApiErrorResponse> handleAllUncaughtException(Exception e) {
+    log.error("Unexpected error: " + e.getMessage(), e);
+    ApiErrorResponse response = new ApiErrorResponse("An unexpected error occurred", "UNEXPECTED_ERROR");
+    return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }

@@ -2,12 +2,12 @@ package com.gruppe24.backend.service;
 
 import com.gruppe24.backend.dto.UserDTO;
 import com.gruppe24.backend.entity.User;
+import com.gruppe24.backend.exception.UserExistsException;
 import com.gruppe24.backend.exception.UserNotFoundException;
+import com.gruppe24.backend.exception.InvalidDtoException;
 import com.gruppe24.backend.repository.UserRepository;
-
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,8 +39,10 @@ import java.util.List;
  * <ul>
  * <strong>Key Functionalities Include:</strong>
  * <li>Retrieving all users from the database.</li>
- * <li>(Future functionalities such as creating, updating, and deleting
- * users.)</li>
+ * <li>Retrieving a specified user by its username</li>
+ * <li>Create a user with given userDTO</li>
+ * <li>Update a specified user by given userDTO</li>
+ * <li>Delete a specified user bu give username</li>
  * </ul>
  *
  * <p>
@@ -61,7 +63,7 @@ public class UserService {
 
   /**
    * Retrieves all users from the repository.
-   * 
+   *
    * @return A list of {@link User} entities.
    */
   @Transactional
@@ -71,70 +73,57 @@ public class UserService {
 
   /**
    * Retrieves a user from the repository.
-   * 
+   *
    * @return A {@link User} entity.
-   * 
-   * @throws UserNotFoundException
+   * @throws UserNotFoundException when it doesn't find the user by given username
    */
   @Transactional
   public User getUser(String username) {
-    // TODO: Make sure username is not null
-    try {
-      return userRepository.getReferenceById(username);
-    } catch (EntityNotFoundException e) {
-      throw new UserNotFoundException();
-    }
+    return userRepository.findById(username).orElseThrow(UserNotFoundException::new);
   }
 
   /**
    * Creates a user from the {@link UserDTO} entity.
+   *
+   * @return Created {@link User}
+   * @throws InvalidDtoException if the UserDTO does not have required information
    */
   @Transactional
-  public void createUser(UserDTO userDTO) {
-    // TODO: Make sure username is not null
-    try {
-      User user = userRepository.getReferenceById(userDTO.getName().orElseThrow(EntityNotFoundException::new));
-      // TODO: Throw an exception if username is already taken
-    } catch (EntityNotFoundException e) {
-      User user = new User();
-      // TODO: change exception
-      userDTO.getName().ifPresentOrElse(user::setUserName, UserNotFoundException::new);
-      userDTO.getEmail().ifPresentOrElse(user::setEmail, UserNotFoundException::new);
-      // TODO: Add user attributes
-      // user.setEmail(email);
-      // user.setAdmin(false);
+  public User createUser(UserDTO userDTO) {
+    if (userDTO.getName().isEmpty() || userDTO.getEmail().isEmpty()) {
+      throw new InvalidDtoException();
     }
+    User user = new User();
+    user.setUserName(userDTO.getName().get());
+    user.setEmail(userDTO.getEmail().get());
+    return  userRepository.save(user);
   }
-
   /**
    * Updates the attributes of a user with information from the {@link UserDTO} entity.
-   * @throws UserNotFoundException
+   *
+   * @throws UserExistsException when given username is already in use
    */
   @Transactional
-  public void updateUser(String username, UserDTO userDTO) {
-    // TODO: Make sure username is not null
-    try {
-      User user = userRepository.getReferenceById(username);
-      // TODO: Add user attributts
-      // user.setAdmin(false);
-    } catch (EntityNotFoundException e) {
-      throw new UserNotFoundException();
+  public void updateUser(User user, UserDTO userDTO) {
+    String newName = userDTO.getName().orElseThrow(InvalidDtoException::new);
+
+    if (userRepository.findById(newName).isPresent()) {
+      throw new UserExistsException("Username is taken");
     }
+
+    userDTO.getName().ifPresent(user::setUserName);
+    userRepository.save(user);
   }
 
   /**
-   * Deletes a user from the repository.
-   * @throws UserNotFoundException
+   * Deletes a {@link User} from the repository.
+   *
+   * @throws UserNotFoundException when user is not found by given username
    */
   @Transactional
   public void deleteUser(String username) {
-    // TODO: Make sure username is not null
-    try {
-      User user = userRepository.getReferenceById(username);
-      userRepository.deleteById(username);
-    } catch (EntityNotFoundException e) {
-      throw new UserNotFoundException();
-    }
+    User user = userRepository.findById(username).orElseThrow(UserNotFoundException::new);
+    userRepository.delete(user);
   }
 
 }

@@ -1,6 +1,6 @@
 package com.gruppe24.backend.relation;
 
-import java.security.Timestamp;
+import java.time.Instant;
 
 import com.gruppe24.backend.entity.Game;
 import com.gruppe24.backend.entity.User;
@@ -29,7 +29,7 @@ public class MadeGame {
     @JoinColumn(name = "GameID")
     private Game game;
 
-    private Timestamp timestamp;
+    private Instant timestamp;
 
     public User getUser() {
         return user;
@@ -47,14 +47,20 @@ public class MadeGame {
         this.game = game;
     }
 
-    public Timestamp getTimestamp() {
+    public Instant getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(Instant timestamp) {
         this.timestamp = timestamp;
     }
 
-    // TODO: ADD TOSTRING
-
+    @Override
+    public String toString() {
+        return "MadeGame{" +
+                "user=" + user +
+                ", game=" + game +
+                ", timestamp=" + timestamp +
+                '}';
+    }
 }

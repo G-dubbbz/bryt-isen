@@ -1,8 +1,8 @@
 package com.gruppe24.backend.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import com.gruppe24.backend.relation.MadeGame;
 import org.springframework.stereotype.Service;
 
 import com.gruppe24.backend.entity.Game;
@@ -17,7 +17,7 @@ import com.gruppe24.backend.repository.UserRepository;
 import jakarta.transaction.Transactional;
 
 /**
- * <strong>Service layer for managing {@link User} entity's relations.</strong>
+ * <strong>Service layer for managing {@link Game} entity's relations.</strong>
  *
  * <p>
  * Methods in this service are transactional, ensuring data integrity and
@@ -70,7 +70,10 @@ public class UserRelationService {
     @Transactional
     public List<Game> getUsersMadeGame(String username) {
         try {
-            return madeGameRepository.findByUser_UserName(username);
+            List<MadeGame> madeGames = madeGameRepository.findByUser_UserName(username);
+            return madeGames.stream()
+                    .map(MadeGame::getGame)
+                    .toList();
         } catch (Exception e) {
             throw new UserNotFoundException();
         }

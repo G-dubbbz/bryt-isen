@@ -63,6 +63,12 @@ public class GameListRelationService {
   }
 
   @Transactional
+  public void removeAllGamesFromList(Long ID) {
+    List<ContainsGame> containsGames = containsGameRepository.findByGameListID(ID).orElseThrow(RelationNotFoundException::new);
+    containsGameRepository.deleteAllInBatch(containsGames);
+  }
+
+  @Transactional
   public void createHasGameListRelation(User user, GameList list) {
     if (user == null || list == null) {
       throw new ErrorCreatingRelationException();
@@ -78,4 +84,6 @@ public class GameListRelationService {
     GameList list = gameListRepository.findByID(listID).orElseThrow(ListNotFoundException::new);
     hasGameListRepository.delete(hasGameListRepository.findByUserAndGameList(user, list).orElseThrow(RelationNotFoundException::new));
   }
+
+
 }

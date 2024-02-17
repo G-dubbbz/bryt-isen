@@ -12,27 +12,36 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * <b>User Controller</b>
+ * <strong>Game List Controller</strong>
  *
- * <p> This controller provides API endpoints for managing {@link GameList} entities. It serves as the interface
- * between the front-end and the service layer, handling web requests to perform CRUD operations
- * on gamelist data. </p>
+ * <p>This controller provides API endpoints for managing {@link GameList} entities. It serves as the interface
+ * between the front-end and the service layer, handling web requests to perform CRUD (Create, Read, Update, Delete) operations
+ * on game list data.</p>
+ *
+ * <strong>Responsibilities include:</strong>
  * <ul>
- *  <strong>Responsibilities include:</strong>
- *  <li>Retrieving a list of all gamelists from the database.</li>
- *  <li>(Future methods might include creating, updating, and deleting gamelists, as well as authentication and authorization.)</li>
+ *   <li>Retrieving a list of all game lists from the database.</li>
+ *   <li>Creating new game lists.</li>
+ *   <li>Updating existing game lists.</li>
+ *   <li>Deleting game lists.</li>
+ *   <li>Adding games to and removing games from lists.</li>
  * </ul>
  *
- * <p> All responses are formatted as JSON, making it easy for clients to parse and use the data. This
- * controller works closely with the {@link GameListService} to delegate business logic operations, ensuring
- * that the controller remains focused on web-related tasks. </p>
+ * <p>All responses are formatted as JSON, making it easy for clients to parse and use the data. This
+ * controller works closely with the {@link GameListService} and {@link GameListRelationService} to delegate business logic operations, ensuring
+ * that the controller remains focused on web-related tasks.</p>
  *
+ * <strong>Usage:</strong>
  * <ul>
- *   <strong>Usage:</strong>
- *   <li>GET /lists: Retrieves a list of all gamelists</li>
+ *   <li><code>GET /lists</code>: Retrieves a list of all game lists.</li>
+ *   <li><code>POST /lists/create</code>: Creates a new game list. (Consider changing to <code>POST /lists</code> for RESTful conventions)</li>
+ *   <li><code>PATCH /lists/{ID}</code>: Updates an existing game list identified by <code>ID</code>.</li>
+ *   <li><code>DELETE /lists/{ID}</code>: Deletes an existing game list identified by <code>ID</code>.</li>
+ *   <li><code>POST /lists/{ID}/{gameID}</code>: Adds a game identified by <code>gameID</code> to a list identified by <code>ID</code>.</li>
+ *   <li><code>DELETE /lists/{ID}/{gameID}</code>: Removes a game identified by <code>gameID</code> from a list identified by <code>ID</code>.</li>
  * </ul>
  *
- * @version 1.0
+ * @version 1.2
  */
 @RestController
 @RequestMapping("/lists")
@@ -49,7 +58,7 @@ public class ListController {
   }
 
   /**
-   * Retrieves a list of all gamelists
+   * Retrieves a list of all game-lists
    *
    * @return HTTP response <b>200 OK</b> list of {@link GameList} entites
    */
@@ -58,22 +67,45 @@ public class ListController {
     return ResponseEntity.ok(gameListService.readLists());
   }
 
+  // GameList CRUD operations
+
   @GetMapping("/{ID}")
   public ResponseEntity<GameList> getGameList(@PathVariable Long ID) {
     return new ResponseEntity<>(gameListService.getList(ID), HttpStatus.OK);
   }
 
   @PostMapping("/create")
-  public ResponseEntity<String> createGameList(@RequestBody GameListDTO gameListDTO) {
+  public ResponseEntity<GameList> createGameList(@RequestBody GameListDTO gameListDTO) {
     GameList list = gameListService.createGameList(gameListDTO);
     gameListRelationService.createHasGameListRelation(securityService.getAuthenticatedUser(), list);
-    return new ResponseEntity<>("Game-list successfully created", HttpStatus.CREATED);
+    return new ResponseEntity<>(list, HttpStatus.CREATED);
   }
 
+  @PatchMapping("/{ID}")
+  public ResponseEntity<GameList> updateGameList(@PathVariable Long ID, @RequestBody GameListDTO gameListDTO) {
+    return new ResponseEntity<>(gameListService.updateGameList(gameListDTO, ID), HttpStatus.OK);
+  }
+
+  @DeleteMapping("/{ID}")
+  public ResponseEntity<String> deleteGameList(@PathVariable Long ID) {
+    gameListRelationService.deleteHasGameListRelation(securityService.getAuthenticatedUser(), ID);
+    gameListRelationService.removeAllGamesFromList(ID);
+    gameListService.deleteGameList(ID);
+    return new ResponseEntity<>("List successfully deleted", HttpStatus.OK);
+  }
+
+  // GameList relation handling
+
   @PostMapping("/{ID}/{gameID}")
-  public  ResponseEntity<String> addGameToList(@PathVariable Long ID, @PathVariable Long gameID) {
+  public ResponseEntity<String> addGameToList(@PathVariable Long ID, @PathVariable Long gameID) {
     gameListRelationService.addGameToList(gameID, ID);
     return new ResponseEntity<>("Game successfully added to list", HttpStatus.OK);
+  }
+
+  @DeleteMapping("/{ID}/{gameID}")
+  public ResponseEntity<String> removeGameFromList(@PathVariable Long ID, @PathVariable Long gameID) {
+    gameListRelationService.removeGameFromList(gameID, ID);
+    return new ResponseEntity<>("Game successfully removed from list", HttpStatus.OK);
   }
 
 }

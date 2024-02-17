@@ -1,22 +1,15 @@
 package com.gruppe24.backend.controller;
 
-import com.gruppe24.backend.dto.ApiErrorResponse;
 import com.gruppe24.backend.entity.Game;
 import com.gruppe24.backend.entity.GameList;
 import com.gruppe24.backend.entity.User;
-import com.gruppe24.backend.exception.UserNotFoundException;
-import com.gruppe24.backend.exception.RelationNotFoundException;
 import com.gruppe24.backend.relation.Review;
 import com.gruppe24.backend.service.SecurityService;
 import com.gruppe24.backend.service.UserRelationService;
 import com.gruppe24.backend.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -57,8 +50,6 @@ public class UserController {
   private final UserRelationService userRelationService;
   private final SecurityService securityService;
 
-  private static final Logger log = LoggerFactory.getLogger(GameController.class);
-
   public UserController(UserService userService, UserRelationService userRelationService, SecurityService securityService) {
     this.userService = userService;
     this.userRelationService = userRelationService;
@@ -90,17 +81,4 @@ public class UserController {
     return new ResponseEntity<>(userRelationService.getUsersReviews(securityService.getAuthenticatedUser().getUserName()), HttpStatus.OK);
   }
 
-  @ExceptionHandler(UserNotFoundException.class)
-  public ResponseEntity<ApiErrorResponse> handleUserNotFoundException(UserNotFoundException e) {
-    log.error("UserNotFound: " + e.getMessage() + ":" + e.getCause());
-    ApiErrorResponse response = new ApiErrorResponse(e.getMessage(), "USER_NOT_FOUND");
-    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-  }
-
-  @ExceptionHandler(RelationNotFoundException.class)
-  public ResponseEntity<ApiErrorResponse> handleErrorCreatingRelationException(RelationNotFoundException e) {
-    log.error("RelationNotFound: " + e.getMessage() + ":" + e.getCause());
-    ApiErrorResponse response = new ApiErrorResponse(e.getMessage(), "RELATION_NOT_FOUND");
-    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-  }
 }

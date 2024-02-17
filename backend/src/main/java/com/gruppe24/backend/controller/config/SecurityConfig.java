@@ -1,5 +1,7 @@
 package com.gruppe24.backend.controller.config;
 
+import com.gruppe24.backend.controller.component.CustomAuthenticationSuccessHandler;
+import com.gruppe24.backend.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -7,29 +9,35 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .cors(cors -> cors.configurationSource(request -> corsConfigurationSource()))
-                .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/").permitAll();
-                    auth.anyRequest().authenticated();
-                })
-                .oauth2Login(withDefaults())
-                .csrf(AbstractHttpConfigurer::disable)
-                .build();
-    }
+
+  private final UserRepository userRepository;
+
+  public SecurityConfig(UserRepository userRepository) {
+    this.userRepository = userRepository;
+  }
+
+
+  @Bean
+  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    return http
+            .cors(cors -> cors.configurationSource(request -> corsConfigurationSource()))
+            .authorizeHttpRequests(auth -> {
+              auth.requestMatchers("/").permitAll();
+              auth.requestMatchers("/registration").authenticated();
+              auth.anyRequest().authenticated();
+            })
+            .oauth2Login(oauth2 -> oauth2.successHandler(new CustomAuthenticationSuccessHandler(userRepository)))
+            .csrf(AbstractHttpConfigurer::disable)
+            .build();
+  }
 
   @Bean
   public CorsConfiguration corsConfigurationSource() {
@@ -40,4 +48,5 @@ public class SecurityConfig {
     configuration.setExposedHeaders(List.of("x-auth-token"));
     return configuration;
   }
+
 }

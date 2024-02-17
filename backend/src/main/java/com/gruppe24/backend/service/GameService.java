@@ -3,6 +3,7 @@ package com.gruppe24.backend.service;
 import com.gruppe24.backend.dto.GameDTO;
 import com.gruppe24.backend.entity.Game;
 import com.gruppe24.backend.exception.GameNotFoundException;
+import com.gruppe24.backend.exception.InvalidDtoException;
 import com.gruppe24.backend.repository.GameRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,9 @@ import java.util.List;
  * <ul>
  *   <strong>Key Functionalities Include:</strong>
  *   <li>Retrieving all games from the database.</li>
- *   <li>(Future functionalities such as creating, updating, and deleting games.)</li>
+ *   <li>Creating a new game with a given creator/user.</li>
+ *   <li>Retrieving a specified game with the given ID</li>
+ *   <li>Delete a specified game with the given ID</li>
  * </ul>
  *
  * <p>Usage of this service should be limited to interaction through higher-level components
@@ -40,34 +43,25 @@ public class GameService {
     this.gameRepository = gameRepository;
   }
 
-  /**
-   * Retrieves all games from the repository.
-   * @return A list of {@link Game} entities.
-   */
   @Transactional
   public List<Game> readGames() {
     return gameRepository.findAll();
   }
 
   @Transactional
-  public void createGame(GameDTO gameDTO) {
-    // TODO: validation
+  public Game createGame(GameDTO gameDTO) {
     Game game = new Game();
-    gameDTO.getName().ifPresentOrElse(game::setName, GameNotFoundException::new);
-    gameDTO.getCategory().ifPresentOrElse(game::setCategory, GameNotFoundException::new);
-    gameDTO.getDescription().ifPresentOrElse(game::setDescription, GameNotFoundException::new);
-    gameDTO.getDuration().ifPresentOrElse(game::setDuration, GameNotFoundException::new);
-    gameDTO.getPlayers().ifPresentOrElse(game::setPlayers, GameNotFoundException::new);
-    gameRepository.save(game);
+    gameDTO.getName().ifPresentOrElse(game::setName, InvalidDtoException::new);
+    gameDTO.getCategory().ifPresentOrElse(game::setCategory, InvalidDtoException::new);
+    gameDTO.getDescription().ifPresentOrElse(game::setDescription, InvalidDtoException::new);
+    gameDTO.getDuration().ifPresentOrElse(game::setDuration, InvalidDtoException::new);
+    gameDTO.getPlayers().ifPresentOrElse(game::setPlayers, InvalidDtoException::new);
+    return gameRepository.save(game);
   }
 
   @Transactional
   public Game getGame(Long ID) {
-    try {
-      return gameRepository.findByID(ID).orElseThrow(GameNotFoundException::new);
-    } catch (Exception e) {
-      throw new GameNotFoundException();
-    }
+    return gameRepository.findByID(ID).orElseThrow(GameNotFoundException::new);
   }
 
   @Transactional
@@ -83,13 +77,6 @@ public class GameService {
 
   @Transactional
   public void deleteGame(Long ID) {
-    try {
-      gameRepository.findByID(ID).orElseThrow(GameNotFoundException::new);
-      gameRepository.deleteById(ID);
-    } catch (Exception e) {
-      throw new GameNotFoundException();
-    }
-    
-
+    gameRepository.delete(gameRepository.findByID(ID).orElseThrow(GameNotFoundException::new));
   }
 }

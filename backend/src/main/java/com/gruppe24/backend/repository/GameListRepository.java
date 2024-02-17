@@ -4,10 +4,12 @@ import com.gruppe24.backend.entity.GameList;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 
 @Repository
 public interface GameListRepository extends JpaRepository<GameList, Long> {
 
-    public GameList findByID(Long ID);
+    Optional<GameList> findByID(Long ID);
 
 }

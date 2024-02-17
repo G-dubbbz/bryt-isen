@@ -22,7 +22,7 @@ public class Game {
     private String description;
     private int players;
     private int duration;
-    private int rating;
+    private float rating;
     private int reviewCount;
     private int reportCount;
     private int category;
@@ -57,10 +57,10 @@ public class Game {
     public void setDuration(int duration) {
         this.duration = duration;
     }
-    public int getRating() {
+    public float getRating() {
         return rating;
     }
-    public void setRating(int rating) {
+    public void setRating(float rating) {
         this.rating = rating;
     }
     public int getReviewCount() {

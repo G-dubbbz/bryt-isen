@@ -1,6 +1,6 @@
 package com.gruppe24.backend.relation;
 
-import java.security.Timestamp;
+import java.time.Instant;
 
 import jakarta.persistence.*;
 import com.gruppe24.backend.entity.Game;
@@ -30,7 +30,7 @@ public class Review {
     private String title;
     private String description;
     private int stars;
-    private Timestamp timestamp;
+    private Instant timestamp;
 
     public User getUser() {
         return user;
@@ -72,11 +72,11 @@ public class Review {
         this.stars = stars;
     }
 
-    public Timestamp getTimestamp() {
+    public Instant getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(Instant timestamp) {
         this.timestamp = timestamp;
     }
     @Override

@@ -98,6 +98,7 @@ public class UserService {
     user.setEmail(userDTO.getEmail().get());
     return  userRepository.save(user);
   }
+
   /**
    * Updates the attributes of a user with information from the {@link UserDTO} entity.
    *

@@ -1,64 +1,81 @@
 package com.gruppe24.backend.service;
 
-import org.springframework.stereotype.Service;
-
 import com.gruppe24.backend.entity.Game;
 import com.gruppe24.backend.entity.GameList;
 import com.gruppe24.backend.entity.User;
+import com.gruppe24.backend.exception.ErrorCreatingRelationException;
+import com.gruppe24.backend.exception.GameNotFoundException;
+import com.gruppe24.backend.exception.ListNotFoundException;
+import com.gruppe24.backend.exception.RelationNotFoundException;
 import com.gruppe24.backend.idclass.ContainsGameID;
 import com.gruppe24.backend.relation.ContainsGame;
-import com.gruppe24.backend.repository.ContainsGameRepository;
-import com.gruppe24.backend.repository.GameListRepository;
-import com.gruppe24.backend.repository.GameRepository;
-import com.gruppe24.backend.repository.HasGameListRepository;
-import com.gruppe24.backend.repository.UserRepository;
-
+import com.gruppe24.backend.relation.HasGameList;
+import com.gruppe24.backend.repository.*;
 import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
 public class GameListRelationService {
-    private final UserRepository userRepository;
-    private final GameRepository gameRepository;
-    private final GameListRepository gameListRepository;
-    private final ContainsGameRepository containsGameRepository;
-    private final HasGameListRepository hasGameListRepository;
+  private final GameRepository gameRepository;
+  private final GameListRepository gameListRepository;
+  private final ContainsGameRepository containsGameRepository;
+  private final HasGameListRepository hasGameListRepository;
 
-    public GameListRelationService(UserRepository userRepository, GameRepository gameRepository, GameListRepository gameListRepository, ContainsGameRepository containsGameRepository, HasGameListRepository hasGameListRepository){
-        this.userRepository=userRepository;
-        this.gameRepository=gameRepository;
-        this.gameListRepository=gameListRepository;
-        this.containsGameRepository=containsGameRepository;
-        this.hasGameListRepository=hasGameListRepository;
-    }
+  public GameListRelationService(GameRepository gameRepository, GameListRepository gameListRepository, ContainsGameRepository containsGameRepository, HasGameListRepository hasGameListRepository) {
+    this.gameRepository = gameRepository;
+    this.gameListRepository = gameListRepository;
+    this.containsGameRepository = containsGameRepository;
+    this.hasGameListRepository = hasGameListRepository;
+  }
 
-    //TODO: Handle exception
-    @Transactional
-    public User getCreator(Long listID) {
-        User creator = hasGameListRepository.findByGameList_ID(listID);
-        return creator;
-    }
+  @Transactional
+  public User getCreator(Long listID) {
+    return hasGameListRepository.findByGameList_ID(listID)
+            .orElseThrow(ListNotFoundException::new)
+            .getUser();
+  }
 
-    //TODO: Handle exception
-    @Transactional
-    public List<Game> getGames(Long listID) {
-        List<Game> games = containsGameRepository.findByGameListID(listID);
-        return games;
+  @Transactional
+  public List<Game> getGames(Long listID) {
+    if (containsGameRepository.findByGameListID(listID).isEmpty()) {
+      throw new GameNotFoundException("Games not found from list");
     }
+    return containsGameRepository.findByGameListID(listID).get().stream()
+            .map(ContainsGame::getGame).toList();
+  }
 
-    @Transactional
-    public void addGame(Long gameID, Long listID) {
-        ContainsGame containsGame = new ContainsGame();
-        containsGame.setGame(gameRepository.findByID(gameID));
-        containsGame.setGameList(gameListRepository.findByID(listID));
-        containsGameRepository.save(containsGame);
-    }
+  @Transactional
+  public void addGameToList(Long gameID, Long listID) {
+    ContainsGame containsGame = new ContainsGame();
+    containsGame.setGame(gameRepository.findByID(gameID).orElseThrow(GameNotFoundException::new));
+    containsGame.setGameList(gameListRepository.findByID(listID).orElseThrow(ListNotFoundException::new));
+    containsGameRepository.save(containsGame);
+  }
 
-    @Transactional
-    public void removeGame(Long gameID, Long listID) {
-        Game game = gameRepository.getReferenceById(gameID);
-        GameList gameList = gameListRepository.getReferenceById(listID);
-        ContainsGameID containsGameID = new ContainsGameID(game,gameList);
-        containsGameRepository.deleteById(containsGameID);
+  @Transactional
+  public void removeGameFromList(Long gameID, Long listID) {
+    Game game = gameRepository.getReferenceById(gameID);
+    GameList gameList = gameListRepository.getReferenceById(listID);
+    ContainsGameID containsGameID = new ContainsGameID(game, gameList);
+    containsGameRepository.deleteById(containsGameID);
+  }
+
+  @Transactional
+  public void createHasGameListRelation(User user, GameList list) {
+    if (user == null || list == null) {
+      throw new ErrorCreatingRelationException();
     }
+    HasGameList hasGameList = new HasGameList();
+    hasGameList.setUser(user);
+    hasGameList.setGameList(list);
+    hasGameListRepository.save(hasGameList);
+  }
+
+  @Transactional
+  public void deleteHasGameListRelation(User user, Long listID) {
+    GameList list = gameListRepository.findByID(listID).orElseThrow(ListNotFoundException::new);
+    hasGameListRepository.delete(hasGameListRepository.findByUserAndGameList(user, list).orElseThrow(RelationNotFoundException::new));
+  }
 }

@@ -1,9 +1,9 @@
 package com.gruppe24.backend.service;
 
 import com.gruppe24.backend.dto.GameListDTO;
-import com.gruppe24.backend.entity.Game;
 import com.gruppe24.backend.entity.GameList;
 import com.gruppe24.backend.exception.GameNotFoundException;
+import com.gruppe24.backend.exception.ListNotFoundException;
 import com.gruppe24.backend.repository.GameListRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -43,6 +43,7 @@ public class GameListService {
 
   /**
    * Retrieves all game lists from the repository.
+   *
    * @return A list of {@link GameList} entities.
    */
   @Transactional
@@ -51,34 +52,26 @@ public class GameListService {
   }
 
   @Transactional
-  public GameList getList(Long listID){
-    try {
-      GameList gameList = gameListRepository.findByID(listID);
-      return gameList;
-    } catch (Exception e) {
-      //TODO: Handle exeption
-        throw new GameNotFoundException();
-    }
+  public GameList getList(Long listID) {
+    return gameListRepository.findByID(listID).orElseThrow(ListNotFoundException::new);
   }
 
-  //TODO: Handle exeption
   @Transactional
-  public void createGameList(GameListDTO gameListDTO) {
+  public GameList createGameList(GameListDTO gameListDTO) {
     GameList gameList = new GameList();
     gameListDTO.getName().ifPresentOrElse(gameList::setName, GameNotFoundException::new);
-    gameListRepository.save(gameList);
+    return gameListRepository.save(gameList);
   }
 
-  //TODO: Handle exeption
   @Transactional
   public void updateGameList(GameListDTO gameListDTO, Long ID) {
-    GameList gameList = gameListRepository.findByID(ID);
+    GameList gameList = gameListRepository.findByID(ID).orElseThrow(ListNotFoundException::new);
     gameListDTO.getName().ifPresentOrElse(gameList::setName, GameNotFoundException::new);
     gameListRepository.save(gameList);
   }
 
   @Transactional
   public void deleteGameList(Long ID) {
-    gameListRepository.deleteById(ID);
+    gameListRepository.delete(gameListRepository.findByID(ID).orElseThrow(ListNotFoundException::new));
   }
 }

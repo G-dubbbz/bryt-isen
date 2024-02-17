@@ -2,6 +2,9 @@ package com.gruppe24.backend.service;
 
 import java.util.List;
 
+import com.gruppe24.backend.exception.RelationNotFoundException;
+import com.gruppe24.backend.exception.ReviewNotFoundException;
+import com.gruppe24.backend.relation.HasGameList;
 import com.gruppe24.backend.relation.MadeGame;
 import org.springframework.stereotype.Service;
 
@@ -60,32 +63,28 @@ public class UserRelationService {
 
     @Transactional
     public List<GameList> getUsersLists(String username) {
-        try {
-            return hasGameListRepository.findByUser_UserName(username);
-        } catch (Exception e) {
-            throw new UserNotFoundException();
+        if (hasGameListRepository.findByUser_UserName(username).isEmpty()) {
+            throw new RelationNotFoundException("Could not find " + username + "s lists");
         }
+        return hasGameListRepository.findByUser_UserName(username).get()
+                .stream().map(HasGameList::getGameList).toList();
     }
 
     @Transactional
     public List<Game> getUsersMadeGame(String username) {
-        try {
-            List<MadeGame> madeGames = madeGameRepository.findByUser_UserName(username);
-            return madeGames.stream()
-                    .map(MadeGame::getGame)
-                    .toList();
-        } catch (Exception e) {
-            throw new UserNotFoundException();
+        if (madeGameRepository.findByUser_UserName(username).isEmpty()) {
+            throw new RelationNotFoundException();
         }
+        return madeGameRepository.findByUser_UserName(username).get().stream()
+                .map(MadeGame::getGame).toList();
     }
 
     @Transactional
     public List<Review> getUsersReviews(String username) {
-        try {
-            return reviewRepository.findByUser_UserName(username);
-        } catch (Exception e) {
-            throw new UserNotFoundException();
+        if (reviewRepository.findByUser_UserName(username).isEmpty()) {
+            throw new ReviewNotFoundException();
         }
+        return reviewRepository.findByUser_UserName(username).get();
     }
     
 }

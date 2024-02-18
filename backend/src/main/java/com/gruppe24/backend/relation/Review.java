@@ -1,11 +1,11 @@
 package com.gruppe24.backend.relation;
 
-import java.time.LocalDateTime;
-
-import jakarta.persistence.*;
 import com.gruppe24.backend.entity.Game;
 import com.gruppe24.backend.entity.User;
 import com.gruppe24.backend.idclass.ReviewID;
+import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
 
 /**
  * Represents a Review relationship in the database.
@@ -17,75 +17,75 @@ import com.gruppe24.backend.idclass.ReviewID;
 @IdClass(ReviewID.class)
 public class Review {
 
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "UserName")
-    private User user;
-    
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "ID")
-    private Game game;
+  @Id
+  @ManyToOne
+  @JoinColumn(name = "UserName")
+  private User user;
 
-    private String title;
-    private String description;
-    private int stars;
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
+  @Id
+  @ManyToOne
+  @JoinColumn(name = "ID")
+  private Game game;
 
-    public User getUser() {
-        return user;
-    }
+  private String title;
+  private String description;
+  private int stars;
+  @Column(name = "created_at", nullable = false)
+  private LocalDateTime createdAt;
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+  public User getUser() {
+    return user;
+  }
 
-    public Game getGame() {
-        return game;
-    }
+  public void setUser(User user) {
+    this.user = user;
+  }
 
-    public void setGame(Game game) {
-        this.game = game;
-    }
-    
-    public String getTitle() {
-        return title;
-    }
-    
-    public void setTitle(String title) {
-        this.title = title;
-    }
+  public Game getGame() {
+    return game;
+  }
 
-    public String getDescription() {
-        return description;
-    }
+  public void setGame(Game game) {
+    this.game = game;
+  }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+  public String getTitle() {
+    return title;
+  }
 
-    public int getStars() {
-        return stars;
-    }
+  public void setTitle(String title) {
+    this.title = title;
+  }
 
-    public void setStars(int stars) {
-        this.stars = stars;
-    }
+  public String getDescription() {
+    return description;
+  }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-    public void setCreatedAt(LocalDateTime timestamp) {
-        this.createdAt = timestamp;
-    }
+  public int getStars() {
+    return stars;
+  }
 
-    @Override
-    public String toString() {
-        return "Review [user=" + user + ", game=" + game + ", title=" + title + ", description=" + description
-                + ", stars=" + stars + ", timestamp=" + createdAt + "]";
-    }
+  public void setStars(int stars) {
+    this.stars = stars;
+  }
 
-    
+  public LocalDateTime getCreatedAt() {
+    return createdAt;
+  }
+
+  public void setCreatedAt(LocalDateTime timestamp) {
+    this.createdAt = timestamp;
+  }
+
+  @Override
+  public String toString() {
+    return "Review [user=" + user + ", game=" + game + ", title=" + title + ", description=" + description
+            + ", stars=" + stars + ", timestamp=" + createdAt + "]";
+  }
+
+
 }

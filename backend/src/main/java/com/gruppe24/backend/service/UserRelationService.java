@@ -2,8 +2,6 @@ package com.gruppe24.backend.service;
 
 import com.gruppe24.backend.entity.Game;
 import com.gruppe24.backend.entity.GameList;
-import com.gruppe24.backend.exception.RelationNotFoundException;
-import com.gruppe24.backend.exception.ReviewNotFoundException;
 import com.gruppe24.backend.exception.UserNotFoundException;
 import com.gruppe24.backend.relation.HasGameList;
 import com.gruppe24.backend.relation.MadeGame;
@@ -35,9 +33,9 @@ import java.util.List;
  *   comprehensive account management and data cleanup.</li>
  * </ul>
  * <p>
- <p>Usage of this service is pivotal for ensuring that user engagement with game lists, game creation, and review
- processes is efficiently managed, safeguarded, and reflective of the dynamic interactions users have within
- the application's ecosystem.</p>
+ * <p>Usage of this service is pivotal for ensuring that user engagement with game lists, game creation, and review
+ * processes is efficiently managed, safeguarded, and reflective of the dynamic interactions users have within
+ * the application's ecosystem.</p>
  */
 @Service
 public class UserRelationService {

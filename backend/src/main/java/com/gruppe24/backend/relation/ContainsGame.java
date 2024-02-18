@@ -2,7 +2,6 @@ package com.gruppe24.backend.relation;
 
 import com.gruppe24.backend.entity.Game;
 import com.gruppe24.backend.entity.GameList;
-
 import com.gruppe24.backend.idclass.ContainsGameID;
 import jakarta.persistence.*;
 
@@ -16,32 +15,32 @@ import jakarta.persistence.*;
 @IdClass(ContainsGameID.class)
 public class ContainsGame {
 
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "GameId")
-    private Game game;
+  @Id
+  @ManyToOne
+  @JoinColumn(name = "GameId")
+  private Game game;
 
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "ListID")
-    private GameList gameList;
+  @Id
+  @ManyToOne
+  @JoinColumn(name = "ListID")
+  private GameList gameList;
 
-    public Game getGame() {
-        return game;
-    }
+  public Game getGame() {
+    return game;
+  }
 
-    public void setGame(Game game) {
-        this.game = game;
-    }
+  public void setGame(Game game) {
+    this.game = game;
+  }
 
-    public GameList getGameList() {
-        return gameList;
-    }
+  public GameList getGameList() {
+    return gameList;
+  }
 
-    public void setGameList(GameList gameList) {
-        this.gameList = gameList;
-    }
+  public void setGameList(GameList gameList) {
+    this.gameList = gameList;
+  }
 
-    // TODO: ADD TOSTRING
+  // TODO: ADD TOSTRING
 
 }

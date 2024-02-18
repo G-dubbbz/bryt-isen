@@ -7,7 +7,6 @@ import com.gruppe24.backend.exception.InvalidDtoException;
 import com.gruppe24.backend.repository.GameRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-import org.yaml.snakeyaml.events.Event.ID;
 
 import java.util.List;
 

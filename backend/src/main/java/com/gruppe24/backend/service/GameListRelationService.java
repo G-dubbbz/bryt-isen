@@ -10,7 +10,10 @@ import com.gruppe24.backend.exception.RelationNotFoundException;
 import com.gruppe24.backend.idclass.ContainsGameID;
 import com.gruppe24.backend.relation.ContainsGame;
 import com.gruppe24.backend.relation.HasGameList;
-import com.gruppe24.backend.repository.*;
+import com.gruppe24.backend.repository.ContainsGameRepository;
+import com.gruppe24.backend.repository.GameListRepository;
+import com.gruppe24.backend.repository.GameRepository;
+import com.gruppe24.backend.repository.HasGameListRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 

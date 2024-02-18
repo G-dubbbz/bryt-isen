@@ -67,7 +67,7 @@ public class GameListService {
   public GameList updateGameList(GameListDTO gameListDTO, Long ID) {
     GameList gameList = gameListRepository.findByID(ID).orElseThrow(ListNotFoundException::new);
     gameListDTO.getName().ifPresentOrElse(gameList::setName, GameNotFoundException::new);
-    return  gameListRepository.save(gameList);
+    return gameListRepository.save(gameList);
   }
 
   @Transactional

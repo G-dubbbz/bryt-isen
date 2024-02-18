@@ -12,7 +12,6 @@ import com.gruppe24.backend.repository.*;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -172,7 +171,7 @@ public class GameRelationService {
   public void addCategories(Long gameID, List<String> categories) {
     Game game = gameRepository.findByID(gameID).orElseThrow(GameNotFoundException::new);
     ArrayList<String> categoriesNotFound = new ArrayList<>();
-    for (String categoryName: categories) {
+    for (String categoryName : categories) {
       if (categoryRepository.findByName(categoryName).isEmpty()) {
         categoriesNotFound.add(categoryName);
         continue;

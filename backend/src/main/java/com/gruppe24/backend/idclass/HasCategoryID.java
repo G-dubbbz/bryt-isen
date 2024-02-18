@@ -27,45 +27,45 @@ import java.util.Objects;
  * </ul>
  */
 public class HasCategoryID implements Serializable {
-    
-    private Game game;
-    
-    private Category category;
 
-    public HasCategoryID() {
-    }
+  private Game game;
 
-    public HasCategoryID(Game game, Category category) {
-        this.game = game;
-        this.category = category;
-    }
+  private Category category;
 
-    public Game getGame() {
-        return game;
-    }
+  public HasCategoryID() {
+  }
 
-    public void setGame(Game game) {
-        this.game = game;
-    }
+  public HasCategoryID(Game game, Category category) {
+    this.game = game;
+    this.category = category;
+  }
 
-    public Category getCategory() {
-        return category;
-    }
+  public Game getGame() {
+    return game;
+  }
 
-    public void setCategory(Category category) {
-        this.category = category;
-    }
+  public void setGame(Game game) {
+    this.game = game;
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        HasCategoryID that = (HasCategoryID) o;
-        return Objects.equals(game, that.game) && Objects.equals(category, that.category);
-    }
+  public Category getCategory() {
+    return category;
+  }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(game, category);
-    }
+  public void setCategory(Category category) {
+    this.category = category;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    HasCategoryID that = (HasCategoryID) o;
+    return Objects.equals(game, that.game) && Objects.equals(category, that.category);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(game, category);
+  }
 }

@@ -1,13 +1,11 @@
 package com.gruppe24.backend.relation;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-
 import com.gruppe24.backend.entity.Game;
 import com.gruppe24.backend.entity.User;
-
 import com.gruppe24.backend.idclass.MadeGameID;
 import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
 
 
 /**
@@ -19,49 +17,49 @@ import jakarta.persistence.*;
 @Entity
 @IdClass(MadeGameID.class)
 public class MadeGame {
-    
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "UserName")
-    private User user;
 
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "GameID")
-    private Game game;
+  @Id
+  @ManyToOne
+  @JoinColumn(name = "UserName")
+  private User user;
 
-    private LocalDateTime createdAt;
+  @Id
+  @ManyToOne
+  @JoinColumn(name = "GameID")
+  private Game game;
 
-    public User getUser() {
-        return user;
-    }
+  private LocalDateTime createdAt;
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+  public User getUser() {
+    return user;
+  }
 
-    public Game getGame() {
-        return game;
-    }
+  public void setUser(User user) {
+    this.user = user;
+  }
 
-    public void setGame(Game game) {
-        this.game = game;
-    }
+  public Game getGame() {
+    return game;
+  }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
+  public void setGame(Game game) {
+    this.game = game;
+  }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
+  public LocalDateTime getCreatedAt() {
+    return createdAt;
+  }
 
-    @Override
-    public String toString() {
-        return "MadeGame{" +
-                "user=" + user +
-                ", game=" + game +
-                ", timestamp=" + createdAt +
-                '}';
-    }
+  public void setCreatedAt(LocalDateTime createdAt) {
+    this.createdAt = createdAt;
+  }
+
+  @Override
+  public String toString() {
+    return "MadeGame{" +
+            "user=" + user +
+            ", game=" + game +
+            ", timestamp=" + createdAt +
+            '}';
+  }
 }

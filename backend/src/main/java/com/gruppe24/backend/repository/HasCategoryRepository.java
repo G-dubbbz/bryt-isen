@@ -10,9 +10,9 @@ import java.util.Optional;
 
 @Repository
 public interface HasCategoryRepository extends JpaRepository<HasCategory, HasCategoryID> {
-    
-    Optional<List<HasCategory>> findByGame_ID(Long gameID);
 
-    Optional<List<HasCategory>> findByCategory_Name(String categoryName);
+  Optional<List<HasCategory>> findByGame_ID(Long gameID);
+
+  Optional<List<HasCategory>> findByCategory_Name(String categoryName);
 
 }

@@ -2,11 +2,10 @@ package com.gruppe24.backend.service;
 
 import com.gruppe24.backend.dto.UserDTO;
 import com.gruppe24.backend.entity.User;
+import com.gruppe24.backend.exception.InvalidDtoException;
 import com.gruppe24.backend.exception.UserExistsException;
 import com.gruppe24.backend.exception.UserNotFoundException;
-import com.gruppe24.backend.exception.InvalidDtoException;
 import com.gruppe24.backend.repository.UserRepository;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -96,7 +95,7 @@ public class UserService {
     User user = new User();
     user.setUserName(userDTO.getName().get());
     user.setEmail(userDTO.getEmail().get());
-    return  userRepository.save(user);
+    return userRepository.save(user);
   }
 
   /**

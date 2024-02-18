@@ -4,7 +4,6 @@ import com.gruppe24.backend.dto.GameDTO;
 import com.gruppe24.backend.dto.ReviewDTO;
 import com.gruppe24.backend.entity.Category;
 import com.gruppe24.backend.entity.Game;
-import com.gruppe24.backend.relation.Review;
 import com.gruppe24.backend.service.GameRelationService;
 import com.gruppe24.backend.service.GameService;
 import com.gruppe24.backend.service.SecurityService;
@@ -80,8 +79,8 @@ public class GameController {
 
   @PatchMapping("/{ID}/update")
   public ResponseEntity<String> updateGame(@PathVariable Long ID, @RequestBody GameDTO gameDTO) {
-      gameService.updateGame(gameDTO, ID);
-      return new ResponseEntity<>("Game successfully updated", HttpStatus.OK);
+    gameService.updateGame(gameDTO, ID);
+    return new ResponseEntity<>("Game successfully updated", HttpStatus.OK);
   }
 
   @DeleteMapping("/{ID}")

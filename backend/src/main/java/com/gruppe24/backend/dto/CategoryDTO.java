@@ -11,15 +11,15 @@ import java.util.Optional;
  */
 public class CategoryDTO {
 
-    // TODO: skal den være med selv om det er primærnøkkel?
-    private String name;
+  // TODO: skal den være med selv om det er primærnøkkel?
+  private String name;
 
-    public Optional<String> getName() {
-        return Optional.ofNullable(name);
-    }
+  public Optional<String> getName() {
+    return Optional.ofNullable(name);
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
 }

@@ -11,23 +11,23 @@ import java.util.Optional;
  */
 public class UserDTO {
 
-    // TODO: skal den være med selv om det er primærnøkkel?
-    private String name;
-    private String email;
+  // TODO: skal den være med selv om det er primærnøkkel?
+  private String name;
+  private String email;
 
-    public Optional<String> getName() {
-        return Optional.ofNullable(name);
-    }
+  public Optional<String> getName() {
+    return Optional.ofNullable(name);
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public Optional<String> getEmail() {
-        return Optional.ofNullable(email);
-    }
+  public Optional<String> getEmail() {
+    return Optional.ofNullable(email);
+  }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+  public void setEmail(String email) {
+    this.email = email;
+  }
 }

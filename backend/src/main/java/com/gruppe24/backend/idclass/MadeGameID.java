@@ -1,10 +1,10 @@
 package com.gruppe24.backend.idclass;
 
-import java.io.Serializable;
-import java.util.Objects;
-
 import com.gruppe24.backend.entity.Game;
 import com.gruppe24.backend.entity.User;
+
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * <strong>Composite key class for MadeGame entities.</strong>
@@ -40,47 +40,47 @@ import com.gruppe24.backend.entity.User;
  */
 public class MadeGameID implements Serializable {
 
-    private User user;
+  private User user;
 
-    private Game game;
+  private Game game;
 
-    public MadeGameID() {
-    }
+  public MadeGameID() {
+  }
 
-    public MadeGameID(User user, Game game) {
-        this.user = user;
-        this.game = game;
-    }
+  public MadeGameID(User user, Game game) {
+    this.user = user;
+    this.game = game;
+  }
 
-    public User getUser() {
-        return user;
-    }
+  public User getUser() {
+    return user;
+  }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+  public void setUser(User user) {
+    this.user = user;
+  }
 
-    public Game getGame() {
-        return game;
-    }
+  public Game getGame() {
+    return game;
+  }
 
-    public void setGame(Game game) {
-        this.game = game;
-    }
+  public void setGame(Game game) {
+    this.game = game;
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        MadeGameID madeGameID = (MadeGameID) o;
-        return Objects.equals(user, madeGameID.user) && Objects.equals(game, madeGameID.game);
-    }
+  @Override
+  public boolean equals(Object o) {
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
+    MadeGameID madeGameID = (MadeGameID) o;
+    return Objects.equals(user, madeGameID.user) && Objects.equals(game, madeGameID.game);
+  }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(user, game);
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hash(user, game);
+  }
 
 }

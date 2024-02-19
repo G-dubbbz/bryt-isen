@@ -32,7 +32,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> {
               auth.requestMatchers("/").permitAll();
               auth.requestMatchers("/registration").authenticated();
-              auth.anyRequest().authenticated();
+              auth.anyRequest().permitAll();
             })
             .oauth2Login(oauth2 -> oauth2.successHandler(new CustomAuthenticationSuccessHandler(userRepository)))
             .csrf(AbstractHttpConfigurer::disable)

@@ -1,7 +1,5 @@
 function AllGames() {
-  return(
-    <p>All Games.</p>
-  )
+  return <p>All Games.</p>;
 }
 
 export default AllGames;

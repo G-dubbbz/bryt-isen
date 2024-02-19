@@ -1,12 +1,12 @@
-import './App.css'
-import Header from './components/header/Header'
-import { Route, Routes } from 'react-router-dom'
-import TopGames from './pages/home/TopGames'
-import Favorites from './pages/home/Favorites'
-import AllGames from './pages/home/AllGames'
+import "./App.css";
+import Header from "./components/header/Header";
+import { Route, Routes } from "react-router-dom";
+import TopGames from "./pages/home/TopGames";
+import Favorites from "./pages/home/Favorites";
+import AllGames from "./pages/home/AllGames";
 
 function App() {
-  console.log(window.location)
+  console.log(window.location);
   return (
     <>
       <Header />
@@ -16,7 +16,7 @@ function App() {
         <Route path="/all" element={<AllGames />} />
       </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

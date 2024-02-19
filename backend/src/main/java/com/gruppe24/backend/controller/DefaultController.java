@@ -1,5 +1,6 @@
 package com.gruppe24.backend.controller;
 
+import com.gruppe24.backend.service.SecurityService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -34,6 +35,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class DefaultController {
 
+  private final SecurityService securityService;
+
+  public DefaultController(SecurityService securityService) {
+    this.securityService = securityService;
+  }
+
   @GetMapping("/")
   public ResponseEntity<String> index() {
     return new ResponseEntity<>("Welcome!", HttpStatus.OK);
@@ -51,7 +58,7 @@ public class DefaultController {
 
   @GetMapping("/secured")
   public ResponseEntity<String> secured(@AuthenticationPrincipal OAuth2User principal) {
-    String userName = principal.getAttribute("name");
+    String userName = securityService.getAuthenticatedUser().getUserName();
     return new ResponseEntity<>("Hello " + userName + "!", HttpStatus.ACCEPTED);
   }
 

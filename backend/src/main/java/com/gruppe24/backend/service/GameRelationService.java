@@ -168,6 +168,7 @@ public class GameRelationService {
     reviewRepository.delete(review);
   }
 
+  @Transactional
   public void addCategories(Long gameID, List<String> categories) {
     Game game = gameRepository.findByID(gameID).orElseThrow(GameNotFoundException::new);
     ArrayList<String> categoriesNotFound = new ArrayList<>();

@@ -26,47 +26,47 @@ import java.util.Objects;
  *   <li>Does not contain JPA annotations on fields as it serves as the ID class, not an entity.</li>
  *   <li>Requires both game list and game objects to be set for a valid composite key.</li>
  * </ul>
-*/
+ */
 public class ContainsGameID implements Serializable {
-    
-    private Game game;
-    
-    private GameList gameList;
 
-    public ContainsGameID() {
-    }
+  private Game game;
 
-    public ContainsGameID(Game game, GameList gameList) {
-        this.game = game;
-        this.gameList = gameList;
-    }
+  private GameList gameList;
 
-    public Game getGame() {
-        return game;
-    }
+  public ContainsGameID() {
+  }
 
-    public void setGame(Game game) {
-        this.game = game;
-    }
+  public ContainsGameID(Game game, GameList gameList) {
+    this.game = game;
+    this.gameList = gameList;
+  }
 
-    public GameList getGameList() {
-        return gameList;
-    }
+  public Game getGame() {
+    return game;
+  }
 
-    public void setGameList(GameList gameList) {
-        this.gameList = gameList;
-    }
+  public void setGame(Game game) {
+    this.game = game;
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ContainsGameID that = (ContainsGameID) o;
-        return Objects.equals(game, that.game) && Objects.equals(gameList, that.gameList);
-    }
+  public GameList getGameList() {
+    return gameList;
+  }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(game, gameList);
-    }
+  public void setGameList(GameList gameList) {
+    this.gameList = gameList;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    ContainsGameID that = (ContainsGameID) o;
+    return Objects.equals(game, that.game) && Objects.equals(gameList, that.gameList);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(game, gameList);
+  }
 }

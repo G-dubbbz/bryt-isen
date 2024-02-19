@@ -1,10 +1,10 @@
 package com.gruppe24.backend.idclass;
 
-import java.io.Serializable;
-import java.util.Objects;
-
 import com.gruppe24.backend.entity.GameList;
 import com.gruppe24.backend.entity.User;
+
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * <strong>Composite key class for MadeGame entities.</strong>
@@ -40,47 +40,47 @@ import com.gruppe24.backend.entity.User;
  */
 public class HasGameListID implements Serializable {
 
-    private User user;
+  private User user;
 
-    private GameList gameList;
+  private GameList gameList;
 
-    public HasGameListID() {
-    }
+  public HasGameListID() {
+  }
 
-    public HasGameListID(User user, GameList gameList) {
-        this.user = user;
-        this.gameList = gameList;
-    }
+  public HasGameListID(User user, GameList gameList) {
+    this.user = user;
+    this.gameList = gameList;
+  }
 
-    public User getUser() {
-        return user;
-    }
+  public User getUser() {
+    return user;
+  }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+  public void setUser(User user) {
+    this.user = user;
+  }
 
-    public GameList getGameList() {
-        return gameList;
-    }
+  public GameList getGameList() {
+    return gameList;
+  }
 
-    public void setGameList(GameList gameList) {
-        this.gameList = gameList;
-    }
-    
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        HasGameListID hasGameListID = (HasGameListID) o;
-        return Objects.equals(user, hasGameListID.user) && Objects.equals(gameList, hasGameListID.gameList);
-    }
+  public void setGameList(GameList gameList) {
+    this.gameList = gameList;
+  }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(user, gameList);
-    }
+  @Override
+  public boolean equals(Object o) {
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
+    HasGameListID hasGameListID = (HasGameListID) o;
+    return Objects.equals(user, hasGameListID.user) && Objects.equals(gameList, hasGameListID.gameList);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(user, gameList);
+  }
 
 }

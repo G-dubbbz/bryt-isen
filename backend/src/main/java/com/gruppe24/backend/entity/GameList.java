@@ -13,32 +13,32 @@ import jakarta.persistence.Id;
  */
 @Entity
 public class GameList {
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long ID;
 
-    private String name;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private long ID;
 
-    public long getID() {
-        return ID;
-    }
+  private String name;
 
-    public void setID(long iD) {
-        ID = iD;
-    }
+  public long getID() {
+    return ID;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public void setID(long iD) {
+    ID = iD;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    @Override
-    public String toString() {
-        return "GameList [ID=" + ID + ", name=" + name + "]";
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  @Override
+  public String toString() {
+    return "GameList [ID=" + ID + ", name=" + name + "]";
+  }
 
 }

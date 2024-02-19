@@ -2,7 +2,6 @@ package com.gruppe24.backend.relation;
 
 import com.gruppe24.backend.entity.Category;
 import com.gruppe24.backend.entity.Game;
-
 import com.gruppe24.backend.idclass.HasCategoryID;
 import jakarta.persistence.*;
 

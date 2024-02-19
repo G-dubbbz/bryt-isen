@@ -11,41 +11,41 @@ import jakarta.persistence.Id;
  */
 @Entity
 public class User {
-    
-    @Id
-    private String userName;
-    
-    private String email;
-    private boolean admin;
 
-    public String getUserName() {
-        return userName;
-    }
+  @Id
+  private String userName;
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+  private String email;
+  private boolean admin;
 
-    public String getEmail() {
-        return email;
-    }
+  public String getUserName() {
+    return userName;
+  }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+  public void setUserName(String userName) {
+    this.userName = userName;
+  }
 
-    public boolean isAdmin() {
-        return admin;
-    }
+  public String getEmail() {
+    return email;
+  }
 
-    public void setAdmin(boolean admin) {
-        this.admin = admin;
-    }
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
-    @Override
-    public String toString() {
-        return "User [userName=" + userName + ", email=" + email + ", admin=" + admin + "]";
-    }
-   
+  public boolean isAdmin() {
+    return admin;
+  }
+
+  public void setAdmin(boolean admin) {
+    this.admin = admin;
+  }
+
+  @Override
+  public String toString() {
+    return "User [userName=" + userName + ", email=" + email + ", admin=" + admin + "]";
+  }
+
 
 }

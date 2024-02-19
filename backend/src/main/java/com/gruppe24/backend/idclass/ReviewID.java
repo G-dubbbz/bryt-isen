@@ -2,6 +2,7 @@ package com.gruppe24.backend.idclass;
 
 import com.gruppe24.backend.entity.Game;
 import com.gruppe24.backend.entity.User;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -67,5 +68,5 @@ public class ReviewID implements Serializable {
   public int hashCode() {
     return Objects.hash(user, game);
   }
-  
+
 }

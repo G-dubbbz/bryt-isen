@@ -11,21 +11,21 @@ import jakarta.persistence.Id;
  */
 @Entity
 public class Category {
-    
-    @Id
-    private String name;
 
-    public String getName() {
-        return name;
-    }
+  @Id
+  private String name;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    @Override
-    public String toString() {
-        return "Category [name=" + name + "]";
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  @Override
+  public String toString() {
+    return "Category [name=" + name + "]";
+  }
 
 }

@@ -1,12 +1,11 @@
 package com.gruppe24.backend.relation;
 
-import java.security.Timestamp;
-
 import com.gruppe24.backend.entity.Game;
 import com.gruppe24.backend.entity.User;
-
 import com.gruppe24.backend.idclass.MadeGameID;
 import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
 
 
 /**
@@ -18,43 +17,49 @@ import jakarta.persistence.*;
 @Entity
 @IdClass(MadeGameID.class)
 public class MadeGame {
-    
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "UserName")
-    private User user;
 
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "GameID")
-    private Game game;
+  @Id
+  @ManyToOne
+  @JoinColumn(name = "UserName")
+  private User user;
 
-    private Timestamp timestamp;
+  @Id
+  @ManyToOne
+  @JoinColumn(name = "GameID")
+  private Game game;
 
-    public User getUser() {
-        return user;
-    }
+  private LocalDateTime createdAt;
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+  public User getUser() {
+    return user;
+  }
 
-    public Game getGame() {
-        return game;
-    }
+  public void setUser(User user) {
+    this.user = user;
+  }
 
-    public void setGame(Game game) {
-        this.game = game;
-    }
+  public Game getGame() {
+    return game;
+  }
 
-    public Timestamp getTimestamp() {
-        return timestamp;
-    }
+  public void setGame(Game game) {
+    this.game = game;
+  }
 
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp;
-    }
+  public LocalDateTime getCreatedAt() {
+    return createdAt;
+  }
 
-    // TODO: ADD TOSTRING
+  public void setCreatedAt(LocalDateTime createdAt) {
+    this.createdAt = createdAt;
+  }
 
+  @Override
+  public String toString() {
+    return "MadeGame{" +
+            "user=" + user +
+            ", game=" + game +
+            ", timestamp=" + createdAt +
+            '}';
+  }
 }

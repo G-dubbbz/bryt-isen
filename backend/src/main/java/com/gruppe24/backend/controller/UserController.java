@@ -1,10 +1,17 @@
 package com.gruppe24.backend.controller;
 
+import com.gruppe24.backend.entity.Game;
+import com.gruppe24.backend.entity.GameList;
 import com.gruppe24.backend.entity.User;
+import com.gruppe24.backend.relation.Review;
+import com.gruppe24.backend.service.SecurityService;
+import com.gruppe24.backend.service.UserRelationService;
 import com.gruppe24.backend.service.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -19,7 +26,8 @@ import java.util.List;
  * <ul>
  *  <strong>Responsibilities include:</strong>
  *  <li>Retrieving a list of all users from the database.</li>
- *  <li>(Future methods might include creating, updating, and deleting users, as well as authentication and authorization.)</li>
+ *  <li>(Future methods might include creating, updating, and deleting users, as well as
+ *  authentication and authorization.)</li>
  * </ul>
  *
  * <p> All responses are formatted as JSON, making it easy for clients to parse and use the data. This
@@ -29,26 +37,71 @@ import java.util.List;
  * <ul>
  * <strong>Usage:</strong>
  *   <li>GET /users: Retrieves a list of all users</li>
+ *   <li>GET /myProfile: Retrieves the logged in user</li>
+ *   <li>GET /myProfile/games: Retrieves the logged in users created games</li>
+ *   <li>GET /myProfile/lists: Retrieves the logged in users created game-lists</li>
+ *   <li>GET /myProfile/review: Retrieves the logged in users created reviews</li>
+ *
  * </ul>
  *
- * @version 1.0
+ * @version 1.2
  */
 @RestController
-@RequestMapping("/users")
 public class UserController {
 
   private final UserService userService;
+  private final UserRelationService userRelationService;
+  private final SecurityService securityService;
 
-  public UserController(UserService userService) {
+  public UserController(UserService userService,
+                        UserRelationService userRelationService,
+                        SecurityService securityService) {
     this.userService = userService;
+    this.userRelationService = userRelationService;
+    this.securityService = securityService;
   }
 
-  /**
-   * Retrieves a list of all user
-   * @return HTTP response <b>200 OK</b> list of {@link User} entities
-   */
-  @GetMapping
-  public ResponseEntity<?> readUsers() {
-    return ResponseEntity.ok(userService.readUsers());
+  @GetMapping("/users")
+  public ResponseEntity<List<User>> readUsers() {
+    return new ResponseEntity<>(userService.readUsers(), HttpStatus.OK);
   }
+
+  @GetMapping("/{username}")
+  public ResponseEntity<User> readUser(@PathVariable String username) {
+    return new ResponseEntity<>(userService.getUser(username), HttpStatus.OK);
+  }
+
+  @GetMapping("/myProfile")
+  public ResponseEntity<User> getUser() {
+    return new ResponseEntity<>(securityService.getAuthenticatedUser(), HttpStatus.OK);
+  }
+
+  @GetMapping("/myProfile/games")
+  public ResponseEntity<List<Game>> getUsersGames() {
+    return new ResponseEntity<>(userRelationService.getUsersMadeGame(securityService.getAuthenticatedUser()
+            .getUserName()), HttpStatus.OK);
+  }
+
+  @GetMapping("/myProfile/lists")
+  public ResponseEntity<List<GameList>> getUsersLists() {
+    return new ResponseEntity<>(userRelationService.getUsersLists(securityService.getAuthenticatedUser()
+            .getUserName()), HttpStatus.OK);
+  }
+
+  @GetMapping("/myProfile/reviews")
+  public ResponseEntity<List<Review>> getUsersReviews() {
+    return new ResponseEntity<>(userRelationService.getUsersReviews(securityService.
+            getAuthenticatedUser().getUserName()), HttpStatus.OK);
+  }
+
+  @DeleteMapping("/{username}")
+  public ResponseEntity<String> deleteUser(@PathVariable String username) {
+    if (securityService.isAdmin()) {
+      userRelationService.deleteUserRelations(username);
+      userService.deleteUser(username);
+      return new ResponseEntity<>("Successfully deleted user", HttpStatus.OK);
+    }
+    return new ResponseEntity<>("You dont have permission to delete user", HttpStatus.UNAUTHORIZED);
+  }
+
 }

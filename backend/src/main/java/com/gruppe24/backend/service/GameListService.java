@@ -1,6 +1,9 @@
 package com.gruppe24.backend.service;
 
+import com.gruppe24.backend.dto.GameListDTO;
 import com.gruppe24.backend.entity.GameList;
+import com.gruppe24.backend.exception.GameNotFoundException;
+import com.gruppe24.backend.exception.ListNotFoundException;
 import com.gruppe24.backend.repository.GameListRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -40,10 +43,35 @@ public class GameListService {
 
   /**
    * Retrieves all game lists from the repository.
+   *
    * @return A list of {@link GameList} entities.
    */
   @Transactional
   public List<GameList> readLists() {
     return gameListRepository.findAll();
+  }
+
+  @Transactional
+  public GameList getList(Long listID) {
+    return gameListRepository.findByID(listID).orElseThrow(ListNotFoundException::new);
+  }
+
+  @Transactional
+  public GameList createGameList(GameListDTO gameListDTO) {
+    GameList gameList = new GameList();
+    gameListDTO.getName().ifPresentOrElse(gameList::setName, GameNotFoundException::new);
+    return gameListRepository.save(gameList);
+  }
+
+  @Transactional
+  public GameList updateGameList(GameListDTO gameListDTO, Long ID) {
+    GameList gameList = gameListRepository.findByID(ID).orElseThrow(ListNotFoundException::new);
+    gameListDTO.getName().ifPresentOrElse(gameList::setName, GameNotFoundException::new);
+    return gameListRepository.save(gameList);
+  }
+
+  @Transactional
+  public void deleteGameList(Long ID) {
+    gameListRepository.delete(gameListRepository.findByID(ID).orElseThrow(ListNotFoundException::new));
   }
 }

@@ -2,7 +2,6 @@ package com.gruppe24.backend.relation;
 
 import com.gruppe24.backend.entity.GameList;
 import com.gruppe24.backend.entity.User;
-
 import com.gruppe24.backend.idclass.HasGameListID;
 import jakarta.persistence.*;
 
@@ -15,33 +14,33 @@ import jakarta.persistence.*;
 @Entity
 @IdClass(HasGameListID.class)
 public class HasGameList {
-    
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "UserName")
-    private User user;
-    
-    @Id
-    @OneToOne
-    @JoinColumn(name = "ListId")
-    private GameList gameList;
 
-    public User getUser() {
-        return user;
-    }
+  @Id
+  @ManyToOne
+  @JoinColumn(name = "UserName")
+  private User user;
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+  @Id
+  @OneToOne
+  @JoinColumn(name = "ListId")
+  private GameList gameList;
 
-    public GameList getGameList() {
-        return gameList;
-    }
+  public User getUser() {
+    return user;
+  }
 
-    public void setGameList(GameList gameList) {
-        this.gameList = gameList;
-    }
+  public void setUser(User user) {
+    this.user = user;
+  }
 
-    // TODO: ADD TOSTRING
+  public GameList getGameList() {
+    return gameList;
+  }
+
+  public void setGameList(GameList gameList) {
+    this.gameList = gameList;
+  }
+
+  // TODO: ADD TOSTRING
 
 }

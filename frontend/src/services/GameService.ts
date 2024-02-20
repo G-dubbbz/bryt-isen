@@ -6,7 +6,7 @@ async function getGames(): Promise<Array<Game>> {
     try {
         const response = await fetch(baseUrl + '/games');
         const data = await response.json();
-        var games: Array<Game> = [];
+        const games: Array<Game> = [];
         data.forEach((game: unknown) => {
             console.log(game);
             
@@ -20,7 +20,7 @@ async function getGames(): Promise<Array<Game>> {
     }
 }
 
-async function getMyGames(): Promise<any> {
+async function getMyGames(): Promise<Array<Game>> {
     try {
         const response = await fetch(baseUrl + '/users/myProfile/games');
         const data = await response.json();
@@ -31,7 +31,7 @@ async function getMyGames(): Promise<any> {
     }
 }
 
-async function getGamesFromList(id: string): Promise<any> {
+async function getGamesFromList(id: string): Promise<Array<Game>> {
     try {
         const response = await fetch(baseUrl + '/lists/' + id + '/games');
         const data = await response.json();
@@ -42,7 +42,7 @@ async function getGamesFromList(id: string): Promise<any> {
     }
 }
 
-async function getGame(id: string): Promise<any> {
+async function getGame(id: string): Promise<Game> {
     try {
         const response = await fetch(baseUrl + '/games/' + id);
         const data = await response.json();
@@ -53,7 +53,7 @@ async function getGame(id: string): Promise<any> {
     }
 }
 
-async function createGame(game: Game): Promise<any> {
+async function createGame(game: Game): Promise<void> {
     const headers: Headers = new Headers();
     headers.set('Content-Type', 'application/json');
     headers.set('Accept', 'application/json');
@@ -70,7 +70,7 @@ async function createGame(game: Game): Promise<any> {
     });
 }
 
-async function updateGame(game: Game): Promise<any> {
+async function updateGame(game: Game): Promise<void> {
     const headers: Headers = new Headers();
     headers.set('Content-Type', 'application/json');
     headers.set('Accept', 'application/json');
@@ -87,7 +87,7 @@ async function updateGame(game: Game): Promise<any> {
     });
 }
 
-async function deleteGame(id: string): Promise<any> {
+async function deleteGame(id: string): Promise<void> {
     const headers: Headers = new Headers();
     headers.set('Content-Type', 'application/json');
     headers.set('Accept', 'application/json');

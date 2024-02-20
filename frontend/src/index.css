@@ -46,14 +46,14 @@ body {
 }
 
 h1 {
-  font-size: 5rem;
+  font-size: 3rem;
   font-family: "Shrikhand", serif;
   line-height: 1.1;
   margin: 0;
 }
 
-.bold {
-  font-weight: 700;
+p {
+  font-weight: 500;
 }
 
 @media (prefers-color-scheme: light) {

@@ -13,7 +13,7 @@ async function getCategoriesFromGame(id: string): Promise<Array<Category>> {
     }
 }
 
-async function addCategoryToGame(gameId: string, categoryName: string): Promise<any> {
+async function addCategoryToGame(gameId: string, categoryName: string): Promise<void> {
     const headers: Headers = new Headers();
     headers.set('Content-Type', 'application/json');
     headers.set('Accept', 'application/json');

@@ -10,7 +10,7 @@ build_frontend:
     - cd frontend
     - npm install
     - npm run build
-    - npx eslint src/**/*.tsx
+    - npm run lint
     - cd ..
     - echo "Test successful."
 

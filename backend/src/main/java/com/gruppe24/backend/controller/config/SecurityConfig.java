@@ -13,7 +13,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import java.util.Arrays;
 import java.util.List;
 
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -24,19 +23,19 @@ public class SecurityConfig {
     this.userRepository = userRepository;
   }
 
-
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     return http
-            .cors(cors -> cors.configurationSource(request -> corsConfigurationSource()))
-            .authorizeHttpRequests(auth -> {
-              auth.requestMatchers("/").permitAll();
-              auth.requestMatchers("/registration").authenticated();
-              auth.anyRequest().permitAll();
-            })
-            .oauth2Login(oauth2 -> oauth2.successHandler(new CustomAuthenticationSuccessHandler(userRepository)))
-            .csrf(AbstractHttpConfigurer::disable)
-            .build();
+        .cors(cors -> cors.configurationSource(request -> corsConfigurationSource()))
+        .authorizeHttpRequests(auth -> {
+          auth.requestMatchers("/").permitAll();
+          auth.requestMatchers("/registration").authenticated();
+          auth.requestMatchers("/secured").authenticated();
+          auth.anyRequest().permitAll();
+        })
+        .oauth2Login(oauth2 -> oauth2.successHandler(new CustomAuthenticationSuccessHandler(userRepository)))
+        .csrf(AbstractHttpConfigurer::disable)
+        .build();
   }
 
   @Bean

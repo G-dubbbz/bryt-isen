@@ -1,24 +1,42 @@
+import Button from "../Button/Button";
 import "./Header.css";
-import { Link, useResolvedPath, useMatch } from "react-router-dom";
-import LightButton from "../LightButton/LightButton";
-
+import { Link, useResolvedPath, useMatch, useNavigate } from "react-router-dom";
 
 function Header() {
+  const navigate = useNavigate();
   return (
     <>
       <div className="header-row-1">
-        <LightButton />
-        <h1>Get2KnowU</h1>
+        <Button onClick={() => navigate("/create")}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="buttonIcon"
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            strokeWidth="1.5"
+            stroke="#ffffff"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+            <path d="M13.5 6.5l4 4" />
+          </svg>
+          <p>Create Game</p>
+        </Button>
+        <h1 id="title">Bryt Isen</h1>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="60"
           height="60"
           viewBox="0 0 24 24"
-          stroke-width="2"
+          strokeWidth="2"
           stroke="#ffffff"
           fill="none"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         >
           <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
           <path d="M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
@@ -26,9 +44,9 @@ function Header() {
         </svg>
       </div>
       <div className="header-links">
-        <CustomLink to="/">Top Games</CustomLink>
-        <CustomLink to="/favorites">Favorites</CustomLink>
-        <CustomLink to="/all">All Games</CustomLink>
+        <CustomLink to="/">Topplister</CustomLink>
+        <CustomLink to="/favorites">Favoritter</CustomLink>
+        <CustomLink to="/all">Alle leker</CustomLink>
       </div>
     </>
   );

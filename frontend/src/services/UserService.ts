@@ -2,7 +2,7 @@ import { User } from "./Models";
 
 const baseUrl = 'http://localhost:8080';
 
-async function registerUser(user: User): Promise<any> {
+async function registerUser(user: User): Promise<void> {
     const headers: Headers = new Headers();
     headers.set('Content-Type', 'application/json');
     headers.set('Accept', 'application/json');
@@ -23,7 +23,7 @@ async function getUsers(): Promise<Array<User>> {
     try {
         const response = await fetch(baseUrl + '/users');
         const data = await response.json();
-        var users: Array<User> = [];
+        const users: Array<User> = [];
         data.forEach((user: unknown) => {
             console.log(user);
             
@@ -37,7 +37,7 @@ async function getUsers(): Promise<Array<User>> {
     }
 }
 
-async function getUser(): Promise<any> {
+async function getUser(): Promise<User> {
     try {
         const response = await fetch(baseUrl + '/users/myProfile');
         const data = await response.json();
@@ -48,7 +48,7 @@ async function getUser(): Promise<any> {
     }
 }
 
-async function createUser(user: User): Promise<any> {
+async function createUser(user: User): Promise<void> {
     const headers: Headers = new Headers();
     headers.set('Content-Type', 'application/json');
     headers.set('Accept', 'application/json');
@@ -65,7 +65,7 @@ async function createUser(user: User): Promise<any> {
     });
 }
 
-async function deleteUser(username: string): Promise<any> {
+async function deleteUser(username: string): Promise<void> {
     const headers: Headers = new Headers();
     headers.set('Content-Type', 'application/json');
     headers.set('Accept', 'application/json');

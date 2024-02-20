@@ -6,7 +6,7 @@ async function getReviews(): Promise<Array<Review>> {
     try {
         const response = await fetch(baseUrl + '/reviews');
         const data = await response.json();
-        var reviews: Array<Review> = [];
+        const reviews: Array<Review> = [];
         data.forEach((review: unknown) => {
             console.log(review);
             
@@ -20,7 +20,7 @@ async function getReviews(): Promise<Array<Review>> {
     }
 }
 
-async function getMyReviews(): Promise<any> {
+async function getMyReviews(): Promise<Array<Review>> {
     try {
         const response = await fetch(baseUrl + '/users/myProfile/reviews');
         const data = await response.json();
@@ -31,7 +31,7 @@ async function getMyReviews(): Promise<any> {
     }
 }
 
-async function getReview(id: number): Promise<any> {
+async function getReview(id: number): Promise<Review> {
     try {
         const response = await fetch(baseUrl + '/reviews/' + id);
         const data = await response.json();
@@ -42,7 +42,7 @@ async function getReview(id: number): Promise<any> {
     }
 }
 
-async function createReview(review: Review): Promise<any> {
+async function createReview(review: Review): Promise<void> {
     const headers: Headers = new Headers();
     headers.set('Content-Type', 'application/json');
     headers.set('Accept', 'application/json');
@@ -59,7 +59,7 @@ async function createReview(review: Review): Promise<any> {
     });
 }
 
-async function deleteReview(gameID: number): Promise<any> {
+async function deleteReview(gameID: number): Promise<void> {
     const headers: Headers = new Headers();
     headers.set('Content-Type', 'application/json');
     headers.set('Accept', 'application/json');

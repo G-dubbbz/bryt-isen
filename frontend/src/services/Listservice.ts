@@ -6,7 +6,7 @@ async function getLists(): Promise<Array<List>> {
     try {
         const response = await fetch(baseUrl + '/lists');
         const data = await response.json();
-        var lists: Array<List> = [];
+        const lists: Array<List> = [];
         data.forEach((list: unknown) => {
             console.log(list);
             
@@ -20,7 +20,7 @@ async function getLists(): Promise<Array<List>> {
     }
 }
 
-async function getMyLists(): Promise<any> {
+async function getMyLists(): Promise<Array<List>> {
     try {
         const response = await fetch(baseUrl + '/users/myProfile/lists');
         const data = await response.json();
@@ -31,7 +31,7 @@ async function getMyLists(): Promise<any> {
     }
 }
 
-async function getList(id: number): Promise<any> {
+async function getList(id: number): Promise<List> {
     try {
         const response = await fetch(baseUrl + '/lists/' + id);
         const data = await response.json();
@@ -42,7 +42,7 @@ async function getList(id: number): Promise<any> {
     }
 }
 
-async function createList(list: List): Promise<any> {
+async function createList(list: List): Promise<void> {
     const headers: Headers = new Headers();
     headers.set('Content-Type', 'application/json');
     headers.set('Accept', 'application/json');
@@ -59,7 +59,7 @@ async function createList(list: List): Promise<any> {
     });
 }
 
-async function updateList(list: List): Promise<any> {
+async function updateList(list: List): Promise<void> {
     const headers: Headers = new Headers();
     headers.set('Content-Type', 'application/json');
     headers.set('Accept', 'application/json');
@@ -76,7 +76,7 @@ async function updateList(list: List): Promise<any> {
     });
 }
 
-async function deleteList(id: number): Promise<any> {
+async function deleteList(id: number): Promise<void> {
     const headers: Headers = new Headers();
     headers.set('Content-Type', 'application/json');
     headers.set('Accept', 'application/json');
@@ -92,7 +92,7 @@ async function deleteList(id: number): Promise<any> {
     });
 }
 
-async function addGameToList(listId: number, gameId: number): Promise<any> {
+async function addGameToList(listId: number, gameId: number): Promise<void> {
     const headers: Headers = new Headers();
     headers.set('Content-Type', 'application/json');
     headers.set('Accept', 'application/json');
@@ -108,7 +108,7 @@ async function addGameToList(listId: number, gameId: number): Promise<any> {
     });
 }
 
-async function removeGameFromList(listId: number, gameId: number): Promise<any> {
+async function removeGameFromList(listId: number, gameId: number): Promise<void> {
     const headers: Headers = new Headers();
     headers.set('Content-Type', 'application/json');
     headers.set('Accept', 'application/json');

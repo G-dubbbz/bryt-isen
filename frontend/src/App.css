@@ -2,6 +2,16 @@
   max-width: 1280px;
   width: 100%;
   margin: 0 auto;
-  padding: 2.5rem;
   text-align: center;
+}
+
+footer {
+  margin: 5rem 1rem 8rem 1rem;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.700);
+}
+
+hr {
+  margin: 2rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.500);
 }

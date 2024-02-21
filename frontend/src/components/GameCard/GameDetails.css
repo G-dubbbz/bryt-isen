@@ -1,0 +1,41 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc; /* Add a thin border */
+  }
+
+  .heading {
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+  .description {
+    margin-top: 10px;
+    font-size: 16px;
+  }
+
+  .info {
+    margin-top: 20px;
+  }
+
+  .info p {
+    margin: 5px 0;
+    font-size: 14px;
+  }
+
+  .info p .label {
+    font-weight: bold;
+    display: inline-block; /* Make the label a block-level element */
+    padding-top: 10px;
+  }
+
+  .info p span {
+    display: block;
+  }
+
+  .loading {
+    font-size: 18px;
+    text-align: center;
+    margin-top: 50px;
+  }

@@ -2,10 +2,13 @@ export interface Game {
     id?: number;
     name?: string;
     description?: string;
-    players?: number;
+    rules?: string;
+    emoji?: string;
+    players_min?: number;
+    players_max?: number;
     rating?: number;
-    duration?: number;
-    category?: number;
+    duration_min?: number;
+    duration_max?: number;
     reviewCount?: number;
     reportCount?: number;
 }

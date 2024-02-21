@@ -29,11 +29,17 @@ public class SecurityService {
       throw new RuntimeException("No authenticated user found");
     }
 
+    log.info("Authentication: " + String.valueOf(authentication));
+    log.info("Principal: " + authentication.getPrincipal());
+    log.info("Principal class: " + authentication.getPrincipal().getClass());
+
     String email;
     if (authentication.getPrincipal() instanceof OAuth2User oAuth2User) {
       email = oAuth2User.getAttribute("email");
     } else if (authentication.getPrincipal() instanceof UserDetails userDetails) {
       email = userDetails.getUsername();
+    } else if (authentication.getPrincipal() instanceof String) {
+      email = (String) authentication.getPrincipal();
     } else {
       email = null;
     }

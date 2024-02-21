@@ -2,9 +2,16 @@ import { Review } from "./Models";
 
 const baseUrl = 'http://localhost:8080';
 
+const headers: Headers = new Headers();
+headers.set('Content-Type', 'application/json');
+headers.set('Accept', 'application/json');
+const token = sessionStorage.getItem('token');
+headers.set('Authorization', 'Bearer ' + token);
+console.log("token: " + token);
+
 async function getReviews(): Promise<Array<Review>> {
     try {
-        const response = await fetch(baseUrl + '/reviews');
+        const response = await fetch(baseUrl + '/reviews', {headers: headers});
         const data = await response.json();
         const reviews: Array<Review> = [];
         data.forEach((review: unknown) => {
@@ -22,7 +29,7 @@ async function getReviews(): Promise<Array<Review>> {
 
 async function getMyReviews(): Promise<Array<Review>> {
     try {
-        const response = await fetch(baseUrl + '/users/myProfile/reviews');
+        const response = await fetch(baseUrl + '/users/myProfile/reviews', {headers: headers});
         const data = await response.json();
         return data;
     } catch (error) {
@@ -33,7 +40,7 @@ async function getMyReviews(): Promise<Array<Review>> {
 
 async function getReview(id: number): Promise<Review> {
     try {
-        const response = await fetch(baseUrl + '/reviews/' + id);
+        const response = await fetch(baseUrl + '/reviews/' + id, {headers: headers});
         const data = await response.json();
         return data;
     } catch (error) {
@@ -43,10 +50,6 @@ async function getReview(id: number): Promise<Review> {
 }
 
 async function createReview(review: Review): Promise<void> {
-    const headers: Headers = new Headers();
-    headers.set('Content-Type', 'application/json');
-    headers.set('Accept', 'application/json');
-
     const request: RequestInfo = new Request(baseUrl + '/reviews/create', {
         method: 'POST',
         headers: headers,
@@ -60,10 +63,6 @@ async function createReview(review: Review): Promise<void> {
 }
 
 async function deleteReview(gameID: number): Promise<void> {
-    const headers: Headers = new Headers();
-    headers.set('Content-Type', 'application/json');
-    headers.set('Accept', 'application/json');
-
     const request: RequestInfo = new Request(baseUrl + '/reviews/' + gameID, {
         method: 'DELETE',
         headers: headers,

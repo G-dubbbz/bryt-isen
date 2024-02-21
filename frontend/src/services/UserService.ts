@@ -2,11 +2,14 @@ import { User } from "./Models";
 
 const baseUrl = 'http://localhost:8080';
 
-async function registerUser(user: User): Promise<void> {
-    const headers: Headers = new Headers();
-    headers.set('Content-Type', 'application/json');
-    headers.set('Accept', 'application/json');
+const headers: Headers = new Headers();
+headers.set('Content-Type', 'application/json');
+headers.set('Accept', 'application/json');
+const token = sessionStorage.getItem('token');
+headers.set('Authorization', 'Bearer ' + token);
+console.log("token: " + token);
 
+async function registerUser(user: User): Promise<void> {
     const request: RequestInfo = new Request(baseUrl + '/register', {
         method: 'POST',
         headers: headers,
@@ -21,7 +24,7 @@ async function registerUser(user: User): Promise<void> {
 
 async function getUsers(): Promise<Array<User>> {
     try {
-        const response = await fetch(baseUrl + '/users');
+        const response = await fetch(baseUrl + '/users', {headers: headers});
         const data = await response.json();
         const users: Array<User> = [];
         data.forEach((user: unknown) => {
@@ -39,7 +42,7 @@ async function getUsers(): Promise<Array<User>> {
 
 async function getUser(): Promise<User> {
     try {
-        const response = await fetch(baseUrl + '/users/myProfile');
+        const response = await fetch(baseUrl + '/users/myProfile', {headers: headers});
         const data = await response.json();
         return data;
     } catch (error) {
@@ -49,10 +52,6 @@ async function getUser(): Promise<User> {
 }
 
 async function createUser(user: User): Promise<void> {
-    const headers: Headers = new Headers();
-    headers.set('Content-Type', 'application/json');
-    headers.set('Accept', 'application/json');
-
     const request: RequestInfo = new Request(baseUrl + '/users/create', {
         method: 'POST',
         headers: headers,
@@ -66,10 +65,6 @@ async function createUser(user: User): Promise<void> {
 }
 
 async function deleteUser(username: string): Promise<void> {
-    const headers: Headers = new Headers();
-    headers.set('Content-Type', 'application/json');
-    headers.set('Accept', 'application/json');
-
     const request: RequestInfo = new Request(baseUrl + '/users/' + username, {
         method: 'DELETE',
         headers: headers

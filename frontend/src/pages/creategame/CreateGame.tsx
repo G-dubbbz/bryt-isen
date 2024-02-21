@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./CreateGame.css";
 import { createGame } from "../../services/GameService";
+import { Game } from "../../services/Models";
 
 function CreateGame() {
   const emojis = [
@@ -165,9 +166,16 @@ function CreateGame() {
 
   const handleSubmit = (e: React.MouseEvent) => {
     e.preventDefault();
-    const time = Number(gameMaxH) - Number(gameMinH);
-    const players = Number(gameMaxPlayer) - Number(gameMinPlayer);
-    const game = {name: gameName, description: gameDescription, duration: time, players: players};
+    const game: Game = {
+      name: gameName,
+      description: gameDescription,
+      rules: gameRules,
+      emoji: emoji,
+      duration_min: parseInt(gameMinH),
+      duration_max: parseInt(gameMaxH),
+      players_min: parseInt(gameMinPlayer),
+      players_max: parseInt(gameMaxPlayer)
+    };
     createGame(game);
     leave();
   };

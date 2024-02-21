@@ -15,7 +15,7 @@ build_frontend:
     - echo "Test successful."
 
 build_backend:
-  stage: test
+  stage: build
   image: maven:latest
   script:
     - echo "Testing backend..."
@@ -26,7 +26,7 @@ build_backend:
 test_backend:
   stage: test
   image: maven:latest
-  needs: ["build_backend"]
+  needs: [build_backend]
   script:
     - cd backend
     - mvn test

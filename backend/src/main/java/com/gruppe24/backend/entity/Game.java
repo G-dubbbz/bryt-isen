@@ -1,9 +1,6 @@
 package com.gruppe24.backend.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 /**
  * Represents a game entity in the database.
@@ -19,20 +16,25 @@ public class Game {
   private long ID;
 
   private String name;
+  @Column(columnDefinition = "TEXT")
   private String description;
-  private int players;
-  private int duration;
+  @Column(columnDefinition = "TEXT")
+  private String rules;
+  private int players_min;
+  private int players_max;
+  private int duration_min;
+  private int duration_max;
+  private String emoji;
   private float rating;
   private int reviewCount;
   private int reportCount;
-  private int category;
 
   public long getID() {
     return ID;
   }
 
-  public void setID(long iD) {
-    ID = iD;
+  public void setID(long ID) {
+    this.ID = ID;
   }
 
   public String getName() {
@@ -51,20 +53,52 @@ public class Game {
     this.description = description;
   }
 
-  public int getPlayers() {
-    return players;
+  public String getRules() {
+    return rules;
   }
 
-  public void setPlayers(int players) {
-    this.players = players;
+  public void setRules(String rules) {
+    this.rules = rules;
   }
 
-  public int getDuration() {
-    return duration;
+  public int getPlayers_min() {
+    return players_min;
   }
 
-  public void setDuration(int duration) {
-    this.duration = duration;
+  public void setPlayers_min(int players_min) {
+    this.players_min = players_min;
+  }
+
+  public int getPlayers_max() {
+    return players_max;
+  }
+
+  public void setPlayers_max(int players_max) {
+    this.players_max = players_max;
+  }
+
+  public int getDuration_min() {
+    return duration_min;
+  }
+
+  public void setDuration_min(int duration_min) {
+    this.duration_min = duration_min;
+  }
+
+  public int getDuration_max() {
+    return duration_max;
+  }
+
+  public void setDuration_max(int duration_max) {
+    this.duration_max = duration_max;
+  }
+
+  public String getEmoji() {
+    return emoji;
+  }
+
+  public void setEmoji(String emoji) {
+    this.emoji = emoji;
   }
 
   public float getRating() {
@@ -91,19 +125,21 @@ public class Game {
     this.reportCount = reportCount;
   }
 
-  public int getCategory() {
-    return category;
-  }
-
-  public void setCategory(int category) {
-    this.category = category;
-  }
-
   @Override
   public String toString() {
-    return "Game [ID=" + ID + ", name=" + name + ", description=" + description + ", players=" + players
-            + ", duration=" + duration + ", rating=" + rating + ", reviewCount=" + reviewCount + ", reportCount="
-            + reportCount + ", category=" + category + "]";
+    return "Game{" +
+            "ID=" + ID +
+            ", name='" + name + '\'' +
+            ", description='" + description + '\'' +
+            ", rules='" + rules + '\'' +
+            ", players_min=" + players_min +
+            ", players_max=" + players_max +
+            ", duration_min=" + duration_min +
+            ", duration_max=" + duration_max +
+            ", emoji='" + emoji + '\'' +
+            ", rating=" + rating +
+            ", reviewCount=" + reviewCount +
+            ", reportCount=" + reportCount +
+            '}';
   }
-
 }

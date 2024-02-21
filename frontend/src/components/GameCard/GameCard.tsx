@@ -2,6 +2,7 @@ import { useNavigate } from "react-router";
 import "./GameCard.css";
 
 export interface GameCardProps {
+  key: number;
   emoji: string;
   name: string;
 }

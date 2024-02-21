@@ -51,10 +51,13 @@ public class GameService {
   public Game createGame(GameDTO gameDTO) {
     Game game = new Game();
     gameDTO.getName().ifPresentOrElse(game::setName, InvalidDtoException::new);
-    gameDTO.getCategory().ifPresentOrElse(game::setCategory, InvalidDtoException::new);
     gameDTO.getDescription().ifPresentOrElse(game::setDescription, InvalidDtoException::new);
-    gameDTO.getDuration().ifPresentOrElse(game::setDuration, InvalidDtoException::new);
-    gameDTO.getPlayers().ifPresentOrElse(game::setPlayers, InvalidDtoException::new);
+    gameDTO.getRules().ifPresentOrElse(game::setRules, InvalidDtoException::new);
+    gameDTO.getEmoji().ifPresentOrElse(game::setEmoji, InvalidDtoException::new);
+    gameDTO.getDuration_max().ifPresentOrElse(game::setDuration_max, InvalidDtoException::new);
+    gameDTO.getDuration_min().ifPresentOrElse(game::setDuration_min, InvalidDtoException::new);
+    gameDTO.getPlayers_max().ifPresentOrElse(game::setPlayers_max, InvalidDtoException::new);
+    gameDTO.getPlayers_min().ifPresentOrElse(game::setPlayers_min, InvalidDtoException::new);
     return gameRepository.save(game);
   }
 
@@ -67,10 +70,13 @@ public class GameService {
   public void updateGame(GameDTO gameDTO, Long ID) {
     Game game = gameRepository.findByID(ID).orElseThrow(GameNotFoundException::new);
     gameDTO.getName().ifPresent(game::setName);
-    gameDTO.getCategory().ifPresent(game::setCategory);
     gameDTO.getDescription().ifPresent(game::setDescription);
-    gameDTO.getDuration().ifPresent(game::setDuration);
-    gameDTO.getPlayers().ifPresent(game::setPlayers);
+    gameDTO.getRules().ifPresent(game::setRules);
+    gameDTO.getEmoji().ifPresent(game::setEmoji);
+    gameDTO.getDuration_min().ifPresent(game::setDuration_min);
+    gameDTO.getDuration_max().ifPresent(game::setDuration_max);
+    gameDTO.getPlayers_min().ifPresent(game::setPlayers_min);
+    gameDTO.getPlayers_max().ifPresent(game::setPlayers_max);
     gameRepository.save(game);
   }
 

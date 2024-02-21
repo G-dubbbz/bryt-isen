@@ -2,9 +2,16 @@ import { Category } from "./Models";
 
 const baseUrl = 'http://localhost:8080';
 
+const headers: Headers = new Headers();
+headers.set('Content-Type', 'application/json');
+headers.set('Accept', 'application/json');
+const token = sessionStorage.getItem('token');
+headers.set('Authorization', 'Bearer ' + token);
+console.log("token: " + token);
+
 async function getCategoriesFromGame(id: string): Promise<Array<Category>> {
     try {
-        const response = await fetch(baseUrl + '/games/' + id + '/categories');
+        const response = await fetch(baseUrl + '/games/' + id + '/categories', {headers: headers});
         const data = await response.json();
         return data;
     } catch (error) {
@@ -14,10 +21,6 @@ async function getCategoriesFromGame(id: string): Promise<Array<Category>> {
 }
 
 async function addCategoryToGame(gameId: string, categoryName: string): Promise<void> {
-    const headers: Headers = new Headers();
-    headers.set('Content-Type', 'application/json');
-    headers.set('Accept', 'application/json');
-
     const request: RequestInfo = new Request(baseUrl + '/games/' + gameId + '/categories/' + categoryName, {
         method: 'POST',
         headers: headers

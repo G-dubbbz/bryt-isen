@@ -12,9 +12,12 @@ public class GameDTO {
 
   private String name;
   private String description;
-  private int players;
-  private int duration;
-  private int category;
+  private String rules;
+  private String emoji;
+  private int players_min;
+  private int players_max;
+  private int duration_min;
+  private int duration_max;
 
   public Optional<String> getName() {
     return Optional.ofNullable(name);
@@ -32,28 +35,53 @@ public class GameDTO {
     this.description = description;
   }
 
-  public Optional<Integer> getPlayers() {
-    return Optional.ofNullable(players);
+  public Optional<String> getRules() {
+    return Optional.ofNullable(rules);
   }
 
-  public void setPlayers(int players) {
-    this.players = players;
+  public void setRules(String rules) {
+    this.rules = rules;
   }
 
-  public Optional<Integer> getDuration() {
-    return Optional.ofNullable(duration);
+  public Optional<String> getEmoji() {
+    return Optional.ofNullable(emoji);
   }
 
-  public void setDuration(int duration) {
-    this.duration = duration;
+  public void setEmoji(String emoji) {
+    this.emoji = emoji;
   }
 
-  public Optional<Integer> getCategory() {
-    return Optional.ofNullable(category);
+  public Optional<Integer> getPlayers_max() {
+    return Optional.of(players_max);
   }
 
-  public void setCategory(int category) {
-    this.category = category;
+  public void setPlayers_max(int players) {
+    this.players_max = players;
   }
+
+  public Optional<Integer> getPlayers_min() {
+    return Optional.of(players_min);
+  }
+
+  public void setPlayers_min(int players) {
+    this.players_min = players;
+  }
+
+  public Optional<Integer> getDuration_max() {
+    return Optional.of(duration_max);
+  }
+
+  public void setDuration_max(int duration) {
+    this.duration_max = duration;
+  }
+
+  public Optional<Integer> getDuration_min() {
+    return Optional.of(duration_min);
+  }
+
+  public void setDuration_min(int duration) {
+    this.duration_min = duration;
+  }
+
 
 }

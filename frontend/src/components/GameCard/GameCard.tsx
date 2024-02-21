@@ -7,7 +7,7 @@ export interface GameCardProps {
 }
 
 export default function GameCard(props: GameCardProps) {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const leave = () => {
     navigate("/"); {/* //TODO: Should navigate to the game description */}
   };

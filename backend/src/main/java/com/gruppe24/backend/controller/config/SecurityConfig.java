@@ -32,7 +32,7 @@ public class SecurityConfig {
             .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .cors(cors -> cors.configurationSource(request -> corsConfigurationSource()))
             .authorizeHttpRequests(auth -> {
-              auth.requestMatchers("/", "/games", "/error").permitAll();
+              auth.requestMatchers("/", "/error").permitAll();
               auth.requestMatchers("/registration").authenticated();
               auth.anyRequest().authenticated();
             })

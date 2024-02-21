@@ -1,10 +1,14 @@
 package com.gruppe24.backend.controller;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.gruppe24.backend.dto.UserDTO;
 import com.gruppe24.backend.entity.User;
 import com.gruppe24.backend.repository.UserRepository;
 import com.gruppe24.backend.service.SecurityService;
 import com.gruppe24.backend.service.UserService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -13,7 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -51,6 +57,8 @@ public class RegisterController {
   private final UserService userService;
 
   private final SecurityService securityService;
+  private static final long EXPIRATION_TIME = 900_000;
+  private static final String SECRET = "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";
 
   private static final Logger log = LoggerFactory.getLogger(GameController.class);
 
@@ -61,17 +69,15 @@ public class RegisterController {
   }
 
   @PostMapping
-  public ResponseEntity<Map<String, String>> registerUserAccount(@RequestBody UserDTO userDto) {
+  public ResponseEntity<String> registerUserAccount(@RequestBody UserDTO userDto, HttpServletResponse response) {
     log.info(userDto.toString());
     String username = userDto.getName().orElseThrow(IllegalArgumentException::new);
     if (userRepository.findById(username).isPresent()) {
-      return ResponseEntity.badRequest()
-              .body(Map.of("error", "There is already an account registered with that username"));
+      throw new RuntimeException("user exists");
     }
-    userDto.setEmail(securityService.getAuthenticatedUser().getEmail());
+    userDto.setEmail(securityService.getAuthenticatedEmail());
     userService.createUser(userDto);
-    return ResponseEntity
-            .status(HttpStatus.SEE_OTHER).header("Location", "/secured")
-            .body(Map.of("redirectUrl", "/secured"));
+
+   return new ResponseEntity<>("Successfully registered new user", HttpStatus.CREATED);
   }
 }

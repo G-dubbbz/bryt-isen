@@ -24,6 +24,19 @@ public class SecurityService {
   }
 
   public User getAuthenticatedUser() throws RuntimeException {
+    String email = getAuthenticatedEmail();
+
+    log.info("Email:" + email);
+
+    if (email == null) {
+      throw new RuntimeException("User email not found in authentication");
+    }
+
+    return userRepository.findByEmail(email)
+            .orElseThrow(() -> new UserNotFoundException("Could not find user with email: " + email));
+  }
+
+  public String getAuthenticatedEmail()  throws RuntimeException {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     if (authentication == null || !authentication.isAuthenticated() || (authentication instanceof AnonymousAuthenticationToken)) {
       throw new RuntimeException("No authenticated user found");
@@ -44,14 +57,7 @@ public class SecurityService {
       email = null;
     }
 
-    log.info("Email:" + email);
-
-    if (email == null) {
-      throw new RuntimeException("User email not found in authentication");
-    }
-
-    return userRepository.findByEmail(email)
-            .orElseThrow(() -> new UserNotFoundException("Could not find user with email: " + email));
+    return email;
   }
 
   public boolean isAdmin() {

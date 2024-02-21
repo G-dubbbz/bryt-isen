@@ -3,6 +3,7 @@ package com.gruppe24.backend.controller;
 import com.gruppe24.backend.dto.UserDTO;
 import com.gruppe24.backend.entity.User;
 import com.gruppe24.backend.repository.UserRepository;
+import com.gruppe24.backend.service.SecurityService;
 import com.gruppe24.backend.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,11 +50,14 @@ public class RegisterController {
   private final UserRepository userRepository;
   private final UserService userService;
 
+  private final SecurityService securityService;
+
   private static final Logger log = LoggerFactory.getLogger(GameController.class);
 
-  public RegisterController(UserRepository userRepository, UserService userService) {
+  public RegisterController(UserRepository userRepository, UserService userService, SecurityService securityService) {
     this.userRepository = userRepository;
     this.userService = userService;
+    this.securityService = securityService;
   }
 
   @PostMapping
@@ -64,6 +68,7 @@ public class RegisterController {
       return ResponseEntity.badRequest()
               .body(Map.of("error", "There is already an account registered with that username"));
     }
+    userDto.setEmail(securityService.getAuthenticatedUser().getEmail());
     userService.createUser(userDto);
     return ResponseEntity
             .status(HttpStatus.SEE_OTHER).header("Location", "/secured")

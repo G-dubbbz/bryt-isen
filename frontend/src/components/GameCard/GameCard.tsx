@@ -6,7 +6,7 @@ export interface GameCardProps {
   key: number;
   emoji: string;
   name: string;
-  id: number; // Add id prop
+  id?: number; // Add id prop
   players: number;
 }
 

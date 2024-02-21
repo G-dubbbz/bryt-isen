@@ -23,7 +23,7 @@ const AllGames: React.FC = () => {
   return (
     <div>
       <div className="game-grid">{games.map(game => (
-        <GameCard emoji={game.emoji !== undefined ? game.emoji : "🧪"} name={game.name !== undefined ? game.name : 'Default'} key={game.id !== undefined ? game.id : 0} id={1} players={1} />
+        <GameCard emoji={game.emoji ?? "🧪"} name={game.name ?? 'Default'} key={game.id ?? 0} id={game.id} players={1} />
       ))}</div>
     </div>
   );

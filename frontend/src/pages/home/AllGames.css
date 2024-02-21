@@ -1,0 +1,18 @@
+.game-grid {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 2rem;
+}
+
+.game-tile {
+  background-color: lightblue;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.game-tile h2 {
+  margin: 0;
+}

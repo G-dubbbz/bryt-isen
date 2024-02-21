@@ -6,6 +6,7 @@ import TopGames from './pages/home/TopGames'
 import Favorites from './pages/home/Favorites'
 import AllGames from './pages/home/AllGames'
 import CreateGame from './pages/creategame/CreateGame'
+import GameDetails from './components/GameCard/GameDetails'
 import UserForm from "./components/UserForm/UserForm";
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import Login from './components/LogIn/Login'
@@ -23,6 +24,7 @@ function App() {
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/all" element={<AllGames />} />
         <Route path="/create" element={<CreateGame />} />
+        <Route path="/game/:id" element={<GameDetails />} />
         <Route path="/register" element={<UserForm />} />
         <Route path="/login" element={<Login />} />
         <Route path="/login/success" element={<LoginSuccess />} />

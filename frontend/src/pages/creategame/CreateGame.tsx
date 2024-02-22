@@ -161,7 +161,8 @@ function CreateGame() {
 
   const navigate = useNavigate();
   const leave = () => {
-    navigate("/all");
+    // Wait a bit before navigating to allow the backend to update
+    setTimeout(() => navigate("/all"), 1500);
   };
 
   const handleSubmit = (e: React.MouseEvent) => {
@@ -174,7 +175,7 @@ function CreateGame() {
       duration_min: parseInt(gameMinH),
       duration_max: parseInt(gameMaxH),
       players_min: parseInt(gameMinPlayer),
-      players_max: parseInt(gameMaxPlayer)
+      players_max: parseInt(gameMaxPlayer),
     };
     createGame(game);
     leave();

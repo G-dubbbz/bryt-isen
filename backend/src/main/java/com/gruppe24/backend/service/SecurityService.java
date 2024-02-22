@@ -25,7 +25,6 @@ public class SecurityService {
 
   public User getAuthenticatedUser() throws RuntimeException {
     String email = getAuthenticatedEmail();
-
     log.info("Email:" + email);
 
     if (email == null) {

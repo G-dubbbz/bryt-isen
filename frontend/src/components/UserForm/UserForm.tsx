@@ -40,7 +40,7 @@ const UserForm: React.FC = () => {
     console.log(username);
 
     try {
-        const user : User = { name: username }
+        const user : User = { userName: username }
         registerUser(user);
         leave();
     } catch (error) {

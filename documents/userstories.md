@@ -21,29 +21,29 @@ This section contains user stories intended to unravel the needs of the applicat
 
 > "As a user, I want to post my own games on the platform, including layout, rules, descriptions, and other attributes, so that i can play games not yet found on the site"
 
-## Queue Functionality (User Story 5)
-
-> "As a user, I want to create queues of games and share them with others, so that i can facilitate organized gaming sessions."
-
-## Favorite Games (Playlist Feature) (User Story 6)
+## Favorite Games (Playlist Feature) (User Story 5)
 
 > "As a user, I want to create and manage playlists for my favorite games, including a default 'liked' list, and share them with others for a personalized gaming experience."
 
-## Game Filtering (User Story 7)
-
-> "As a user, I want to sort games by different attributes such as number of likes or times played, so that i can easily discover new content."
-
-## Rating and Reviewing Games (User Story 8)
+## Rating and Reviewing Games (User Story 6)
 
 > "As a user, I want to rate and review games on the platform, so that i can provide feedback to the community and help others make informed decisions."
 
-## Overview of Own Reviews (User Story 9)
-
-> "As a user, I want to access an overview of my own reviews, so that i can track my contributions and feedback on games."
-
-## Search Functionality (User Story 10)
+## Search Functionality (User Story 7)
 
 > "As a user, I want to search for games by their name, so that i can easily access specific titles."
+
+## Game Filtering (User Story 8)
+
+> "As a user, I want to sort games by different attributes such as number of likes or times played, so that i can easily discover new content."
+
+## Queue Functionality (User Story 9)
+
+> "As a user, I want to create queues of games and share them with others, so that i can facilitate organized gaming sessions."
+
+## Overview of Own Reviews (User Story 10)
+
+> "As a user, I want to access an overview of my own reviews, so that i can track my contributions and feedback on games."
 
 ## Reporting Games and Reviews (User Story 11)
 

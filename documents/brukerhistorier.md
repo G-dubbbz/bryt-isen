@@ -21,29 +21,29 @@ Denne seksjonen inneholder brukerhistorier ment å avdekke behovene til applikas
 
 > "Som en bruker, ønsker jeg å publisere mine egne spill på plattformen, inkludert oppsett, regler, beskrivelser og andre attributter, slik at jeg kan spille spill som ennå ikke er funnet på nettstedet."
 
-## Køfunksjonalitet (Brukerhistorie 5)
-
-> "Som en bruker, ønsker jeg å opprette køer med spill og dele dem med andre, slik at jeg kan legge til rette for organiserte spilløkter."
-
-## Favorittspill (Spilleliste-funksjon) (Brukerhistorie 6)
+## Favorittspill (Spilleliste-funksjon) (Brukerhistorie 5)
 
 > "Som en bruker, ønsker jeg å opprette og administrere spillelister for mine favorittspill, inkludert en standard 'likte' liste, og dele dem med andre for en personlig spillopplevelse."
 
-## Filtrering av Spill (Brukerhistorie 7)
-
-> "Som en bruker, vil jeg sortere spill etter forskjellige attributter som antall likerklikk eller antall ganger spilt, slik at jeg enkelt kan oppdage nytt innhold."
-
-## Vurdering og Anmeldelse av Spill (Brukerhistorie 8)
+## Vurdering og Anmeldelse av Spill (Brukerhistorie 6)
 
 > "Som en bruker, ønsker jeg å vurdere og anmelde spill på plattformen, slik at jeg kan gi tilbakemelding til fellesskapet og hjelpe andre med å ta informerte beslutninger."
 
-## Oversikt over Egne Anmeldelser (Brukerhistorie 9)
-
-> "Som en bruker, ønsker jeg å få tilgang til en oversikt over mine egne anmeldelser, slik at jeg kan følge mine bidrag og tilbakemeldinger om spill."
-
-## Søkefunksjonalitet (Brukerhistorie 10)
+## Søkefunksjonalitet (Brukerhistorie 7)
 
 > "Som en bruker, vil jeg søke etter spill etter navn, slik at jeg enkelt kan få tilgang til spesifikke titler."
+
+## Filtrering av Spill (Brukerhistorie 8)
+
+> "Som en bruker, vil jeg sortere spill etter forskjellige attributter som antall likerklikk eller antall ganger spilt, slik at jeg enkelt kan oppdage nytt innhold."
+
+## Køfunksjonalitet (Brukerhistorie 9)
+
+> "Som en bruker, ønsker jeg å opprette køer med spill og dele dem med andre, slik at jeg kan legge til rette for organiserte spilløkter."
+
+## Oversikt over Egne Anmeldelser (Brukerhistorie 10)
+
+> "Som en bruker, ønsker jeg å få tilgang til en oversikt over mine egne anmeldelser, slik at jeg kan følge mine bidrag og tilbakemeldinger om spill."
 
 ## Rapportering av Spill og Anmeldelser (Brukerhistorie 11)
 

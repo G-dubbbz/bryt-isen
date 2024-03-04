@@ -89,11 +89,11 @@ public class UserService {
    */
   @Transactional
   public User createUser(UserDTO userDTO) {
-    if (userDTO.getName().isEmpty() || userDTO.getEmail().isEmpty()) {
+    if (userDTO.getUserName().isEmpty() || userDTO.getEmail().isEmpty()) {
       throw new InvalidDtoException();
     }
     User user = new User();
-    user.setUserName(userDTO.getName().get());
+    user.setUserName(userDTO.getUserName().get());
     user.setEmail(userDTO.getEmail().get());
     return userRepository.save(user);
   }
@@ -105,13 +105,13 @@ public class UserService {
    */
   @Transactional
   public void updateUser(User user, UserDTO userDTO) {
-    String newName = userDTO.getName().orElseThrow(InvalidDtoException::new);
+    String newName = userDTO.getUserName().orElseThrow(InvalidDtoException::new);
 
     if (userRepository.findById(newName).isPresent()) {
       throw new UserExistsException("Username is taken");
     }
 
-    userDTO.getName().ifPresent(user::setUserName);
+    userDTO.getUserName().ifPresent(user::setUserName);
     userRepository.save(user);
   }
 

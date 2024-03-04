@@ -15,11 +15,11 @@ public class UserDTO {
   private String name;
   private String email;
 
-  public Optional<String> getName() {
+  public Optional<String> getUserName() {
     return Optional.ofNullable(name);
   }
 
-  public void setName(String name) {
+  public void setUserName(String name) {
     this.name = name;
   }
 
@@ -29,5 +29,13 @@ public class UserDTO {
 
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  @Override
+  public String toString() {
+    return "UserDTO{" +
+            "name='" + name + '\'' +
+            ", email='" + email + '\'' +
+            '}';
   }
 }

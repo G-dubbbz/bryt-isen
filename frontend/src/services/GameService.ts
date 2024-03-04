@@ -2,16 +2,18 @@ import { Game } from "./Models";
 
 const baseUrl = 'http://localhost:8080';
 
-const headers: Headers = new Headers();
-headers.set('Content-Type', 'application/json');
-headers.set('Accept', 'application/json');
-const token = sessionStorage.getItem('token');
-headers.set('Authorization', 'Bearer ' + token);
-console.log("token: " + token);
+function getHeaders() {
+    const headers: Headers = new Headers();
+    headers.set('Content-Type', 'application/json');
+    headers.set('Accept', 'application/json');
+    const token = sessionStorage.getItem('token');
+    headers.set('Authorization', 'Bearer ' + token);
+    return headers;
+}
 
 async function getGames(): Promise<Array<Game>> {
     try {
-        const response = await fetch(baseUrl + '/games', {headers: headers});
+        const response = await fetch(baseUrl + '/games', {headers: getHeaders()});
         const data = await response.json();
         const games: Array<Game> = [];
         data.forEach((game: unknown) => {
@@ -27,7 +29,7 @@ async function getGames(): Promise<Array<Game>> {
 
 async function getMyGames(): Promise<Array<Game>> {
     try {
-        const response = await fetch(baseUrl + '/users/myProfile/games', {headers: headers});
+        const response = await fetch(baseUrl + '/users/myProfile/games', {headers: getHeaders()});
         const data = await response.json();
         return data;
     } catch (error) {
@@ -38,7 +40,7 @@ async function getMyGames(): Promise<Array<Game>> {
 
 async function getGamesFromList(id: string): Promise<Array<Game>> {
     try {
-        const response = await fetch(baseUrl + '/lists/' + id + '/games', {headers: headers});
+        const response = await fetch(baseUrl + '/lists/' + id + '/games', {headers: getHeaders()});
         const data = await response.json();
         return data;
     } catch (error) {
@@ -49,7 +51,7 @@ async function getGamesFromList(id: string): Promise<Array<Game>> {
 
 async function getGame(id: string): Promise<Game> {
     try {
-        const response = await fetch(baseUrl + '/games/' + id, {headers: headers});
+        const response = await fetch(baseUrl + '/games/' + id, {headers: getHeaders()});
         const data = await response.json();
         return data;
     } catch (error) {
@@ -61,7 +63,7 @@ async function getGame(id: string): Promise<Game> {
 async function createGame(game: Game): Promise<void> {
     const request: RequestInfo = new Request(baseUrl + '/games/create', {
         method: 'POST',
-        headers: headers,
+        headers: getHeaders(),
         body: JSON.stringify(game)
     });
 
@@ -74,7 +76,7 @@ async function createGame(game: Game): Promise<void> {
 async function updateGame(game: Game): Promise<void> {
     const request: RequestInfo = new Request(baseUrl + '/games/update', {
         method: 'PATCH',
-        headers: headers,
+        headers: getHeaders(),
         body: JSON.stringify(game)
     });
 
@@ -87,7 +89,7 @@ async function updateGame(game: Game): Promise<void> {
 async function deleteGame(id: string): Promise<void> {
     const request: RequestInfo = new Request(baseUrl + '/games/delete/' + id, {
         method: 'DELETE',
-        headers: headers
+        headers: getHeaders()
     });
 
     return fetch(request)

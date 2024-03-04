@@ -16,6 +16,7 @@ const UserForm: React.FC = () => {
             console.log('tokenFromUrl', tokenFromUrl);
             sessionStorage.setItem('token', tokenFromUrl);
             window.history.replaceState({}, document.title, window.location.pathname);
+            window.location.reload();
         }
   });
   
@@ -41,8 +42,14 @@ const UserForm: React.FC = () => {
 
     try {
         const user : User = { userName: username }
-        registerUser(user);
-        leave();
+        const response = await registerUser(user);
+        if (response.status === 201) {
+            leave();
+        } else if (response.status === 409) {
+            console.error("Brukernanvet allerede i bruk");
+        } else {
+            console.error("Feil ved registrering av bruker");
+        }
     } catch (error) {
       console.error("Det oppstod en feil ved henting av brukernavn:", error);
       // Implementer feilhåndtering, f.eks. vise en feilmelding til brukeren

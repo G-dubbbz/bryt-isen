@@ -1,13 +1,11 @@
 package com.gruppe24.backend.controller;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import com.gruppe24.backend.dto.UserDTO;
 import com.gruppe24.backend.entity.User;
+import com.gruppe24.backend.exception.InvalidDtoException;
 import com.gruppe24.backend.repository.UserRepository;
 import com.gruppe24.backend.service.SecurityService;
 import com.gruppe24.backend.service.UserService;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,10 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.view.RedirectView;
-
-import java.util.Date;
-import java.util.Map;
 
 /**
  * <strong>Register Controller</strong>
@@ -70,10 +64,9 @@ public class RegisterController {
 
   @PostMapping
   public ResponseEntity<String> registerUserAccount(@RequestBody UserDTO userDto, HttpServletResponse response) {
-    log.info(userDto.toString());
-    String username = userDto.getName().orElseThrow(IllegalArgumentException::new);
+    String username = userDto.getUserName().orElseThrow(InvalidDtoException::new);
     if (userRepository.findById(username).isPresent()) {
-      throw new RuntimeException("user exists");
+      return new ResponseEntity<>("Username already taken", HttpStatus.CONFLICT);
     }
     userDto.setEmail(securityService.getAuthenticatedEmail());
     userService.createUser(userDto);

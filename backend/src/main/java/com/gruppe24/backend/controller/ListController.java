@@ -15,31 +15,45 @@ import java.util.List;
 /**
  * <strong>Game List Controller</strong>
  *
- * <p>This controller provides API endpoints for managing {@link GameList} entities. It serves as the interface
- * between the front-end and the service layer, handling web requests to perform CRUD (Create, Read, Update, Delete) operations
- * on game list data.</p>
+ * <p>
+ * This controller provides API endpoints for managing {@link GameList}
+ * entities. It serves as the interface
+ * between the front-end and the service layer, handling web requests to perform
+ * CRUD (Create, Read, Update, Delete) operations
+ * on game list data.
+ * </p>
  *
  * <strong>Responsibilities include:</strong>
  * <ul>
- *   <li>Retrieving a list of all game lists from the database.</li>
- *   <li>Creating new game lists.</li>
- *   <li>Updating existing game lists.</li>
- *   <li>Deleting game lists.</li>
- *   <li>Adding games to and removing games from lists.</li>
+ * <li>Retrieving a list of all game lists from the database.</li>
+ * <li>Creating new game lists.</li>
+ * <li>Updating existing game lists.</li>
+ * <li>Deleting game lists.</li>
+ * <li>Adding games to and removing games from lists.</li>
  * </ul>
  *
- * <p>All responses are formatted as JSON, making it easy for clients to parse and use the data. This
- * controller works closely with the {@link GameListService} and {@link GameListRelationService} to delegate business logic operations, ensuring
- * that the controller remains focused on web-related tasks.</p>
+ * <p>
+ * All responses are formatted as JSON, making it easy for clients to parse and
+ * use the data. This
+ * controller works closely with the {@link GameListService} and
+ * {@link GameListRelationService} to delegate business logic operations,
+ * ensuring
+ * that the controller remains focused on web-related tasks.
+ * </p>
  *
  * <strong>Usage:</strong>
  * <ul>
- *   <li><code>GET /lists</code>: Retrieves a list of all game lists.</li>
- *   <li><code>POST /lists/create</code>: Creates a new game list. (Consider changing to <code>POST /lists</code> for RESTful conventions)</li>
- *   <li><code>PATCH /lists/{ID}</code>: Updates an existing game list identified by <code>ID</code>.</li>
- *   <li><code>DELETE /lists/{ID}</code>: Deletes an existing game list identified by <code>ID</code>.</li>
- *   <li><code>POST /lists/{ID}/{gameID}</code>: Adds a game identified by <code>gameID</code> to a list identified by <code>ID</code>.</li>
- *   <li><code>DELETE /lists/{ID}/{gameID}</code>: Removes a game identified by <code>gameID</code> from a list identified by <code>ID</code>.</li>
+ * <li><code>GET /lists</code>: Retrieves a list of all game lists.</li>
+ * <li><code>POST /lists/create</code>: Creates a new game list. (Consider
+ * changing to <code>POST /lists</code> for RESTful conventions)</li>
+ * <li><code>PATCH /lists/{ID}</code>: Updates an existing game list identified
+ * by <code>ID</code>.</li>
+ * <li><code>DELETE /lists/{ID}</code>: Deletes an existing game list identified
+ * by <code>ID</code>.</li>
+ * <li><code>POST /lists/{ID}/{gameID}</code>: Adds a game identified by
+ * <code>gameID</code> to a list identified by <code>ID</code>.</li>
+ * <li><code>DELETE /lists/{ID}/{gameID}</code>: Removes a game identified by
+ * <code>gameID</code> from a list identified by <code>ID</code>.</li>
  * </ul>
  *
  * @version 1.2
@@ -52,7 +66,8 @@ public class ListController {
   private final GameListRelationService gameListRelationService;
   private final SecurityService securityService;
 
-  public ListController(GameListService gameListService, GameListRelationService gameListRelationService, SecurityService securityService) {
+  public ListController(GameListService gameListService, GameListRelationService gameListRelationService,
+      SecurityService securityService) {
     this.gameListService = gameListService;
     this.gameListRelationService = gameListRelationService;
     this.securityService = securityService;
@@ -114,5 +129,9 @@ public class ListController {
     return new ResponseEntity<>("Game successfully removed from list", HttpStatus.OK);
   }
 
+  @PostMapping("/create/permanent")
+  public ResponseEntity<GameList> createPermanentGameList() {
+    GameList list = gameListService.createPermanentGameList();
+    return new ResponseEntity<>(list, HttpStatus.CREATED);
+  }
 }
-

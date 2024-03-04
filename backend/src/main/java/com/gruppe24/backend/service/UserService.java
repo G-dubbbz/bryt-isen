@@ -1,6 +1,8 @@
 package com.gruppe24.backend.service;
 
 import com.gruppe24.backend.dto.UserDTO;
+import com.gruppe24.backend.entity.GameList;
+import com.gruppe24.backend.service.GameListService;
 import com.gruppe24.backend.entity.User;
 import com.gruppe24.backend.exception.InvalidDtoException;
 import com.gruppe24.backend.exception.UserExistsException;
@@ -99,7 +101,8 @@ public class UserService {
   }
 
   /**
-   * Updates the attributes of a user with information from the {@link UserDTO} entity.
+   * Updates the attributes of a user with information from the {@link UserDTO}
+   * entity.
    *
    * @throws UserExistsException when given username is already in use
    */

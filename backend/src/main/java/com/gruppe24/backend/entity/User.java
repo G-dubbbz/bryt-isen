@@ -12,10 +12,11 @@ import jakarta.persistence.Id;
 @Entity
 public class User {
 
+  private String email;
+
   @Id
   private String userName;
 
-  private String email;
   private boolean admin;
 
   public String getUserName() {

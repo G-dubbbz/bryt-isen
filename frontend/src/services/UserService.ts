@@ -2,29 +2,28 @@ import { User } from "./Models";
 
 const baseUrl = 'http://localhost:8080';
 
-const headers: Headers = new Headers();
-headers.set('Content-Type', 'application/json');
-headers.set('Accept', 'application/json');
-const token = sessionStorage.getItem('token');
-headers.set('Authorization', 'Bearer ' + token);
-console.log("token: " + token);
+function getHeaders() {
+    const headers: Headers = new Headers();
+    headers.set('Content-Type', 'application/json');
+    headers.set('Accept', 'application/json');
+    const token = sessionStorage.getItem('token');
+    headers.set('Authorization', 'Bearer ' + token);
+    return headers;
+}
 
-async function registerUser(user: User): Promise<void> {
+async function registerUser(user: User): Promise<Response> {
     const request: RequestInfo = new Request(baseUrl + '/register', {
         method: 'POST',
-        headers: headers,
+        headers: getHeaders(),
         body: JSON.stringify(user)
     });
 
-    return fetch(request)
-    .then(res => {
-      console.log("got response:", res)
-    });
+    return fetch(request);
 }
 
 async function getUsers(): Promise<Array<User>> {
     try {
-        const response = await fetch(baseUrl + '/users', {headers: headers});
+        const response = await fetch(baseUrl + '/users', {headers: getHeaders()});
         const data = await response.json();
         const users: Array<User> = [];
         data.forEach((user: unknown) => {
@@ -42,7 +41,7 @@ async function getUsers(): Promise<Array<User>> {
 
 async function getUser(): Promise<User> {
     try {
-        const response = await fetch(baseUrl + '/users/myProfile', {headers: headers});
+        const response = await fetch(baseUrl + '/users/myProfile', {headers: getHeaders()});
         const data = await response.json();
         return data;
     } catch (error) {
@@ -51,10 +50,20 @@ async function getUser(): Promise<User> {
     }
 }
 
+async function isLoggedIn(): Promise<boolean> {
+    const request: RequestInfo = new Request(baseUrl + '/users/isLoggedIn', {
+        method: 'GET',
+        headers: getHeaders()
+    });
+    const response = await fetch(request);
+    const data = await response.json();
+    return data;
+}
+
 async function createUser(user: User): Promise<void> {
     const request: RequestInfo = new Request(baseUrl + '/users/create', {
         method: 'POST',
-        headers: headers,
+        headers: getHeaders(),
         body: JSON.stringify(user)
     });
 
@@ -67,7 +76,7 @@ async function createUser(user: User): Promise<void> {
 async function deleteUser(username: string): Promise<void> {
     const request: RequestInfo = new Request(baseUrl + '/users/' + username, {
         method: 'DELETE',
-        headers: headers
+        headers: getHeaders()
     });
 
     return fetch(request)
@@ -78,4 +87,4 @@ async function deleteUser(username: string): Promise<void> {
 
 
 
-export { registerUser, getUsers, getUser, createUser, deleteUser };
+export { registerUser, getUsers, getUser, isLoggedIn, createUser, deleteUser };

@@ -75,8 +75,17 @@ public class UserController {
 
   @GetMapping("/myProfile")
   public ResponseEntity<User> getUser() {
-    log.info("------------------ getting user");
     return new ResponseEntity<>(securityService.getAuthenticatedUser(), HttpStatus.OK);
+  }
+
+  @GetMapping("/isLoggedIn")
+  public ResponseEntity<Boolean> isLoggedIn() {
+    try {
+      securityService.getAuthenticatedUser();
+      return new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
+    } catch (RuntimeException e) {
+      return new ResponseEntity<>(Boolean.FALSE, HttpStatus.OK);
+    }
   }
 
   @GetMapping("/myProfile/games")

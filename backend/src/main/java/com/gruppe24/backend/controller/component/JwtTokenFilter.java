@@ -33,8 +33,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         JWTVerifier verifier = JWT.require(algorithm).build();
         DecodedJWT jwt = verifier.verify(token);
 
-        log.info("Cookie: " + Arrays.toString(request.getCookies()));
-
         String email = jwt.getSubject();
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 email, null, null
@@ -45,8 +43,10 @@ public class JwtTokenFilter extends OncePerRequestFilter {
       } catch (JWTVerificationException e) {
         SecurityContextHolder.clearContext();
       }
-      filterChain.doFilter(request, response);
+
     }
+    filterChain.doFilter(request, response);
+
   }
 
 }

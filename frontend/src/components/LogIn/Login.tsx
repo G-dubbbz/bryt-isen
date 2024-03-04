@@ -1,8 +1,7 @@
 import { useEffect } from "react";
 import Button from "../Button/Button";
 import "./Login.css";
-import { getUser } from "../../services/UserService";
-import { User } from "../../services/Models";
+import { isLoggedIn } from "../../services/UserService";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -10,16 +9,9 @@ const Login = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const user: User = await getUser();
-        console.log(user);
-        if (user !== null) {
-          if (
-            user.userName !== null &&
-            user.userName !== undefined &&
-            user.userName !== ""
-          ) {
-            navigate("/welcome");
-          }
+        const loggedIn = await isLoggedIn();
+        if (loggedIn) {
+          navigate("/welcome");
         }
       } catch (error) {
         console.error("Error fetching user:", error);

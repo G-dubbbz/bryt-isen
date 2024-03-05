@@ -1,0 +1,25 @@
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+}
+
+.search-input {
+    padding: 10px 15px; /* Adjust the padding to match your button */
+    font-size: 16px; /* Adjust font size as needed */
+    border-radius: 20px; /* This gives the rounded corners, adjust as needed */
+    border: none; /* No border by default, but add one if your button has it */
+    outline: none; /* Removes the blue outline */
+    width: 250px; /* Adjust the width as needed */
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2); /* Adds an inset shadow for depth */
+    background-color: #7c7b8a; /* The color of your button */
+    color: white; /* Text color */
+}
+
+.search-input::placeholder {
+    color: white; /* Placeholder text color */
+}
+
+.search-input:focus {
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.4); /* Darker shadow for focus */
+}

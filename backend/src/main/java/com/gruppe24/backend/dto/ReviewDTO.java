@@ -5,18 +5,9 @@ import java.util.Optional;
 
 public class ReviewDTO {
 
-  private String title;
   private String description;
   private int stars;
   private LocalDateTime createdAt;
-
-  public Optional<String> getTitle() {
-    return Optional.ofNullable(title);
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
-  }
 
   public Optional<String> getDescription() {
     return Optional.ofNullable(description);
@@ -41,4 +32,5 @@ public class ReviewDTO {
   public void setCreatedAt(LocalDateTime createdAt) {
     this.createdAt = createdAt;
   }
+
 }

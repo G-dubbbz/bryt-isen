@@ -1,11 +1,12 @@
 .reviewDiv {
-    border: 1px solid rgb(255, 255, 255);
+    border: 1px solid #ccc;
     border-radius: 2rem;
     padding: 10px;
     margin: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: left;
     position: relative; /* Add relative positioning */
+    padding-bottom: 1.8rem;
 }
 
 .reviewDiv > * {
@@ -35,11 +36,14 @@
     right: 0.6rem;
     background: none;
     border: none;
-    margin-top: 1rem;
     margin-left: 1rem;
 }
 
 .reviewDiv > div > button > svg {
     margin-top: 0.6rem;
     margin-left: 0.4rem;
+}
+
+.stars > span > .svgStar {
+    margin: 0.2rem;
 }

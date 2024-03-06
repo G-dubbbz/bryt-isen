@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import StarRating from "../StarRating/Star";
 import { Link } from "react-router-dom";
-import { createReview } from "../../services/GameService"; // Import the createReview function
+import { createReview } from "../../services/ReviewService"; // Import the createReview function
 
 function GameReview() {
   const { id } = useParams<{ id?: string }>(); // Define id as optional

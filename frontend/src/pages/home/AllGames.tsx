@@ -4,6 +4,7 @@ import { getGames } from "../../services/GameService";
 import { Game } from "../../services/Models";
 import GameCard from "../../components/GameCard/GameCard";
 import Search from "../../components/Search/Search";
+import Filter from "../../components/Filter/Filter";
 
 const AllGames: React.FC = () => {
   const [games, setGames] = useState<Array<Game>>([]);
@@ -32,8 +33,9 @@ const AllGames: React.FC = () => {
 
   return (
     <div id="parent">
-      <div id="narrow" className="search-and-grid">
+      <div id="narrow" className="search-and-filter">
         <Search onSearch={handleSearch} />
+        <Filter />
       </div>
       <div id="wide" className="game-grid">
         {filteredGames.map((game) => (

@@ -52,6 +52,15 @@ const GameDetails: React.FC = () => {
     fetchGameDetails();
   }, [id]);
 
+  // La oss regne ut average rating, fordi det er gøy
+  useEffect(() => {
+    if (reviews.length > 0) {
+      const averageRating =
+        reviews.reduce((sum, review) => sum + (review.stars ?? 0), 0) / reviews.length;
+      setGame((prevGame) => prevGame && { ...prevGame, rating: averageRating });
+    }
+  }, [reviews]);
+
   if (!game) {
     return <div className="loading">Loading...</div>;
   }

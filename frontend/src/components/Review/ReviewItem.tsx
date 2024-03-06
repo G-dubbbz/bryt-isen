@@ -11,7 +11,6 @@ const ReviewItem: React.FC<ReviewItemProps> = ({ review }) => {
       <h3>{review.title}</h3>
       <p>{review.description}</p>
       <p>Rating: {review.stars}</p>
-      {/* Add more details as needed */}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { Game, Review } from "./Models";
+import { Game } from "./Models";
 
 const baseUrl = 'http://localhost:8080';
 

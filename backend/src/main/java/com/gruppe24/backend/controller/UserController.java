@@ -1,5 +1,6 @@
 package com.gruppe24.backend.controller;
 
+import com.gruppe24.backend.dto.ReviewDTO;
 import com.gruppe24.backend.entity.Game;
 import com.gruppe24.backend.entity.GameList;
 import com.gruppe24.backend.entity.User;
@@ -114,6 +115,12 @@ public class UserController {
   public ResponseEntity<List<Review>> getUsersReviews() {
     return new ResponseEntity<>(
         userRelationService.getUsersReviews(securityService.getAuthenticatedUser().getUserName()), HttpStatus.OK);
+  }
+
+  @DeleteMapping("/myProfile/reviews/{gameID}")
+  public ResponseEntity<String> deleteReview(@PathVariable Long gameID) {
+    userRelationService.deleteReview(securityService.getAuthenticatedUser(), gameID);
+    return new ResponseEntity<>("Successfully deleted review", HttpStatus.OK);
   }
 
   @DeleteMapping("/{username}")

@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getGame } from '../../services/GameService';
 import { Game } from '../../services/Models';
 import './GameDetails.css';
+import { getReview } from '../../services/ReviewService';
 
 interface GameCardProps {
   emoji: string;

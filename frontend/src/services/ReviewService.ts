@@ -16,7 +16,7 @@ async function getReviews(): Promise<Array<Review>> {
         const reviews: Array<Review> = [];
         data.forEach((review: unknown) => {
             console.log(review);
-            
+
             const parsedReview = review as Review;
             reviews.push(parsedReview);
         });
@@ -49,19 +49,24 @@ async function getReview(id: number): Promise<Review> {
     }
 }
 
-async function createReview(review: Review): Promise<void> {
-    const request: RequestInfo = new Request(baseUrl + '/reviews/create', {
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify(review)
-    });
+async function createReview(id: string, review: Review): Promise<Response> {
+    try {
+            const request: RequestInfo = new Request(baseUrl + '/games/' + id + '/reviews', {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify(review)
+            });
 
-    return fetch(request)
-    .then(res => {
-      console.log("got response:", res)
-    });
+            const response = await fetch(request);
+
+
+            console.log("Review submitted successfully");
+            return response;
+    } catch (error) {
+        console.error("Error creating review:", error);
+        throw error;
+    }
 }
-
 async function deleteReview(gameID: number): Promise<void> {
     const request: RequestInfo = new Request(baseUrl + '/reviews/' + gameID, {
         method: 'DELETE',

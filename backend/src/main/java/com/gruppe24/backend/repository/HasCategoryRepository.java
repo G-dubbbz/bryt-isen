@@ -1,5 +1,6 @@
 package com.gruppe24.backend.repository;
 
+import com.gruppe24.backend.entity.Game;
 import com.gruppe24.backend.idclass.HasCategoryID;
 import com.gruppe24.backend.relation.HasCategory;
 import org.springframework.data.jpa.repository.JpaRepository;

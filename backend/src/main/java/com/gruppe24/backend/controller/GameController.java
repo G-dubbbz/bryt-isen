@@ -117,4 +117,9 @@ public class GameController {
     gameRelationService.addCategories(ID, categories);
     return new ResponseEntity<>("Successfully added categories to game", HttpStatus.CREATED);
   }
+
+  @GetMapping("/games")
+  public ResponseEntity<List<Game>> getGamesByCategory(@RequestParam String category) {
+    return new ResponseEntity<>(gameService.getGamesByCategory(category), HttpStatus.OK);
+  }
 }

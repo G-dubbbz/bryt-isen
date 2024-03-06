@@ -2,12 +2,18 @@ package com.gruppe24.backend.service;
 
 import com.gruppe24.backend.dto.GameDTO;
 import com.gruppe24.backend.entity.Game;
+import com.gruppe24.backend.exception.CategoryNotFoundException;
 import com.gruppe24.backend.exception.GameNotFoundException;
 import com.gruppe24.backend.exception.InvalidDtoException;
+import com.gruppe24.backend.relation.HasCategory;
+import com.gruppe24.backend.relation.HasGameList;
 import com.gruppe24.backend.repository.GameRepository;
+import com.gruppe24.backend.repository.HasCategoryRepository;
+
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,9 +43,11 @@ import java.util.List;
 @Service
 public class GameService {
   private final GameRepository gameRepository;
+  private final HasCategoryRepository hasCategoryRepository;
 
-  public GameService(GameRepository gameRepository) {
+  public GameService(GameRepository gameRepository, HasCategoryRepository hasCategoryRepository) {
     this.gameRepository = gameRepository;
+    this.hasCategoryRepository = hasCategoryRepository;
   }
 
   @Transactional
@@ -83,5 +91,11 @@ public class GameService {
   @Transactional
   public void deleteGame(Long ID) {
     gameRepository.delete(gameRepository.findByID(ID).orElseThrow(GameNotFoundException::new));
+  }
+
+  @Transactional
+  public List<Game> getGamesByCategory(String categoryName) {
+    return hasCategoryRepository.findByCategory_Name(categoryName).orElse(List.of())
+        .stream().map(HasCategory::getGame).toList(); 
   }
 }

@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 /**
  * Represents a Review relationship in the database.
  * <p>
- * This class contains the ID of the game and the ID of the user who wrote the review, as well as some information about the review, such as a title, a timestamp, numbers of stars from 1-5 and a description.
+ * This class contains the ID of the game and the ID of the user who wrote the review, as well as some information about the review, a timestamp, numbers of stars from 1-5 and a description.
  * </p>
  */
 @Entity
@@ -27,9 +27,8 @@ public class Review {
   @JoinColumn(name = "ID")
   private Game game;
 
-  private String title;
   private String description;
-  private int stars;
+  private float stars;
   @Column(name = "created_at", nullable = false)
   private LocalDateTime createdAt;
 
@@ -49,14 +48,6 @@ public class Review {
     this.game = game;
   }
 
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
   public String getDescription() {
     return description;
   }
@@ -65,11 +56,11 @@ public class Review {
     this.description = description;
   }
 
-  public int getStars() {
+  public float getStars() {
     return stars;
   }
 
-  public void setStars(int stars) {
+  public void setStars(float stars) {
     this.stars = stars;
   }
 
@@ -83,7 +74,7 @@ public class Review {
 
   @Override
   public String toString() {
-    return "Review [user=" + user + ", game=" + game + ", title=" + title + ", description=" + description
+    return "Review [user=" + user + ", game=" + game + ", description=" + description
             + ", stars=" + stars + ", timestamp=" + createdAt + "]";
   }
 

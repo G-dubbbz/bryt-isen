@@ -6,7 +6,7 @@ import java.util.Optional;
 public class ReviewDTO {
 
   private String description;
-  private int stars;
+  private float stars;
   private LocalDateTime createdAt;
 
   public Optional<String> getDescription() {
@@ -17,11 +17,11 @@ public class ReviewDTO {
     this.description = description;
   }
 
-  public Optional<Integer> getStars() {
+  public Optional<Float> getStars() {
     return Optional.of(stars);
   }
 
-  public void setStars(int stars) {
+  public void setStars(float stars) {
     this.stars = stars;
   }
 

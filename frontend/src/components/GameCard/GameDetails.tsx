@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getGame } from '../../services/GameService';
 import { Game, Review } from '../../services/Models';
 import './GameDetails.css';
-import { getGamesReviews } from '../../services/ReviewService'; // Import getReviews function
+import { getGamesReviews } from '../../services/ReviewService';
 import ReviewItem from '../Review/ReviewItem';
 
 interface GameCardProps {
@@ -32,7 +32,7 @@ const GameCard: React.FC<GameCardProps> = ({ emoji, name, id }) => {
 const GameDetails: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
   const [game, setGame] = useState<Game | null>(null);
-  const [reviews, setReviews] = useState<Review[]>([]); // State to store reviews
+  const [reviews, setReviews] = useState<Review[]>([]);
 
   useEffect(() => {
     const fetchGameDetails = async () => {
@@ -72,7 +72,6 @@ const GameDetails: React.FC = () => {
       <br />
       <GameCard emoji={''} name={game.name ?? "Default"} id={id ?? "Default"} />
 
-      {/* Display reviews */}
       <div className="reviews">
         <h2>Anmeldelser</h2>
         {reviews.map((review, index) => (

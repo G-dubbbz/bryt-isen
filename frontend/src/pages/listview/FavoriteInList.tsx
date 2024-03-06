@@ -5,7 +5,6 @@ function FavoriteInList() {
         <div className="game-item">
             <div className="game-icon">
                 <div className="game-icon-emoji"></div>
-                <div className="game-icon-box"></div>
             </div>
             <div className="game-info">
                 <div className="game-title">GameTitle</div>

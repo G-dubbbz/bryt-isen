@@ -9,10 +9,17 @@
     border-radius: 15px;
     background-color: transparent;
     margin-bottom: 10px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
+
 .game-icon {
-    margin-right: 10px; /* Add margin to create space between game-icon and game-info */
+    width: 60px;
+    height: 60px;
+    background-color: lightblue;
+    border-radius: 20%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-right: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -59,18 +66,11 @@
     margin-right: 100px; /* Add margin between game-players and remove-button */
 }
 
-.game-icon-box {
-    width: 60px;
-    height: 60px;
-    background-color: pink;
-    /* Add styling for the small pink box */
-}
-
 .remove-button {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background-color: pink;
+    background-color: lightblue;
     /* Add styling for the pink circle box */
     position: relative;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -98,7 +98,7 @@
 }
 
 .remove-button:hover {
-    background-color: lightpink; /* Change background color on hover */
+    background-color: rgb(160, 212, 229); /* Change background color on hover */
 }
 
 .game-text {

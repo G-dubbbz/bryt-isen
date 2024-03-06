@@ -61,8 +61,8 @@ p {
     background: rgb(233, 198, 240);
     background: linear-gradient(
       135deg,
-      rgba(233, 198, 240, 1) 0%,
-      rgb(148, 176, 153) 100%
+      rgb(177, 222, 247) 0%,
+      rgb(213, 230, 241) 100%
     );
   }
 }

@@ -22,9 +22,10 @@
     /* Adjust the size of the playlist icon as needed */
     height: 130px;
     /* Adjust the size of the playlist icon as needed */
-    background-color: pink;
+    background-color: lightblue;
     border-radius: 20%;
     margin-right: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .playlist-info {
@@ -50,7 +51,7 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #ff69b4, #ffd6e7);
+    background: linear-gradient(135deg, #7bccf4, #d1f4ff);
     margin-right: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }

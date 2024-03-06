@@ -83,7 +83,7 @@ public class GameController {
     return new ResponseEntity<>("Game successfully updated", HttpStatus.OK);
   }
 
-  @DeleteMapping("/{ID}")
+  @DeleteMapping("/{ID}/delete")
   public ResponseEntity<String> deleteGame(@PathVariable Long ID) {
     gameService.deleteGame(ID);
     gameRelationService.deleteMadeGameRelation(ID);
@@ -99,6 +99,12 @@ public class GameController {
   public ResponseEntity<String> createReview(@PathVariable Long ID, @RequestBody ReviewDTO reviewDTO) {
     gameRelationService.createReview(securityService.getAuthenticatedUser(), ID, reviewDTO);
     return new ResponseEntity<>("Successfully created review", HttpStatus.CREATED);
+  }
+
+  @DeleteMapping("/{ID}/reviews")
+  public ResponseEntity<String> deleteReview(@PathVariable Long ID) {
+    gameRelationService.deleteReview(securityService.getAuthenticatedUser(), ID);
+    return new ResponseEntity<>("Successfully deleted review", HttpStatus.OK);
   }
 
   @GetMapping("/{ID}/categories")

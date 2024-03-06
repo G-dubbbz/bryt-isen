@@ -65,7 +65,6 @@ public class GameRelationService {
 
   private ReviewDTO convertToReviewDTO(Review review) {
     ReviewDTO dto = new ReviewDTO();
-    dto.setTitle(review.getTitle());
     dto.setDescription(review.getDescription());
     dto.setStars(review.getStars());
     dto.setCreatedAt(review.getCreatedAt());
@@ -120,9 +119,6 @@ public class GameRelationService {
     review.setGame(game);
 
     List<String> missingFields = new ArrayList<>();
-    if (reviewDTO.getTitle().isEmpty()) {
-      missingFields.add("title");
-    }
     if (reviewDTO.getDescription().isEmpty()) {
       missingFields.add("description");
     }
@@ -135,7 +131,6 @@ public class GameRelationService {
       throw new InvalidDtoException(errorMessage);
     }
 
-    review.setTitle(reviewDTO.getTitle().get());
     review.setDescription(reviewDTO.getDescription().get());
     review.setStars(reviewDTO.getStars().get());
     review.setCreatedAt(LocalDateTime.now());

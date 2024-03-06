@@ -79,7 +79,7 @@ const GameDetails: React.FC = () => {
         <p><span className="label">Antall ganger rapportert:</span> <span>{game.reportCount}</span></p>
       </div>
       <br />
-      <GameCard emoji={''} name={game.name ?? "Default"} id={id ?? "Default"} />
+      <GameCard emoji={''} name={game.name ?? "Default"} id={id ?? "Default"}/>
 
       <div className="reviews">
         <h2>Anmeldelser</h2>

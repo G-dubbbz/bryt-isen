@@ -1,0 +1,20 @@
+.reviewDiv {
+  border: 1px solid rgb(255, 255, 255);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.reviewDiv > h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.reviewDiv > h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.reviewDiv > p {
+  margin: 0;
+}
+

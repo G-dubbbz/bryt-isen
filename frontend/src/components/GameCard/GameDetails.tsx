@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { getGame } from '../../services/GameService';
 import { Game } from '../../services/Models';
 import './GameDetails.css';
+import Review from '../Review/Review';
 
 const GameDetails: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
@@ -40,6 +41,7 @@ const GameDetails: React.FC = () => {
         <p><span className="label">Antall vurderinger:</span> <span>{game.reviewCount}</span></p>
         <p><span className="label">Antall ganger rapportert:</span> <span>{game.reportCount}</span></p>
 
+        <Review stars={3} creator={'Ulvang'} text={"Never Have I Ever: The Ultimate Ice-Breaker Game! This game is an absolute blast, guaranteed to get the conversation flowing and the laughs rolling. With its clever prompts and revealing questions, it's the perfect way to break down barriers and get to know your friends on a whole new level. Whether you're spilling secrets or sharing hilarious stories, Never Have I Ever creates unforgettable moments and strengthens bonds like no other. Get ready for an evening of laughter, surprises, and endless entertainment with Never Have I Ever!""Never Have I Ever: The Ultimate Ice-Breaker Game! This game is an absolute blast, guaranteed to get the conversation flowing and the laughs rolling. With its clever prompts and revealing questions, it's the perfect way to break down barriers and get to know your friends on a whole new level. Whether you're spilling secrets or sharing hilarious stories, Never Have I Ever creates unforgettable moments and strengthens bonds like no other. Get ready for an evening of laughter, surprises, and endless entertainment with Never Have I Ever!"} />
      </div>
     </div>
   );

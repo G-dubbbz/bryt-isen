@@ -31,20 +31,20 @@ const AllGames: React.FC = () => {
   };
 
   return (
-    <div>
-      <div className="search-and-grid">
+    <div id="parent">
+      <div id="narrow" className="search-and-grid">
         <Search onSearch={handleSearch} />
-        <div className="game-grid">
-          {filteredGames.map((game) => (
-            <GameCard
-              emoji={game.emoji ?? "🧪"}
-              name={game.name ?? "Default"}
-              key={game.id ?? 0}
-              id={game.id}
-              players={1}
-            />
-          ))}
-        </div>
+      </div>
+      <div id="wide" className="game-grid">
+        {filteredGames.map((game) => (
+          <GameCard
+            emoji={game.emoji ?? "🧪"}
+            name={game.name ?? "Default"}
+            key={game.id ?? 0}
+            id={game.id}
+            players={1}
+          />
+        ))}
       </div>
     </div>
   );

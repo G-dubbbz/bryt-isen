@@ -3,7 +3,7 @@ import "./AllGames.css";
 import { getGames } from "../../services/GameService";
 import { Game } from "../../services/Models";
 import GameCard from "../../components/GameCard/GameCard";
-import Search from "../../components/Search/Search"; // Updated import
+import Search from "../../components/Search/Search";
 
 const AllGames: React.FC = () => {
   const [games, setGames] = useState<Array<Game>>([]);

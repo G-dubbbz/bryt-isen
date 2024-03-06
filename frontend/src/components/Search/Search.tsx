@@ -1,5 +1,5 @@
 import React from "react";
-import "./Search.css"; // make sure to import the CSS file
+import "./Search.css";
 
 const Search: React.FC<{ onSearch: (searchTerm: string) => void }> = ({
   onSearch,
@@ -10,7 +10,7 @@ const Search: React.FC<{ onSearch: (searchTerm: string) => void }> = ({
         type="text"
         placeholder="Search..."
         className="search-input"
-        onChange={(e) => onSearch(e.target.value)} // Added onChange handler
+        onChange={(e) => onSearch(e.target.value)}
       />
     </div>
   );

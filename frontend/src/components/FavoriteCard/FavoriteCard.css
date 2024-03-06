@@ -13,6 +13,7 @@
 
 .favorite-card:hover {
   background-color: #ffffff20;
+  cursor: pointer;
 }
 
 .favorite-card_thumbnail {
@@ -22,7 +23,11 @@
   justify-content: space-evenly;
   align-items: center;
   flex-wrap: wrap;
-  background-color: rgb(152, 184, 247);
+  background: linear-gradient(
+    180deg,
+    rgb(157, 230, 255) 0%,
+    rgb(82, 133, 199) 100%
+  );
   border-radius: 30px;
 }
 

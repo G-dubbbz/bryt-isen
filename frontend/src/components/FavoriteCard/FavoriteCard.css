@@ -1,0 +1,47 @@
+.favorite-card {
+  border-radius: 30px;
+  border: 2px solid #fff;
+  width: 90%;
+  height: 200px;
+  margin: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.favorite-card:hover {
+  background-color: #ffffff20;
+}
+
+.favorite-card_thumbnail {
+  width: 170px;
+  height: 170px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+  background-color: rgb(152, 184, 247);
+  border-radius: 30px;
+}
+
+.listemoji {
+  font-size: 3.5rem;
+}
+
+.listname {
+  font-size: 1.5rem;
+  width: 45%;
+  text-align: center;
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .favorite-card {
+    width: 450px;
+    height: 230px;
+  }
+}

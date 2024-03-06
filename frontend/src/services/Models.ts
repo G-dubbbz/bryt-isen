@@ -25,7 +25,7 @@ export interface User {
 export interface Review {
     title?: string;
     description?: string;
-    rating?: number;
+    stars?: number;
     gameId?: number;
  }
 

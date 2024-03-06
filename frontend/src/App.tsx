@@ -12,7 +12,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google'
 import Login from './components/LogIn/Login'
 import LoginSuccess from './components/LogIn/LoginSuccess'
 import Welcome from './components/LogIn/Welcome'
-import ListView from './pages/listview/ListView'
+import ListView from './pages/listview/PlaylistView'
 
 // This way of handling the clientId is probaly not secure, but it works for now
 const clientId = "721101879951-1h9gbapa71463dp1ubv3hiuel63td6mq.apps.googleusercontent.com";

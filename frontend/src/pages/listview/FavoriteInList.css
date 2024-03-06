@@ -1,0 +1,106 @@
+/* TODO: Fix aligning on duration and numOfPlayers */
+
+.game-item {
+    display: flex;
+    align-items: center;
+    /* justify-content: space-between; Add space between items */
+    padding: 15px;
+    border: 1px solid white;
+    border-radius: 15px;
+    background-color: transparent;
+    margin-bottom: 10px;
+}
+
+.game-icon {
+    margin-right: 10px; /* Add margin to create space between game-icon and game-info */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.game-info {
+    flex: 1;
+    /* Add styling for the main content of the game item */
+}
+
+.game-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 1px;
+    text-align: left;
+}
+
+.star-rating {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    margin-top: 1px;
+    /* Add margin-top to separate rating from title */
+}
+
+.star-icon {
+    margin-right: 5px;
+}
+
+.rating-value {
+    /* Add any additional styling for the rating value here */
+}
+
+.game-text {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.game-duration {
+    
+}
+
+.game-players {
+    margin-left: 200px; /* Add more margin between game-players and remove-button */
+    margin-right: 100px; /* Add margin between game-players and remove-button */
+}
+
+.game-icon-box {
+    width: 60px;
+    height: 60px;
+    background-color: pink;
+    /* Add styling for the small pink box */
+}
+
+.remove-button {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: pink;
+    /* Add styling for the pink circle box */
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer; /* Change cursor to pointer on hover */
+
+}
+
+.remove-cross::before,
+.remove-cross::after {
+    content: ''; /* Ensure the pseudo-elements have content */
+    position: absolute; /* Position the pseudo-elements absolutely */
+    top: 50%; /* Align the pseudo-elements vertically */
+    left: 50%; /* Align the pseudo-elements horizontally */
+    width: 60%; /* Set the width of the pseudo-elements */
+    height: 2px; /* Set the height of the pseudo-elements */
+    background-color: white; /* Set the color of the pseudo-elements */
+}
+
+.remove-cross::before {
+    transform: translate(-50%, -50%) rotate(45deg); /* Rotate the pseudo-element to create the cross shape */
+}
+
+.remove-cross::after {
+    transform: translate(-50%, -50%) rotate(-45deg); /* Rotate the pseudo-element to create the cross shape */
+}
+
+.remove-button:hover {
+    background-color: lightpink; /* Change background color on hover */
+}
+
+.game-text {
+    color: white
+}

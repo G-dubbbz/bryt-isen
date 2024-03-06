@@ -12,6 +12,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google'
 import Login from './components/LogIn/Login'
 import LoginSuccess from './components/LogIn/LoginSuccess'
 import Welcome from './components/LogIn/Welcome'
+import GameReview from './components/GameCard/GameReview'
 
 // This way of handling the clientId is probaly not secure, but it works for now
 const clientId = "721101879951-1h9gbapa71463dp1ubv3hiuel63td6mq.apps.googleusercontent.com";
@@ -30,6 +31,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/login/success" element={<LoginSuccess />} />
         <Route path="/welcome" element={<Welcome />} />
+        <Route path="/review/:id" element={<GameReview />} />
       </Routes>
       <footer>
         <hr />

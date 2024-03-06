@@ -1,4 +1,4 @@
-import { Game } from "./Models";
+import { Game, Review } from "./Models";
 
 const baseUrl = 'http://localhost:8080';
 
@@ -98,4 +98,23 @@ async function deleteGame(id: string): Promise<void> {
     });
 }
 
-export { getGames, getMyGames, getGamesFromList, getGame, createGame, updateGame, deleteGame};
+async function createReview(id: string, review: Review): Promise<Response> {
+    try {
+        const request: RequestInfo = new Request(baseUrl + '/games/' + id + '/reviews', {
+          method: 'POST',
+          headers: getHeaders(),
+          body: JSON.stringify(review)
+        });
+
+        const response = await fetch(request);
+
+
+        console.log("Review submitted successfully");
+        return response;
+    } catch (error) {
+        console.error("Error creating review:", error);
+        throw error;
+    }
+}
+
+export { getGames, getMyGames, getGamesFromList, getGame, createGame, updateGame, deleteGame, createReview};

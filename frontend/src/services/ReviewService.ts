@@ -2,16 +2,18 @@ import { Review } from "./Models";
 
 const baseUrl = 'http://localhost:8080';
 
-const headers: Headers = new Headers();
-headers.set('Content-Type', 'application/json');
-headers.set('Accept', 'application/json');
-const token = sessionStorage.getItem('token');
-headers.set('Authorization', 'Bearer ' + token);
-console.log("token: " + token);
+function getHeaders() {
+    const headers: Headers = new Headers();
+    headers.set('Content-Type', 'application/json');
+    headers.set('Accept', 'application/json');
+    const token = sessionStorage.getItem('token');
+    headers.set('Authorization', 'Bearer ' + token);
+    return headers;
+}
 
 async function getReviews(): Promise<Array<Review>> {
     try {
-        const response = await fetch(baseUrl + '/reviews', {headers: headers});
+        const response = await fetch(baseUrl + '/reviews', {headers: getHeaders()});
         const data = await response.json();
         const reviews: Array<Review> = [];
         data.forEach((review: unknown) => {
@@ -29,7 +31,7 @@ async function getReviews(): Promise<Array<Review>> {
 
 async function getMyReviews(): Promise<Array<Review>> {
     try {
-        const response = await fetch(baseUrl + '/users/myProfile/reviews', {headers: headers});
+        const response = await fetch(baseUrl + '/users/myProfile/reviews', {headers: getHeaders()});
         const data = await response.json();
         return data;
     } catch (error) {
@@ -38,9 +40,9 @@ async function getMyReviews(): Promise<Array<Review>> {
     }
 }
 
-async function getReview(id: number): Promise<Review> {
+async function getGamesReviews(id: number): Promise<Array<Review>> {
     try {
-        const response = await fetch(baseUrl + '/reviews/' + id, {headers: headers});
+        const response = await fetch(baseUrl + '/games/' + id + "/reviews", {headers : getHeaders()});
         const data = await response.json();
         return data;
     } catch (error) {
@@ -53,7 +55,7 @@ async function createReview(id: string, review: Review): Promise<Response> {
     try {
             const request: RequestInfo = new Request(baseUrl + '/games/' + id + '/reviews', {
                 method: 'POST',
-                headers: headers,
+                headers: getHeaders(),
                 body: JSON.stringify(review)
             });
 
@@ -70,7 +72,7 @@ async function createReview(id: string, review: Review): Promise<Response> {
 async function deleteReview(gameID: number): Promise<void> {
     const request: RequestInfo = new Request(baseUrl + '/reviews/' + gameID, {
         method: 'DELETE',
-        headers: headers,
+        headers: getHeaders(),
     });
 
     return fetch(request)
@@ -79,4 +81,4 @@ async function deleteReview(gameID: number): Promise<void> {
     });
 }
 
-export { getReviews, getMyReviews, getReview, createReview, deleteReview };
+export { getReviews, getMyReviews, getGamesReviews, createReview, deleteReview };

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getGame } from '../../services/GameService';
-import { Game } from '../../services/Models';
+import { Game, Review } from '../../services/Models';
 import './GameDetails.css';
-import { getReview } from '../../services/ReviewService';
+import { getGamesReviews } from '../../services/ReviewService'; // Import getReviews function
+import ReviewItem from '../Review/ReviewItem';
 
 interface GameCardProps {
   emoji: string;
@@ -31,6 +32,7 @@ const GameCard: React.FC<GameCardProps> = ({ emoji, name, id }) => {
 const GameDetails: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
   const [game, setGame] = useState<Game | null>(null);
+  const [reviews, setReviews] = useState<Review[]>([]); // State to store reviews
 
   useEffect(() => {
     const fetchGameDetails = async () => {
@@ -38,6 +40,9 @@ const GameDetails: React.FC = () => {
         try {
           const gameData = await getGame(id);
           setGame(gameData);
+          // Fetch reviews for the game
+          const gameReviews = await getGamesReviews(Number(id));
+          setReviews(gameReviews);
         } catch (error) {
           console.error("Error fetching game details:", error);
         }
@@ -64,8 +69,16 @@ const GameDetails: React.FC = () => {
         <p><span className="label">Antall vurderinger:</span> <span>{game.reviewCount}</span></p>
         <p><span className="label">Antall ganger rapportert:</span> <span>{game.reportCount}</span></p>
       </div>
-      <br></br>
+      <br />
       <GameCard emoji={''} name={game.name ?? "Default"} id={id ?? "Default"} />
+
+      {/* Display reviews */}
+      <div className="reviews">
+        <h2>Anmeldelser</h2>
+        {reviews.map((review, index) => (
+          <ReviewItem key={index} review={review} />
+        ))}
+      </div>
     </div>
   );
 };

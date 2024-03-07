@@ -77,6 +77,7 @@ const GameDetails: React.FC = () => {
         <p><span className="label">Max Varighet:</span> <span>{game.duration_max !== undefined ? `${game.duration_max} Minutes` : 'N/A'}</span></p>
         <p><span className="label">Antall vurderinger:</span> <span>{game.reviewCount}</span></p>
         <p><span className="label">Antall ganger rapportert:</span> <span>{game.reportCount}</span></p>
+
       </div>
       <br />
       <GameCard emoji={''} name={game.name ?? "Default"} id={id ?? "Default"}/>

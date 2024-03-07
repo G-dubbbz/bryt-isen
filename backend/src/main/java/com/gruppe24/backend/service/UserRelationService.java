@@ -97,10 +97,6 @@ public class UserRelationService {
             .map(MadeGame::getGame).toList();
   }
 
-  @Transactional
-  public List<Review> getUsersReviews(String username) {
-    return reviewRepository.findByUser_UserName(username).orElse(List.of());
-  }
 
   @Transactional
   public void deleteUserRelations(String username) {
@@ -141,16 +137,4 @@ public class UserRelationService {
     hasGameListRepository.save(hasGameList);
   }
 
-  @Transactional
-  public void deleteReview(User user, Long gameID) {
-    Game game = gameRepository.findByID(gameID)
-            .orElseThrow(GameNotFoundException::new);
-
-    Review review = reviewRepository.findByUserAndGame(user, game)
-                    .orElseThrow(ReviewNotFoundException::new);
-    game.setReviewCount(game.getReviewCount() - 1);
-    float newRating = ((game.getRating() * game.getReviewCount() + 1) - review.getStars()) / (game.getReviewCount());
-    game.setRating(newRating);
-    reviewRepository.delete(review);
-  }
 }

@@ -1,106 +1,90 @@
-import { useNavigate } from "react-router-dom";
-import "./Filter.css";
-import { useState } from "react";
+import React, { useState } from 'react';
+import './Filter.css';
 
+interface FilterValues {
+  numPlayers: string;
+  minDuration: string;
+  maxDuration: string;
+  categories: string[];
+}
 
-function Filter() {
+interface FilterProps {
+  onFilterApplied: (numPlayers: number, minDuration: number, maxDuration: number, categories: string[]) => void;
+}
 
-  const navigate = useNavigate();
-  const leave = () => {
-    // Wait a bit before navigating to allow the backend to update
-    setTimeout(() => navigate("/all"), 1500);
+const Filter: React.FC<FilterProps> = ({ onFilterApplied }) => {
+  const [filters, setFilters] = useState<FilterValues>({
+    numPlayers: '',
+    minDuration: '',
+    maxDuration: '',
+    categories: []
+  });
+  
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFilters(prevFilters => ({
+      ...prevFilters,
+      [name]: value
+    }));
   };
 
-  const [numPlayers, setNumPlayers] = useState("");
-  const [minDuration, setMinDuration] = useState("");
-  const [maxDuration, setMaxDuration] = useState("");
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { checked, value } = e.target;
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      categories: checked
+        ? [...prevFilters.categories, value]
+        : prevFilters.categories.filter((category) => category !== value)
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const numPlayers = parseInt(filters.numPlayers) || 0;
+    const minDuration = parseInt(filters.minDuration) || 0;
+    const maxDuration = parseInt(filters.maxDuration) || 100;
+    // No parsing needed for categories as it's already in the required format
+
+    onFilterApplied(numPlayers, minDuration, maxDuration, filters.categories);
+  };
+
+
+  const categories = ['E1', 'E2', 'E3', 'E4'];
 
   return (
-    <form className="filter-filters">
-      <label htmlFor="filter_categories">Filter</label>
-      <label htmlFor="filter_categories">Antall Spillere</label>
-      <div className="input_row">
-            <input
-              type="number"
-              id="num_players"
-              name="num_players"
-              placeholder="Antall Spillere"
-              value={numPlayers}
-              required
-              onChange={(e) => setNumPlayers(e.target.value)}
-            />
+    <form className="filter-form" onSubmit={handleSubmit}>
+
+      <div className="filter-section">
+        <label>Antall spillere:</label>
+        <input type="number" name="numPlayers" value={filters.numPlayers} onChange={handleChange} />
       </div>
-      <div>
-        <label htmlFor="filter_categories">Varighet</label>
-        <div className="input_row">
-              <input
-                type="number"
-                id="min_duration"
-                name="min_duration"
-                placeholder="Min. Lengde"
-                value={minDuration}
-                required
-                onChange={(e) => setMinDuration(e.target.value)}
-              />
-        </div>
-        <div className="input_row">
-              <input
-                type="number"
-                id="max_duration"
-                name="max_duration"
-                placeholder="Max. Lengde"
-                value={maxDuration}
-                required
-                onChange={(e) => setMaxDuration(e.target.value)}
-              />
-        </div>
+      <div className="filter-section">
+        <label>Min varighet (minutter):</label>
+        <input type="number" name="minDuration" value={filters.minDuration} onChange={handleChange} />
       </div>
-        <label htmlFor="filter_categories">Kategorier</label>
-        <div className="input_row">
-          <div className="checkbox_item">
+      <div className="filter-section">
+        <label>Max varighet (minutter):</label>
+        <input type="number" name="maxDuration" value={filters.maxDuration} onChange={handleChange} />
+      </div>
+      <div className="filter-section categories">
+        <label>Categories:</label>
+        {categories.map((category, index) => (
+          <div key={index}>
             <input
               type="checkbox"
-              id="E1"
-              name="E1"
-              value="E1"
+              id={`category-${index}`}
+              value={category}
+              onChange={handleCategoryChange}
+              checked={filters.categories.includes(category)}
             />
-            <label htmlFor="E1">E1</label>
+            <label htmlFor={`category-${index}`}>{category}</label>
           </div>
-          <div className="checkbox_item">
-            <input
-              type="checkbox"
-              id="E2"
-              name="E2"
-              value="E2"
-            />
-            <label htmlFor="E2">E2</label>
-          </div>
-          <div className="checkbox_item">
-            <input
-              type="checkbox"
-              id="E3"
-              name="E3"
-              value="E3"
-            />
-            <label htmlFor="E3">E3</label>
-          </div>
-          <div className="checkbox_item">
-            <input
-              type="checkbox"
-              id="E4"
-              name="E4"
-              value="E4"
-            />
-            <label htmlFor="E4">E4</label>
-          </div>
-        </div>
-      <input
-        type="submit"
-        id="create_button"
-        value="Filtrer"
-      />
+        ))}
+      </div>
+      <button type="submit">Apply Filters</button>
     </form>
   );
-}
+};
 
 export default Filter;

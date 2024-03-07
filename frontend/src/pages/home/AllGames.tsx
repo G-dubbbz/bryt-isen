@@ -31,7 +31,7 @@ const AllGames: React.FC = () => {
     setFilteredGames(results);
   };
 
-  const handleFilter = (numPlayers: number, minDuration: number, maxDuration: number, categories: any[]) => {
+  const handleFilter = (numPlayers: number, minDuration: number, maxDuration: number) => {
     const results = games.filter(game => {
       const gameMinPlayers = game.players_min ?? 0;
       const gameMaxPlayers = game.players_max ?? Number.MAX_SAFE_INTEGER;
@@ -47,9 +47,8 @@ const AllGames: React.FC = () => {
         (minDuration === 0 && maxDuration === 24) || // No duration filter applied
         (gameMaxDuration >= minDuration && gameMinDuration <= maxDuration); // Check if game duration range intersects with filter range
   
-      const meetsCategoryCriteria = categories.length === 0 || (game.categories && categories.some(category => game.categories?.includes(category)));
       
-      return meetsPlayerCriteria && meetsDurationCriteria && meetsCategoryCriteria;
+      return meetsPlayerCriteria && meetsDurationCriteria;
     });
     setFilteredGames(results);
   };

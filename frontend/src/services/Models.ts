@@ -15,6 +15,7 @@ export interface Game {
 
 export interface List {
     name?: string;
+    id: number;
 }
 
 export interface User {

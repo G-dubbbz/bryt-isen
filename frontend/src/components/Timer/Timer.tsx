@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './Timer.css';
 
 const Timer = () => {
   const [seconds, setSeconds] = useState(0);
   const [isActive, setIsActive] = useState(false);
-  let interval: number | undefined;
+  const intervalRef = useRef<number | undefined>(undefined);
 
   function toggle() {
     setIsActive(!isActive);
@@ -17,13 +17,13 @@ const Timer = () => {
 
   useEffect(() => {
     if (isActive) {
-      interval = window.setInterval(() => {
+      intervalRef.current = window.setInterval(() => {
         setSeconds(seconds => seconds + 1);
       }, 1000);
     } else if (!isActive && seconds !== 0) {
-      clearInterval(interval);
+      clearInterval(intervalRef.current);
     }
-    return () => clearInterval(interval);
+    return () => clearInterval(intervalRef.current);
   }, [isActive, seconds]);
 
   return (

@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import './Timer.css';
 
 const Timer = () => {
   const [seconds, setSeconds] = useState(0);
   const [isActive, setIsActive] = useState(false);
+  let interval: number | undefined;
 
   function toggle() {
     setIsActive(!isActive);
@@ -15,9 +16,8 @@ const Timer = () => {
   }
 
   useEffect(() => {
-    let interval = null;
     if (isActive) {
-      interval = setInterval(() => {
+      interval = window.setInterval(() => {
         setSeconds(seconds => seconds + 1);
       }, 1000);
     } else if (!isActive && seconds !== 0) {

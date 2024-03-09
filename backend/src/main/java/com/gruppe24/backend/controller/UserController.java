@@ -1,5 +1,6 @@
 package com.gruppe24.backend.controller;
 
+import com.gruppe24.backend.dto.ReviewDTO;
 import com.gruppe24.backend.entity.Game;
 import com.gruppe24.backend.entity.GameList;
 import com.gruppe24.backend.entity.User;

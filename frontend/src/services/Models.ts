@@ -1,4 +1,5 @@
 export interface Game {
+    categories: string[];
     id?: number;
     name?: string;
     description?: string;

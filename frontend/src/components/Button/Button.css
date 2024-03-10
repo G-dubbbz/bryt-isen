@@ -10,7 +10,7 @@
   color: white;
 }
 
-p {
+button > p {
   display: none;
 }
 
@@ -19,7 +19,7 @@ p {
     margin-right: 8px;
   }
 
-  p {
+  button > p {
     display: inline;
     font-size: 1rem;
     font-weight: 600;

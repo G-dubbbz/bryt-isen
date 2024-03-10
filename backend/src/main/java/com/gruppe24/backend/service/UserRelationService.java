@@ -136,5 +136,4 @@ public class UserRelationService {
     gameListRepository.save(gameList);
     hasGameListRepository.save(hasGameList);
   }
-
 }

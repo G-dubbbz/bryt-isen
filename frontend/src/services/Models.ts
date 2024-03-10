@@ -1,4 +1,5 @@
 export interface Game {
+    categories: string[];
     id?: number;
     name?: string;
     description?: string;
@@ -15,6 +16,7 @@ export interface Game {
 
 export interface List {
     name?: string;
+    id: number;
 }
 
 export interface User {

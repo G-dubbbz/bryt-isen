@@ -14,7 +14,7 @@ interface ReviewProps {
     text: string;
   }
 
-const Review = ({stars, creator, text} : {stars: number, creator: string, text: string}) => {
+  const Review = ({ stars, creator, text }: { stars: number, creator: string, text: string }) => {
     const [showFullDesc, setShowFullDesc] = useState(false);
 
     const toggleShowFullDesc = () => {

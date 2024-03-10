@@ -85,13 +85,13 @@ const GameDetails: React.FC = () => {
       <div className="reviews">
         <h2>Anmeldelser</h2>
         {reviews.map((review, index) => (
-          <Review1
-            key={index}
-            stars={review.stars}
-            creator={review.creator} // Ensure that creator prop is passed
-            text={review.text}     // Ensure that text prop is passed
-          />
-        ))}
+        <Review1
+          key={index}
+          stars={review.stars ?? 0}
+          creator={review.creator ?? ''}
+          text={review.text ?? ''}
+        />
+      ))}
       </div>
     </div>
   );

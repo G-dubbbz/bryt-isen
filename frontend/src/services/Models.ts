@@ -1,3 +1,5 @@
+import { Key } from "react";
+
 export interface Game {
     categories: string[];
     id?: number;
@@ -25,6 +27,7 @@ export interface User {
 }
 
 export interface Review {
+    id: Key | null | undefined;
     title?: string;
     description?: string;
     stars?: number;

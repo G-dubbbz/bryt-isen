@@ -7,6 +7,13 @@ import "./Review.css";
 * @param creator: string - name of the creator of the review
 * @param text: string - text of the review
 */
+
+interface ReviewProps {
+    stars: number; // Ensure stars is of type number
+    creator: string;
+    text: string;
+  }
+
 const Review = ({stars, creator, text} : {stars: number, creator: string, text: string}) => {
     const [showFullDesc, setShowFullDesc] = useState(false);
 
@@ -47,15 +54,20 @@ const Review = ({stars, creator, text} : {stars: number, creator: string, text: 
                 </div>
             ) : (
                 <div>
-                    {text.length > maxlength ? `${text.slice(0, maxlength)}...` : text}
-                    {text.length > maxlength && <button onClick={toggleShowFullDesc}>
-                        Show more  
-                        <svg width="20" height="10" viewBox="0 0 31 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M2 2.88965L15.5 16.5428L29 2.88965" stroke="white" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-
-                    </button>}
-                </div>
+                    {text && (
+                        <>
+                        {text.length > maxlength ? `${text.slice(0, maxlength)}...` : text}
+                        {text.length > maxlength && (
+                            <button onClick={toggleShowFullDesc}>
+                            Show more
+                            <svg width="20" height="10" viewBox="0 0 31 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M2 2.88965L15.5 16.5428L29 2.88965" stroke="white" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                            </button>
+                        )}
+                        </>
+                    )}
+                    </div>
             )
             }
         </div>

@@ -14,6 +14,7 @@ import LoginSuccess from './components/LogIn/LoginSuccess'
 import Welcome from './components/LogIn/Welcome'
 import FavoriteDetails from './components/FavoriteCard/FavoriteDetails'
 import GameReview from './components/GameCard/GameReview'
+import Logout from './components/LogOut/Logout'
 
 // This way of handling the clientId is probaly not secure, but it works for now
 const clientId = "721101879951-1h9gbapa71463dp1ubv3hiuel63td6mq.apps.googleusercontent.com";
@@ -34,6 +35,7 @@ function App() {
         <Route path="/login/success" element={<LoginSuccess />} />
         <Route path="/welcome" element={<Welcome />} />
         <Route path="/review/:id" element={<GameReview />} />
+        <Route path="/logout" element={<Logout />} />
       </Routes>
       <footer>
         <hr />

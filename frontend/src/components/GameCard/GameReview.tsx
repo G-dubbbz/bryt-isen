@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import StarRating from "../StarRating/Star";
 import { Link } from "react-router-dom";
-import { createReview } from "../../services/GameService"; // Import the createReview function
+import { createReview } from "../../services/ReviewService"; // Import the createReview function
 
 function GameReview() {
   const { id } = useParams<{ id?: string }>(); // Define id as optional
@@ -16,7 +16,10 @@ function GameReview() {
 
     try {
       // Call the createReview function from services
-      const response : Response = await createReview(id || "", { stars: rating, description: reviewText });
+      const response : Response = await createReview(id || "", {
+        stars: rating, description: reviewText,
+        id: null
+      });
 
       if (response.status == 201) {
         navigate(`/game/${id}`); // Redirect to game page if review is submitted successfully

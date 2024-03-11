@@ -31,6 +31,7 @@ const GameCard: React.FC<GameCardProps> = ({ emoji, name, id }) => {
 const GameDetails: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
   const [game, setGame] = useState<Game | null>(null);
+  const [reviews, setReviews] = useState<Review[]>([]);
 
   useEffect(() => {
     const fetchGameDetails = async () => {
@@ -38,6 +39,9 @@ const GameDetails: React.FC = () => {
         try {
           const gameData = await getGame(id);
           setGame(gameData);
+          // Fetch reviews for the game
+          const gameReviews = await getGamesReviews(Number(id));
+          setReviews(gameReviews);
         } catch (error) {
           console.error("Error fetching game details:", error);
         }

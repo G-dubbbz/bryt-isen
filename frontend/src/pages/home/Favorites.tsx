@@ -4,7 +4,7 @@ import "./Favorites.css";
 import React from "react";
 import { List } from "../../services/Models";
 // import { Game, List } from "../../services/Models";
-import { getLists } from "../../services/Listservice";
+import { getMyLists } from "../../services/Listservice";
 // import { getGamesFromList } from "../../services/GameService";
 
 function Favorites() {
@@ -13,7 +13,7 @@ function Favorites() {
   useEffect(() => {
     const fetchLists = async () => {
       try {
-        const list = await getLists();
+        const list = await getMyLists();
         setLists(list);
       } catch (error) {
         console.error("Error fetching data:", error);

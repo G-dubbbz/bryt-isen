@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getGame } from "../../services/GameService";
 import { Game } from "../../services/Models";
 import "./GameDetails.css";
-import { List, addGameToList } from "../../services/Listservice"
+import { addGameToList, getMyLists } from "../../services/Listservice";
 
 interface GameCardProps {
   emoji: string;
@@ -47,16 +47,38 @@ const GameDetails: React.FC = () => {
     fetchGameDetails();
   }, [id]);
 
-  const addToFavorites = () => {
-    alert("Spillet lagt til i favoritter!");
-    addGameToList(1, 2)
+  const addToFavorites = async () => {
+    if (game !== null && game.id !== null) {
+      const lists = await getMyLists();
+      await addGameToList(lists[0].id, game.id ?? 0);
+    }
+    //alert("Spillet er lagt til i favoritter!");
+
     //addGameToList
     //listnumber 1
     //game id som er link
-
-
-
   };
+
+  function shareGame(): void {
+    // Check if the Clipboard API is supported by the browser
+    if (!navigator.clipboard) {
+      console.error("Clipboard API not supported");
+      return;
+    }
+
+    // Get the current URL
+    const url: string = window.location.href;
+
+    // Copy the URL to the clipboard
+    navigator.clipboard
+      .writeText(url)
+      .then(() => {
+        console.log("URL copied to clipboard");
+      })
+      .catch((error) => {
+        console.error("Failed to copy URL to clipboard:", error);
+      });
+  }
 
   if (!game) {
     return <div className="loading">Loading...</div>;
@@ -105,6 +127,8 @@ const GameDetails: React.FC = () => {
       </div>
       <br />
       <button onClick={addToFavorites}>Legg til i favoritter</button>
+      <button onClick={shareGame}>Del!</button>
+
       <br />
       <GameCard emoji={""} name={game.name ?? "Default"} id={id ?? "Default"} />
     </div>

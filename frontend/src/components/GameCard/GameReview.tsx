@@ -16,10 +16,7 @@ function GameReview() {
 
     try {
       // Call the createReview function from services
-      const response : Response = await createReview(id || "", {
-        stars: rating, description: reviewText,
-        id: undefined
-      });
+      const response : Response = await createReview(id || "", { stars: rating, description: reviewText });
 
       if (response.status == 201) {
         navigate(`/game/${id}`); // Redirect to game page if review is submitted successfully

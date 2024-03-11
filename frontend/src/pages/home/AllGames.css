@@ -19,7 +19,9 @@
 
 #parent {
   display: flex;
+  align-items: flex-start;
 }
+
 #narrow {
   width: 15rem;
 }

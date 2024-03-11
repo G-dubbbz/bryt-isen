@@ -1,9 +1,15 @@
+import { useState } from 'react';
 import Button from "../Button/Button";
 import "./Header.css";
 import { Link, useResolvedPath, useMatch, useNavigate } from "react-router-dom";
 
 function Header() {
   const navigate = useNavigate();
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false); // State to control the visibility of the dropdown
+
+  // Function to toggle dropdown visibility
+  const toggleDropdown = () => setIsDropdownVisible(!isDropdownVisible);
+
   return (
     <>
       <div className="header-row-1">
@@ -27,8 +33,9 @@ function Header() {
           <p>Create Game</p>
         </Button>
         <h1 id="title">Bryt Isen</h1>
-        <Link to="/login">
+        <div className="dropdown-container">
           <svg
+            onClick={toggleDropdown} // Toggle dropdown on click
             xmlns="http://www.w3.org/2000/svg"
             width="60"
             height="60"
@@ -38,12 +45,20 @@ function Header() {
             fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"
+            style={{ cursor: 'pointer' }} // Change cursor to pointer on hover
           >
             <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
             <path d="M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
             <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
           </svg>
-        </Link>
+          {isDropdownVisible && (
+            <div className="dropdown-menu">
+              <Link to="/login" className="dropdown-item">Login</Link>
+              <Link to="/reviews" className="dropdown-item">My Reviews</Link>
+              <Link to="/logout" className="dropdown-item">Log Out</Link>
+            </div>
+          )}
+        </div>
       </div>
       <div className="header-links">
         <CustomLink to="/">Topplister</CustomLink>

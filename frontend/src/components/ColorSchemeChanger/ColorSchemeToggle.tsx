@@ -1,5 +1,4 @@
 import useScheme from "./SchemeHook";
-import "react-toggle/style.css";
 
 const ToggleDarkMode = () => {
     const { isDarkMode, setDarkMode } = useScheme();

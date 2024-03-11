@@ -8,6 +8,24 @@ public class ReviewDTO {
   private String description;
   private float stars;
   private LocalDateTime createdAt;
+  private String userName;
+  private Long gameID;
+
+  public Optional<String> getUserName() {
+    return Optional.ofNullable(userName);
+  }
+
+  public void setUserName(String userName) {
+    this.userName = userName;
+  }
+
+  public Optional<Long> getGameID() {
+    return Optional.ofNullable(gameID);
+  }
+
+  public void setGameID(Long ID) {
+    this.gameID = ID;
+  }
 
   public Optional<String> getDescription() {
     return Optional.ofNullable(description);

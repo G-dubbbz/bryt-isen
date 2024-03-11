@@ -12,15 +12,25 @@ const PlaylistHeader = ({ name }: { name: string }) => {
     const navigate = useNavigate();
     const { id } = useParams<{ id?: string }>();
     const [games, setGames] = useState<Array<Game>>([]);
+    const [emojis, setEmojis] = useState<Array<string>>([]);
+
 
     useEffect(() => {
         const fetchList = async () => {
             if (id == undefined) {
                 return
             }
-            const games = await getGamesFromList(parseInt(id))
-            setGames(games)
-        }
+            const games = await getGamesFromList(parseInt(id));
+            setGames(games);
+
+            const tempEmojis: string[] = [];
+            games.slice(0, 4).forEach((game: Game) => {
+                if (game.emoji) {
+                    tempEmojis.push(game.emoji);
+                }
+            });
+            setEmojis(tempEmojis);
+        };
         fetchList();
     }, [id]);
 
@@ -55,8 +65,10 @@ const PlaylistHeader = ({ name }: { name: string }) => {
                 Return
             </Link>
             <div className="playlist-header">
-                <div className="playlist-icon">
-                    <div className="game-icon-emoji">⭐</div>
+            <div className="playlist-icon">
+                    {emojis.map((emoji: string, index: number) => (
+                        <div className="playlist-icon-emoji" key={index}>{emoji}</div>
+                    ))}
                 </div>
                 <div className="playlist-info">
                     <div className="playlist-title">{name}</div>

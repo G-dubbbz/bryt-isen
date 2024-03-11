@@ -15,11 +15,13 @@ function PlaylistView() {
     const [games, setGames] = useState<Array<Game>>([]);
     
     const handleRemoveGame = async (gameId: number) => {
-        if (list) {
-            await removeGameFromList(list.id, gameId); // Call removeGameFromList function with listId and gameId
-            // Update the games list after removing the game
-            const updatedGames = games.filter(game => game.id !== gameId);
-            setGames(updatedGames);
+        if (window.confirm("Vil du fjerne spillet fra spillelisten?")) {
+            if (list) {
+                await removeGameFromList(list.id, gameId);
+                // Update the games list after removing the game
+                const updatedGames = games.filter(game => game.id !== gameId);
+                setGames(updatedGames);
+            }
         }
     };
 
@@ -38,7 +40,9 @@ function PlaylistView() {
 
     return (
         <div className="playlist-view">
-            <PlaylistHeader name = {list?.name ?? "name not found"}/>
+            <div className='header'>
+                <PlaylistHeader name = {list?.name ?? "name not found"}/>
+            </div>
             <div className="game-items-container">
                 {games.map(game => (
                     <FavoriteInList name={game?.name ?? "name not found"} 

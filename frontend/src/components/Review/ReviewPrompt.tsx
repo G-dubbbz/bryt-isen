@@ -8,12 +8,6 @@ import "./Review.css";
 * @param text: string - text of the review
 */
 
-interface ReviewInterface {
-    stars: number; // Ensure stars is of type number
-    creator: string;
-    text: string;
-}
-
   const ReviewPrompt = ({ stars, creator, text }: { stars: number, creator: string, text: string }) => {
     const [showFullDesc, setShowFullDesc] = useState(false);
 

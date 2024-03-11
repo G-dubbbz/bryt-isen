@@ -1,9 +1,11 @@
 package com.gruppe24.backend.controller;
 
+import com.gruppe24.backend.dto.ReviewDTO;
 import com.gruppe24.backend.entity.Game;
 import com.gruppe24.backend.entity.GameList;
 import com.gruppe24.backend.entity.User;
 import com.gruppe24.backend.relation.Review;
+import com.gruppe24.backend.service.ReviewService;
 import com.gruppe24.backend.service.SecurityService;
 import com.gruppe24.backend.service.UserRelationService;
 import com.gruppe24.backend.service.UserService;
@@ -62,15 +64,17 @@ public class UserController {
   private final UserService userService;
   private final UserRelationService userRelationService;
   private final SecurityService securityService;
+  private final ReviewService reviewService;
 
   private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
   public UserController(UserService userService,
-      UserRelationService userRelationService,
-      SecurityService securityService) {
+                        UserRelationService userRelationService,
+                        SecurityService securityService, ReviewService reviewService) {
     this.userService = userService;
     this.userRelationService = userRelationService;
     this.securityService = securityService;
+    this.reviewService = reviewService;
   }
 
   @GetMapping
@@ -113,7 +117,13 @@ public class UserController {
   @GetMapping("/myProfile/reviews")
   public ResponseEntity<List<Review>> getUsersReviews() {
     return new ResponseEntity<>(
-        userRelationService.getUsersReviews(securityService.getAuthenticatedUser().getUserName()), HttpStatus.OK);
+            reviewService.getUsersReviews(securityService.getAuthenticatedUser().getUserName()), HttpStatus.OK);
+  }
+
+  @DeleteMapping("/myProfile/reviews/{gameID}")
+  public ResponseEntity<String> deleteReview(@PathVariable Long gameID) {
+    reviewService.deleteReview(securityService.getAuthenticatedUser(), gameID);
+    return new ResponseEntity<>("Successfully deleted review", HttpStatus.OK);
   }
 
   @DeleteMapping("/{username}")

@@ -38,7 +38,7 @@ async function getMyGames(): Promise<Array<Game>> {
     }
 }
 
-async function getGamesFromList(id: string): Promise<Array<Game>> {
+async function getGamesFromList(id: number): Promise<Array<Game>> {
     try {
         const response = await fetch(baseUrl + '/lists/' + id + '/games', {headers: getHeaders()});
         const data = await response.json();
@@ -97,5 +97,6 @@ async function deleteGame(id: string): Promise<void> {
       console.log("got response:", res)
     });
 }
+
 
 export { getGames, getMyGames, getGamesFromList, getGame, createGame, updateGame, deleteGame};

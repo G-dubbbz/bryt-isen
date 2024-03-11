@@ -1,7 +1,12 @@
 package com.gruppe24.backend.service;
 
+import com.gruppe24.backend.dto.ReviewDTO;
 import com.gruppe24.backend.entity.Game;
 import com.gruppe24.backend.entity.GameList;
+import com.gruppe24.backend.entity.User;
+import com.gruppe24.backend.exception.GameNotFoundException;
+import com.gruppe24.backend.exception.InvalidDtoException;
+import com.gruppe24.backend.exception.ReviewNotFoundException;
 import com.gruppe24.backend.exception.UserNotFoundException;
 import com.gruppe24.backend.relation.HasGameList;
 import com.gruppe24.backend.relation.MadeGame;
@@ -66,10 +71,10 @@ public class UserRelationService {
   private final ContainsGameRepository containsGameRepository;
 
   public UserRelationService(UserRepository userRepository, HasGameListRepository hasGameListRepository,
-      MadeGameRepository madeGameRepository, ReviewRepository reviewRepository,
-      GameRepository gameRepository, GameListRepository gameListRepository,
-      HasCategoryRepository hasCategoryRepository,
-      ContainsGameRepository containsGameRepository) {
+                             MadeGameRepository madeGameRepository, ReviewRepository reviewRepository,
+                             GameRepository gameRepository, GameListRepository gameListRepository,
+                             HasCategoryRepository hasCategoryRepository,
+                             ContainsGameRepository containsGameRepository) {
     this.userRepository = userRepository;
     this.hasGameListRepository = hasGameListRepository;
     this.madeGameRepository = madeGameRepository;
@@ -83,19 +88,15 @@ public class UserRelationService {
   @Transactional
   public List<GameList> getUsersLists(String username) {
     return hasGameListRepository.findByUser_UserName(username).orElse(List.of())
-        .stream().map(HasGameList::getGameList).toList();
+            .stream().map(HasGameList::getGameList).toList();
   }
 
   @Transactional
   public List<Game> getUsersMadeGame(String username) {
     return madeGameRepository.findByUser_UserName(username).orElse(List.of()).stream()
-        .map(MadeGame::getGame).toList();
+            .map(MadeGame::getGame).toList();
   }
 
-  @Transactional
-  public List<Review> getUsersReviews(String username) {
-    return reviewRepository.findByUser_UserName(username).orElse(List.of());
-  }
 
   @Transactional
   public void deleteUserRelations(String username) {

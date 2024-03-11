@@ -158,6 +158,7 @@ function CreateGame() {
   const [gameMaxH, setGameMaxH] = useState("");
   const [gameMinPlayer, setGameMinPlayer] = useState("");
   const [gameMaxPlayer, setGameMaxPlayer] = useState("");
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
   const navigate = useNavigate();
   const leave = () => {
@@ -165,7 +166,16 @@ function CreateGame() {
     setTimeout(() => navigate("/all"), 1500);
   };
 
-  const handleSubmit = (e: React.MouseEvent) => {
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { checked, value } = e.target;
+    setSelectedCategories(prev =>
+      checked
+        ? [...prev, value]
+        : prev.filter(category => category !== value)
+    );
+  };
+
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     const game: Game = {
       name: gameName,
@@ -176,10 +186,14 @@ function CreateGame() {
       duration_max: parseInt(gameMaxH),
       players_min: parseInt(gameMinPlayer),
       players_max: parseInt(gameMaxPlayer),
+      categories: selectedCategories,
+      reviewCount: 0,
+      reportCount: 0
     };
-    createGame(game);
-    leave();
+    createGame(game).then(() => leave());
   };
+
+  const categoryOptions = ["E1", "E2", "E3", "E4"];
 
   return (
     <>
@@ -277,42 +291,18 @@ function CreateGame() {
         </div>
         <label htmlFor="game_categories">Kategorier:</label>
         <div className="input_row">
-          <div className="checkbox_item">
-            <input
-              type="checkbox"
-              id="Example1"
-              name="Example"
-              value="Example1"
-            />
-            <label htmlFor="Example1">Example1</label>
-          </div>
-          <div className="checkbox_item">
-            <input
-              type="checkbox"
-              id="Example2"
-              name="Example"
-              value="Example2"
-            />
-            <label htmlFor="Example2">Example2</label>
-          </div>
-          <div className="checkbox_item">
-            <input
-              type="checkbox"
-              id="Example3"
-              name="Example3"
-              value="Example3"
-            />
-            <label htmlFor="Example3">Example3</label>
-          </div>
-          <div className="checkbox_item">
-            <input
-              type="checkbox"
-              id="Example4"
-              name="Example4"
-              value="Example4"
-            />
-            <label htmlFor="Example4">Example4</label>
-          </div>
+          {categoryOptions.map((category, index) => (
+            <div className="checkbox_item" key={index}>
+              <input
+                type="checkbox"
+                id={category}
+                name="categories"
+                value={category}
+                onChange={handleCategoryChange}
+              />
+              <label htmlFor={category}>{category}</label>
+            </div>
+          ))}
         </div>
         <label htmlFor="game_emoji">Logo:</label>
         <div className="emoji_picker">
@@ -323,7 +313,7 @@ function CreateGame() {
           type="submit"
           id="create_button"
           value="Lag Spillet"
-          onClick={handleSubmit}
+          onClick={handleSubmit as React.MouseEventHandler<HTMLInputElement>}
         />
       </form>
     </>

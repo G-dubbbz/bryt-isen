@@ -6,6 +6,7 @@ import com.gruppe24.backend.entity.Category;
 import com.gruppe24.backend.entity.Game;
 import com.gruppe24.backend.service.GameRelationService;
 import com.gruppe24.backend.service.GameService;
+import com.gruppe24.backend.service.ReviewService;
 import com.gruppe24.backend.service.SecurityService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,11 +49,13 @@ public class GameController {
   private final GameService gameService;
   private final GameRelationService gameRelationService;
   private final SecurityService securityService;
+  private final ReviewService reviewService;
 
-  private GameController(GameService gameService, GameRelationService gameRelationService, SecurityService securityService) {
+  private GameController(GameService gameService, GameRelationService gameRelationService, SecurityService securityService, ReviewService reviewService) {
     this.gameService = gameService;
     this.gameRelationService = gameRelationService;
     this.securityService = securityService;
+    this.reviewService = reviewService;
   }
 
   /**
@@ -83,7 +86,7 @@ public class GameController {
     return new ResponseEntity<>("Game successfully updated", HttpStatus.OK);
   }
 
-  @DeleteMapping("/{ID}")
+  @DeleteMapping("/{ID}/delete")
   public ResponseEntity<String> deleteGame(@PathVariable Long ID) {
     gameService.deleteGame(ID);
     gameRelationService.deleteMadeGameRelation(ID);
@@ -97,8 +100,14 @@ public class GameController {
 
   @PostMapping("/{ID}/reviews")
   public ResponseEntity<String> createReview(@PathVariable Long ID, @RequestBody ReviewDTO reviewDTO) {
-    gameRelationService.createReview(securityService.getAuthenticatedUser(), ID, reviewDTO);
+    reviewService.createReview(securityService.getAuthenticatedUser(), ID, reviewDTO);
     return new ResponseEntity<>("Successfully created review", HttpStatus.CREATED);
+  }
+
+  @DeleteMapping("/{ID}/reviews")
+  public ResponseEntity<String> deleteReview(@PathVariable Long ID) {
+    reviewService.deleteReview(securityService.getAuthenticatedUser(), ID);
+    return new ResponseEntity<>("Successfully deleted review", HttpStatus.OK);
   }
 
   @GetMapping("/{ID}/categories")
@@ -110,5 +119,10 @@ public class GameController {
   public ResponseEntity<String> addGamesCategories(@PathVariable Long ID, @RequestBody List<String> categories) {
     gameRelationService.addCategories(ID, categories);
     return new ResponseEntity<>("Successfully added categories to game", HttpStatus.CREATED);
+  }
+
+  @GetMapping("/games")
+  public ResponseEntity<List<Game>> getGamesByCategory(@RequestParam String category) {
+    return new ResponseEntity<>(gameService.getGamesByCategory(category), HttpStatus.OK);
   }
 }

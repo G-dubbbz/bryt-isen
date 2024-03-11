@@ -16,23 +16,33 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
- * Provides services for managing relationships and interactions related to Game entities.
- * This service layer acts as an intermediary between the controller layer and the repository/data access layer.
- * It encapsulates business logic concerning game relationships, such as managing game creators, reviews, categories,
- * and the creation and deletion of these relationships, ensuring transactional safety and business rule enforcement.
+ * Provides services for managing relationships and interactions related to Game
+ * entities.
+ * This service layer acts as an intermediary between the controller layer and
+ * the repository/data access layer.
+ * It encapsulates business logic concerning game relationships, such as
+ * managing game creators, reviews, categories,
+ * and the creation and deletion of these relationships, ensuring transactional
+ * safety and business rule enforcement.
  *
- * <p>Key functionalities include:</p>
+ * <p>
+ * Key functionalities include:
+ * </p>
  * <ul>
- *   <li>Retrieving the creator of a specific game.</li>
- *   <li>Fetching all reviews or categories associated with a specific game.</li>
- *   <li>Creating and deleting relationships between games and users (MadeGame relationships).</li>
- *   <li>Managing reviews for games, including creating and deleting reviews, and updating game ratings accordingly.</li>
+ * <li>Retrieving the creator of a specific game.</li>
+ * <li>Fetching all reviews or categories associated with a specific game.</li>
+ * <li>Creating and deleting relationships between games and users (MadeGame
+ * relationships).</li>
+ * <li>Managing reviews for games, including creating and deleting reviews, and
+ * updating game ratings accordingly.</li>
  * </ul>
  *
- * <p>This service is intended for use by higher-level components, such as REST controllers,
- * or other services requiring manipulation and retrieval of game-related data.</p>
+ * <p>
+ * This service is intended for use by higher-level components, such as REST
+ * controllers,
+ * or other services requiring manipulation and retrieval of game-related data.
+ * </p>
  */
 @Service
 public class GameRelationService {
@@ -42,8 +52,9 @@ public class GameRelationService {
   private final HasCategoryRepository hasCategoryRepository;
   private final CategoryRepository categoryRepository;
 
-
-  public GameRelationService(GameRepository gameRepository, ReviewRepository reviewRepository, MadeGameRepository madeGameRepository, HasCategoryRepository hasCategoryRepository, CategoryRepository categoryRepository) {
+  public GameRelationService(GameRepository gameRepository, ReviewRepository reviewRepository,
+      MadeGameRepository madeGameRepository, HasCategoryRepository hasCategoryRepository,
+      CategoryRepository categoryRepository) {
     this.gameRepository = gameRepository;
     this.reviewRepository = reviewRepository;
     this.madeGameRepository = madeGameRepository;
@@ -65,18 +76,19 @@ public class GameRelationService {
 
   private ReviewDTO convertToReviewDTO(Review review) {
     ReviewDTO dto = new ReviewDTO();
-    dto.setTitle(review.getTitle());
     dto.setDescription(review.getDescription());
     dto.setStars(review.getStars());
     dto.setCreatedAt(review.getCreatedAt());
+    dto.setUserName(review.getUser().getUserName());
+    dto.setGameID(review.getGame().getID());
     return dto;
   }
 
   @Transactional
   public List<Category> getGamesCategories(Long ID) {
     return hasCategoryRepository.findByGame_ID(ID)
-            .orElseThrow(CategoryNotFoundException::new).stream()
-            .map(HasCategory::getCategory).toList();
+        .orElseThrow(CategoryNotFoundException::new).stream()
+        .map(HasCategory::getCategory).toList();
   }
 
   @Transactional
@@ -98,74 +110,6 @@ public class GameRelationService {
     }
     MadeGame madeGame = madeGameRepository.findByGame_ID(ID).get();
     madeGameRepository.delete(madeGame);
-  }
-
-  /**
-   * Tries to create a review based on given {@link ReviewDTO}.
-   * Also updates the games rating.
-   *
-   * @param authenticatedUser the authenticated user that tires to create the review
-   * @param id                id of the game the review is about
-   * @param reviewDTO         data transfer object with information about the review
-   */
-  @Transactional
-  public void createReview(User authenticatedUser, Long id, ReviewDTO reviewDTO) {
-    Review review = new Review();
-    review.setUser(authenticatedUser);
-
-    if (gameRepository.findByID(id).isEmpty()) {
-      throw new GameNotFoundException();
-    }
-    Game game = gameRepository.findByID(id).get();
-    review.setGame(game);
-
-    List<String> missingFields = new ArrayList<>();
-    if (reviewDTO.getTitle().isEmpty()) {
-      missingFields.add("title");
-    }
-    if (reviewDTO.getDescription().isEmpty()) {
-      missingFields.add("description");
-    }
-    if (reviewDTO.getStars().isEmpty()) {
-      missingFields.add("stars");
-    }
-
-    if (!missingFields.isEmpty()) {
-      String errorMessage = "Missing required fields: " + String.join(", ", missingFields);
-      throw new InvalidDtoException(errorMessage);
-    }
-
-    review.setTitle(reviewDTO.getTitle().get());
-    review.setDescription(reviewDTO.getDescription().get());
-    review.setStars(reviewDTO.getStars().get());
-    review.setCreatedAt(LocalDateTime.now());
-
-    game.setReviewCount(game.getReviewCount() + 1);
-    float newRating = ((game.getRating() * game.getReviewCount() - 1) - review.getStars()) / (game.getReviewCount());
-    game.setRating(newRating);
-
-    reviewRepository.save(review);
-  }
-
-
-  /**
-   * Tries to delete the review created by given {@link User} about given {@link Game}.
-   * It also updates the rating of the game.
-   *
-   * @param user   owner of the review
-   * @param gameID id of game review is about
-   * @throws GameNotFoundException   if it does not find the game with the given id.
-   * @throws ReviewNotFoundException if it does not find the review with the given game and user
-   */
-  @Transactional
-  public void deleteReview(User user, Long gameID) {
-    Game game = gameRepository.findByID(gameID).orElseThrow(GameNotFoundException::new);
-    Review review = reviewRepository.findByUserAndGame(user, game).orElseThrow(ReviewNotFoundException::new);
-
-    game.setReviewCount(game.getReviewCount() - 1);
-    float newRating = ((game.getRating() * game.getReviewCount() + 1) - review.getStars()) / (game.getReviewCount());
-    game.setRating(newRating);
-    reviewRepository.delete(review);
   }
 
   @Transactional

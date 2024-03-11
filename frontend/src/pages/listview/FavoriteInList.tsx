@@ -26,7 +26,7 @@ const FavoriteInList = ({ name, emoji, id, duration_min, duration_max, players_m
                     <div className="star-icon">
                         <span role="img" aria-label="star">⭐</span>
                     </div>
-                    <div className="rating-value">{rating}</div>
+                    <div className="rating-value">{rating.toFixed(1)}</div>                
                 </div>
             </div>
             <div className="game-text">

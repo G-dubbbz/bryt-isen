@@ -2,13 +2,23 @@ import { useState } from 'react';
 import Button from "../Button/Button";
 import "./Header.css";
 import { Link, useResolvedPath, useMatch, useNavigate } from "react-router-dom";
+import { isLoggedIn } from '../../services/UserService';
 
 function Header() {
   const navigate = useNavigate();
   const [isDropdownVisible, setIsDropdownVisible] = useState(false); // State to control the visibility of the dropdown
+  const [loggedIn, setLoggedIn] = useState(false); // State to control the visibility of the dropdown
 
   // Function to toggle dropdown visibility
-  const toggleDropdown = () => setIsDropdownVisible(!isDropdownVisible);
+  const toggleDropdown = () =>  {
+    setIsDropdownVisible(!isDropdownVisible);
+    checkLoggedIn();
+  }
+
+  const checkLoggedIn = async () => {
+    const loggedIn = await isLoggedIn();
+    setLoggedIn(loggedIn);
+  }
 
   return (
     <>
@@ -53,9 +63,17 @@ function Header() {
           </svg>
           {isDropdownVisible && (
             <div className="dropdown-menu">
-              <Link to="/login" className="dropdown-item">Login</Link>
-              <Link to="/reviews" className="dropdown-item">My Reviews</Link>
-              <Link to="/logout" className="dropdown-item">Log Out</Link>
+              {loggedIn ? (
+                <>
+                  <Link to="/reviews" className="dropdown-item" onClick={toggleDropdown}>My Reviews</Link>
+                  <Link to="/logout" className="dropdown-item" onClick={toggleDropdown}>Log Out</Link>
+                </>
+              ) : (
+                <>
+                  <Link to="/login" className="dropdown-item" onClick={toggleDropdown}>Login</Link>
+                </>
+              )}
+              
             </div>
           )}
         </div>

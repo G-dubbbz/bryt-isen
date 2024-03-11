@@ -4,7 +4,7 @@ import { getGame } from '../../services/GameService';
 import { Game, Review } from '../../services/Models';
 import './GameDetails.css';
 import { getGamesReviews } from '../../services/ReviewService';
-import Review1 from '../Review/Review';
+import ReviewPrompt from '../Review/ReviewPrompt';
 
 interface GameCardProps {
   emoji: string;
@@ -85,11 +85,12 @@ const GameDetails: React.FC = () => {
       <div className="reviews">
         <h2>Anmeldelser</h2>
         {reviews.map((review, index) => (
-        <Review1
+          console.log(review),
+        <ReviewPrompt
           key={index}
           stars={review.stars ?? 0}
-          creator={review.creator ?? ''}
-          text={review.text ?? ''}
+          creator={review.userName ?? ''}
+          text={review.description ?? ''}
         />
       ))}
       </div>

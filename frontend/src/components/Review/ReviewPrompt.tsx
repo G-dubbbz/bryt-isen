@@ -8,13 +8,13 @@ import "./Review.css";
 * @param text: string - text of the review
 */
 
-interface ReviewProps {
+interface ReviewInterface {
     stars: number; // Ensure stars is of type number
     creator: string;
     text: string;
-  }
+}
 
-  const Review = ({ stars, creator, text }: { stars: number, creator: string, text: string }) => {
+  const ReviewPrompt = ({ stars, creator, text }: { stars: number, creator: string, text: string }) => {
     const [showFullDesc, setShowFullDesc] = useState(false);
 
     const toggleShowFullDesc = () => {
@@ -38,14 +38,14 @@ interface ReviewProps {
                         </svg>
                     )}
                     </span>
-                 ))} 
+                 ))}
             </h1>
             <h2>{creator} said:</h2>
             {showFullDesc ? (
                 <div>
                     {text}
                     <button onClick={toggleShowFullDesc}>
-                        Show less  
+                        Show less
                         <svg width="20" height="10" viewBox="0 0 31 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M2 2.88965L15.5 16.5428L29 2.88965" stroke="white" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" transform="scale(1, -1) translate(0, -19)" />
                         </svg>
@@ -74,4 +74,4 @@ interface ReviewProps {
     );
 }
 
-export default Review;
+export default ReviewPrompt;

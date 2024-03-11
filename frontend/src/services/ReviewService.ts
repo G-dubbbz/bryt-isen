@@ -44,6 +44,7 @@ async function getGamesReviews(id: number): Promise<Array<Review>> {
     try {
         const response = await fetch(baseUrl + '/games/' + id + "/reviews", {headers : getHeaders()});
         const data = await response.json();
+        console.log(data);
         return data;
     } catch (error) {
         console.error('Error retrieving review:', error);

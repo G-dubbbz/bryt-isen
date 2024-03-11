@@ -15,7 +15,7 @@ const AllGames: React.FC = () => {
       try {
         const list = await getGames();
         setGames(list);
-        setFilteredGames(list); // Initially, all games are displayed
+        setFilteredGames(list);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -38,14 +38,11 @@ const AllGames: React.FC = () => {
       const gameMinDuration = game.duration_min ?? 0;
       const gameMaxDuration = game.duration_max ?? Number.MAX_SAFE_INTEGER;
   
-      // A game meets player criteria if its range accommodates the specified number of players.
       const meetsPlayerCriteria = numPlayers === 0 || (gameMinPlayers <= numPlayers && gameMaxPlayers >= numPlayers);
-  
-      // A game meets duration criteria if the game's duration range overlaps with the specified duration range.
-      // Adjusted logic: Check if the game's duration range intersects with the filter's duration range.
+
       const meetsDurationCriteria = 
-        (minDuration === 0 && maxDuration === 24) || // No duration filter applied
-        (gameMaxDuration >= minDuration && gameMinDuration <= maxDuration); // Check if game duration range intersects with filter range
+        (minDuration === 0 && maxDuration === 24) ||
+        (gameMaxDuration >= minDuration && gameMinDuration <= maxDuration);
   
       
       return meetsPlayerCriteria && meetsDurationCriteria;
@@ -69,7 +66,7 @@ const AllGames: React.FC = () => {
             name={game.name ?? "Default"}
             key={game.id ?? 0}
             id={game.id}
-            players={1} // Assuming this prop is for display purposes only
+            players={1}
           />
         ))}
       </div>

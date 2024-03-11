@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { List } from "../../services/Models";
 import { getList } from "../../services/Listservice";
 
+const BaseURL = "http://localhost:5173/";
+
 const FavoriteDetails: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
   const navigate = useNavigate();
@@ -27,7 +29,14 @@ const FavoriteDetails: React.FC = () => {
     if (list && list.games.length > 0) {
       const randomIndex = Math.floor(Math.random() * list.games.length);
       const randomGameId = list.games[randomIndex].id;
-      navigate(`/game/${randomGameId}`);
+      const isInPlaylist = list.games.some(game => game.id === randomGameId);
+
+      if (isInPlaylist) { //sjekker om spillet er i listen
+        navigate(BaseURL + `/game/${randomGameId}`);
+      } else { //hvis ikke, prøv igjen
+        console.log("Randomly selected game is not in the playlist. Trying again...");
+        handleRandomize();
+      }
     }
   };
 

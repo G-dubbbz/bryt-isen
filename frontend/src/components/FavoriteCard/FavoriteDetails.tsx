@@ -38,7 +38,7 @@ const FavoriteDetails: React.FC = () => {
   return (
     <div>
       <p>{list.name ?? "List not found."}</p>
-      <button onClick={handleRandomize}>Pick a random game</button>
+      <button onClick={handleRandomize}>Pick a random game!</button>
     </div>
   );
 };

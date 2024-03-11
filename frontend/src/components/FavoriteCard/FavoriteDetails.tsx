@@ -35,7 +35,7 @@ const FavoriteDetails: React.FC = () => {
         navigate(BaseURL + `/game/${randomGameId}`);
       } else { //hvis ikke, prøv igjen
         console.log("Randomly selected game is not in the playlist. Trying again...");
-        handleRandomize();
+        handleRandomize(); //rekursivt sålenge spillet ikke er i listen
       }
     }
   };

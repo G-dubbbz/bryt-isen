@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { getGame } from '../../services/GameService';
-import { Game } from '../../services/Models';
-import './GameDetails.css';
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { getGame } from "../../services/GameService";
+import { Game } from "../../services/Models";
+import "./GameDetails.css";
+import { List, addGameToList } from "../../services/Listservice"
 
 interface GameCardProps {
   emoji: string;
@@ -46,6 +47,17 @@ const GameDetails: React.FC = () => {
     fetchGameDetails();
   }, [id]);
 
+  const addToFavorites = () => {
+    alert("Spillet lagt til i favoritter!");
+    addGameToList(1, 2)
+    //addGameToList
+    //listnumber 1
+    //game id som er link
+
+
+
+  };
+
   if (!game) {
     return <div className="loading">Loading...</div>;
   }
@@ -55,17 +67,46 @@ const GameDetails: React.FC = () => {
       <h1 className="heading">{game.name}</h1>
       <p className="description">Beskrivelse: {game.description}</p>
       <div className="info">
-        <p><span className="label">Vurdering</span> <span>{game.rating}</span></p>
-        <p><span className="label">Min Spillere</span> <span>{game.players_min}</span></p>
-        <p><span className="label">Max Spillere</span> <span>{game.players_max}</span></p>
-        <p><span className="label">Min Varighet:</span> <span>{game.duration_min !== undefined ? `${game.duration_min} Minutes` : 'N/A'}</span></p>
-        <p><span className="label">Max Varighet:</span> <span>{game.duration_max !== undefined ? `${game.duration_max} Minutes` : 'N/A'}</span></p>
-        <p><span className="label">Antall vurderinger:</span> <span>{game.reviewCount}</span></p>
-        <p><span className="label">Antall ganger rapportert:</span> <span>{game.reportCount}</span></p>
-
+        <p>
+          <span className="label">Vurdering</span> <span>{game.rating}</span>
+        </p>
+        <p>
+          <span className="label">Min Spillere</span>{" "}
+          <span>{game.players_min}</span>
+        </p>
+        <p>
+          <span className="label">Max Spillere</span>{" "}
+          <span>{game.players_max}</span>
+        </p>
+        <p>
+          <span className="label">Min Varighet:</span>{" "}
+          <span>
+            {game.duration_min !== undefined
+              ? `${game.duration_min} Minutes`
+              : "N/A"}
+          </span>
+        </p>
+        <p>
+          <span className="label">Max Varighet:</span>{" "}
+          <span>
+            {game.duration_max !== undefined
+              ? `${game.duration_max} Minutes`
+              : "N/A"}
+          </span>
+        </p>
+        <p>
+          <span className="label">Antall vurderinger:</span>{" "}
+          <span>{game.reviewCount}</span>
+        </p>
+        <p>
+          <span className="label">Antall ganger rapportert:</span>{" "}
+          <span>{game.reportCount}</span>
+        </p>
       </div>
-      <br></br>
-      <GameCard emoji={''} name={game.name ?? "Default"} id={id ?? "Default"} />
+      <br />
+      <button onClick={addToFavorites}>Legg til i favoritter</button>
+      <br />
+      <GameCard emoji={""} name={game.name ?? "Default"} id={id ?? "Default"} />
     </div>
   );
 };

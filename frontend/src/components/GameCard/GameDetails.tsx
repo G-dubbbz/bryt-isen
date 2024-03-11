@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getGame } from '../../services/GameService';
 import { Game, Review } from '../../services/Models';
 import './GameDetails.css';
+import Timer from '../Timer/Timer';
 import { getGamesReviews } from '../../services/ReviewService';
 import ReviewPrompt from '../Review/ReviewPrompt';
 
@@ -77,6 +78,7 @@ const GameDetails: React.FC = () => {
         <p><span className="label">Max Varighet:</span> <span>{game.duration_max !== undefined ? `${game.duration_max} Minutes` : 'N/A'}</span></p>
         <p><span className="label">Antall vurderinger:</span> <span>{game.reviewCount}</span></p>
         <p><span className="label">Antall ganger rapportert:</span> <span>{game.reportCount}</span></p>
+        <p><span className="label">Timer:</span> <Timer /> </p>
 
       </div>
       <br />

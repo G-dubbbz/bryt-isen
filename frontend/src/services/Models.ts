@@ -7,13 +7,13 @@ export interface Game {
     description?: string;
     rules?: string;
     emoji?: string;
-    players_min: number; 
-    players_max: number; 
+    players_min: number;
+    players_max: number;
     rating?: number;
-    duration_min: number; 
-    duration_max: number; 
-    reviewCount: number; 
-    reportCount: number; 
+    duration_min: number;
+    duration_max: number;
+    reviewCount: number;
+    reportCount: number;
 }
 
 export interface List {
@@ -33,7 +33,7 @@ export interface Review {
     stars?: number;
     gameId?: number;
     text?: string;
-    creator?: string;
+    userName?: string;
  }
 
 export interface Category {

@@ -168,9 +168,9 @@ function CreateGame() {
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { checked, value } = e.target;
-    setSelectedCategories(prev => 
-      checked 
-        ? [...prev, value] 
+    setSelectedCategories(prev =>
+      checked
+        ? [...prev, value]
         : prev.filter(category => category !== value)
     );
   };
@@ -186,7 +186,9 @@ function CreateGame() {
       duration_max: parseInt(gameMaxH),
       players_min: parseInt(gameMinPlayer),
       players_max: parseInt(gameMaxPlayer),
-      categories: selectedCategories, // Now including the selected categories
+      categories: selectedCategories,
+      reviewCount: 0,
+      reportCount: 0
     };
     createGame(game).then(() => leave());
   };

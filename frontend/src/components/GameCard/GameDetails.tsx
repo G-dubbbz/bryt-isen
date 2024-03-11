@@ -84,7 +84,7 @@ const GameDetails: React.FC = () => {
 
       <div className="reviews">
         <h2>Anmeldelser</h2>
-        {reviews.map((review, index) => (
+        {reviews.map((review : Review, index) => (
           console.log(review),
         <ReviewPrompt
           key={index}

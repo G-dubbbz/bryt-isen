@@ -19,6 +19,7 @@ export interface Game {
 export interface List {
     name?: string;
     id: number;
+    games: Game[];
 }
 
 export interface User {

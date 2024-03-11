@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { List } from "../../services/Models";
 import { getList } from "../../services/Listservice";
 
 const FavoriteDetails: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
+  const navigate = useNavigate();
   const [list, setList] = useState<List | null>(null);
 
   useEffect(() => {
@@ -22,11 +23,24 @@ const FavoriteDetails: React.FC = () => {
     fetchListDetails();
   }, [id]);
 
+  const handleRandomize = () => {
+    if (list && list.games.length > 0) {
+      const randomIndex = Math.floor(Math.random() * list.games.length);
+      const randomGameId = list.games[randomIndex].id;
+      navigate(`/game/${randomGameId}`);
+    }
+  };
+
   if (list === null) {
     return <div className="loading">Loading...</div>;
   }
 
-  return <p>{list.name ?? "List not found."}</p>;
+  return (
+    <div>
+      <p>{list.name ?? "List not found."}</p>
+      <button onClick={handleRandomize}>Randomize</button>
+    </div>
+  );
 };
 
 export default FavoriteDetails;

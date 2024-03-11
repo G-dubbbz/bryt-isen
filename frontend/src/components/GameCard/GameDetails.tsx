@@ -6,6 +6,7 @@ import './GameDetails.css';
 import Timer from '../Timer/Timer';
 import { getGamesReviews } from '../../services/ReviewService';
 import ReviewPrompt from '../Review/ReviewPrompt';
+import Flag from '../Flag/Flag';
 
 interface GameCardProps {
   emoji: string;
@@ -79,6 +80,7 @@ const GameDetails: React.FC = () => {
         <p><span className="label">Antall vurderinger:</span> <span>{game.reviewCount}</span></p>
         <p><span className="label">Antall ganger rapportert:</span> <span>{game.reportCount}</span></p>
         <p><span className="label">Timer:</span> <Timer /> </p>
+        <p><span className="label">Report:</span> <span><Flag/></span></p>
 
       </div>
       <br />

@@ -31,7 +31,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/login/success" element={<LoginSuccess />} />
         <Route path="/welcome" element={<Welcome />} />
-        <Route path="/listview" element={<ListView />} />
+        <Route path="/listview/:id" element={<ListView />} />
       </Routes>
       <footer>
         <hr />

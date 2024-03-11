@@ -29,7 +29,7 @@ function App() {
         <Route path="/all" element={<AllGames />} />
         <Route path="/create" element={<CreateGame />} />
         <Route path="/game/:id" element={<GameDetails />} />
-        <Route path="/lists/:id" element={<FavoriteDetails />} />
+        <Route path="/lists/:id" element={<ListView />} />
         <Route path="/register" element={<UserForm />} />
         <Route path="/login" element={<Login />} />
         <Route path="/login/success" element={<LoginSuccess />} />

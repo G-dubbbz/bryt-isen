@@ -44,8 +44,6 @@
 .playlist-buttons {
     display: flex;
     align-items: flex-end;
-    /* Align items to the bottom */
-
 }
 
 .playlist-button {
@@ -56,6 +54,11 @@
     background: linear-gradient(135deg, #7bccf4, #d1f4ff);
     margin-right: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.playlist-button:hover {
+    transform: scale(1.1); /* Increase size on hover */
+    cursor: pointer;
 }
 
 .playlist-button::before {

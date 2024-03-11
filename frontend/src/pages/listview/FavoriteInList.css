@@ -97,9 +97,16 @@
 }
 
 .remove-button:hover {
-    background-color: rgb(160, 212, 229);
+    transform: scale(1.1); /* Increase size on hover */
+    background-color: rgb(143, 219, 245);
 }
 
 .game-text {
     color: white;
 }
+
+.game-item:hover {
+    background-color: rgb(160, 219, 251); /* Hover background color */
+    border: 2px solid rgb(128, 207, 249); /* Hover border */
+    cursor: pointer;
+  }

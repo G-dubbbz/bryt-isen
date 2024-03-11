@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getGame } from "../../services/GameService";
-import { Game } from "../../services/Models";
+import { Game, Review } from "../../services/Models";
 import "./GameDetails.css";
+import Timer from "../Timer/Timer";
+import { getGamesReviews } from "../../services/ReviewService";
+import ReviewPrompt from "../Review/ReviewPrompt";
 import { addGameToList, getMyLists } from "../../services/Listservice";
 
 interface GameCardProps {
@@ -31,6 +34,7 @@ const GameCard: React.FC<GameCardProps> = ({ emoji, name, id }) => {
 const GameDetails: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
   const [game, setGame] = useState<Game | null>(null);
+  const [reviews, setReviews] = useState<Review[]>([]);
 
   useEffect(() => {
     const fetchGameDetails = async () => {
@@ -38,6 +42,9 @@ const GameDetails: React.FC = () => {
         try {
           const gameData = await getGame(id);
           setGame(gameData);
+          // Fetch reviews for the game
+          const gameReviews = await getGamesReviews(Number(id));
+          setReviews(gameReviews);
         } catch (error) {
           console.error("Error fetching game details:", error);
         }
@@ -124,13 +131,31 @@ const GameDetails: React.FC = () => {
           <span className="label">Antall ganger rapportert:</span>{" "}
           <span>{game.reportCount}</span>
         </p>
+        <p>
+          <span className="label">Timer:</span> <Timer />{" "}
+        </p>
       </div>
-      <br />
       <button onClick={addToFavorites}>Legg til i favoritter</button>
       <button onClick={shareGame}>Del!</button>
-
       <br />
       <GameCard emoji={""} name={game.name ?? "Default"} id={id ?? "Default"} />
+
+      <div className="reviews">
+        <h2>Anmeldelser</h2>
+        {reviews.map(
+          (review: Review, index) => (
+            console.log(review),
+            (
+              <ReviewPrompt
+                key={index}
+                stars={review.stars ?? 0}
+                creator={review.userName ?? ""}
+                text={review.description ?? ""}
+              />
+            )
+          )
+        )}
+      </div>
     </div>
   );
 };

@@ -27,11 +27,11 @@ export interface User {
 }
 
 export interface Review {
+    game: any;
     id: Key | null | undefined;
     title?: string;
     description?: string;
     stars?: number;
-    gameId?: number;
     text?: string;
     userName?: string;
  }

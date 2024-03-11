@@ -17,8 +17,6 @@ async function getReviews(): Promise<Array<Review>> {
         const data = await response.json();
         const reviews: Array<Review> = [];
         data.forEach((review: unknown) => {
-            console.log(review);
-
             const parsedReview = review as Review;
             reviews.push(parsedReview);
         });

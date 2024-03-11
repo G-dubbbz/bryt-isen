@@ -1,9 +1,7 @@
-/* TODO: Fix aligning on duration and numOfPlayers */
-
 .game-item {
     display: flex;
     align-items: center;
-    /* justify-content: space-between; Add space between items */
+    justify-content: space-between;
     padding: 15px;
     border: 1px solid white;
     border-radius: 15px;
@@ -12,7 +10,6 @@
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-
 .game-icon {
     width: 60px;
     height: 60px;
@@ -20,12 +17,10 @@
     border-radius: 20%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-right: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .game-info {
     flex: 1;
-    /* Add styling for the main content of the game item */
 }
 
 .game-title {
@@ -33,6 +28,7 @@
     font-weight: bold;
     margin-bottom: 1px;
     text-align: left;
+    text-shadow: 1px 1px 2px rgba(96, 96, 96, 0.5);
 }
 
 .star-rating {
@@ -40,30 +36,32 @@
     display: flex;
     align-items: center;
     margin-top: 1px;
-    /* Add margin-top to separate rating from title */
 }
 
 .star-icon {
     margin-right: 5px;
 }
 
-.rating-value {
-    /* Add any additional styling for the rating value here */
+.game-text {
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    color: white;
+    margin-right: 40px;
 }
 
-.game-text {
-    flex: 1;
+.game-duration,
+.game-players {
+    text-shadow: 1px 1px 2px rgba(96, 96, 96, 0.5);
     display: flex;
     align-items: center;
 }
 
 .game-duration {
-    
+    justify-content: center; /* Center the content horizontally */
 }
 
 .game-players {
-    margin-left: 200px; /* Add more margin between game-players and remove-button */
-    margin-right: 100px; /* Add margin between game-players and remove-button */
+    margin-left: auto; /* Push game-players to the right */
 }
 
 .remove-button {
@@ -71,36 +69,37 @@
     height: 50px;
     border-radius: 50%;
     background-color: lightblue;
-    /* Add styling for the pink circle box */
     position: relative;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    cursor: pointer; /* Change cursor to pointer on hover */
-
+    cursor: pointer;
+    display: flex;
+    align-items: center; /* Align remove-cross vertically */
+    justify-content: center; /* Align remove-cross horizontally */
 }
 
 .remove-cross::before,
 .remove-cross::after {
-    content: ''; /* Ensure the pseudo-elements have content */
-    position: absolute; /* Position the pseudo-elements absolutely */
-    top: 50%; /* Align the pseudo-elements vertically */
-    left: 50%; /* Align the pseudo-elements horizontally */
-    width: 60%; /* Set the width of the pseudo-elements */
-    height: 2px; /* Set the height of the pseudo-elements */
-    background-color: white; /* Set the color of the pseudo-elements */
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60%;
+    height: 2px;
+    background-color: white;
 }
 
 .remove-cross::before {
-    transform: translate(-50%, -50%) rotate(45deg); /* Rotate the pseudo-element to create the cross shape */
+    transform: translate(-50%, -50%) rotate(45deg);
 }
 
 .remove-cross::after {
-    transform: translate(-50%, -50%) rotate(-45deg); /* Rotate the pseudo-element to create the cross shape */
+    transform: translate(-50%, -50%) rotate(-45deg);
 }
 
 .remove-button:hover {
-    background-color: rgb(160, 212, 229); /* Change background color on hover */
+    background-color: rgb(160, 212, 229);
 }
 
 .game-text {
-    color: white
+    color: white;
 }

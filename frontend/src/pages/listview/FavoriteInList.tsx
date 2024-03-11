@@ -16,10 +16,9 @@ function FavoriteInList() {
                 </div>
             </div>
             <div className="game-text">
-                <p className="game-duration">Duration</p>
-                <p className="game-players">NumberOfPlayers</p>
+                <div className="game-duration">Duration</div>
+                <div className="game-players">NumberOfPlayers</div>
             </div>
-
             <div className="remove-button">
                 <div className="remove-cross">
                 </div>

@@ -13,7 +13,6 @@ import Login from './components/LogIn/Login'
 import LoginSuccess from './components/LogIn/LoginSuccess'
 import Welcome from './components/LogIn/Welcome'
 import ListView from './pages/listview/PlaylistView'
-import FavoriteDetails from './components/FavoriteCard/FavoriteDetails'
 import GameReview from './components/GameCard/GameReview'
 
 // This way of handling the clientId is probaly not secure, but it works for now

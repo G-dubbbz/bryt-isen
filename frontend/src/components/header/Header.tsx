@@ -3,6 +3,7 @@ import Button from "../Button/Button";
 import "./Header.css";
 import { Link, useResolvedPath, useMatch, useNavigate } from "react-router-dom";
 import { isLoggedIn } from '../../services/UserService';
+import ColorSchemeToggle from '../ColorSchemeChanger/ColorSchemeToggle';
 
 function Header() {
   const navigate = useNavigate();
@@ -23,6 +24,10 @@ function Header() {
   return (
     <>
       <div className="header-row-1">
+        <div className='left'>
+          <div className='moon'>
+            <ColorSchemeToggle />
+          </div>
         <Button onClick={() => navigate("/create")}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -42,6 +47,7 @@ function Header() {
           </svg>
           <p>Create Game</p>
         </Button>
+        </div>
         <h1 id="title">Bryt Isen</h1>
         <div className="dropdown-container">
           <svg

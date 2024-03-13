@@ -39,8 +39,8 @@ const TopGames: React.FC = () => {
           name={game.name ?? "Default"}
           key={game.id ?? 0}
           id={game.id}
-          players={1}
-        />
+          players={1} 
+          rating={game.rating ?? 0}        />
       ))}
     </div>
     </div>

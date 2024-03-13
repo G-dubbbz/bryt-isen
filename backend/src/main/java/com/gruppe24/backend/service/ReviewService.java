@@ -111,4 +111,12 @@ public class ReviewService {
     return reviewRepository.findByUser_UserName(username).orElse(List.of());
   }
 
+  @Transactional
+  public void updateReview(User user, Long gameID, ReviewDTO reviewDTO) {
+    Review review = reviewRepository.findByUser_UserNameAndGame_ID(user.getUserName(), gameID).orElseThrow(ReviewNotFoundException::new);
+    reviewDTO.getDescription().ifPresent(review::setDescription);
+    reviewDTO.getStars().ifPresent(review::setStars);
+    reviewRepository.save(review);
+  }
+
 }

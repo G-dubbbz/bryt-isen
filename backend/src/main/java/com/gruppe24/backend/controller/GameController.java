@@ -9,6 +9,8 @@ import com.gruppe24.backend.service.GameRelationService;
 import com.gruppe24.backend.service.GameService;
 import com.gruppe24.backend.service.ReviewService;
 import com.gruppe24.backend.service.SecurityService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -51,6 +53,8 @@ public class GameController {
   private final GameRelationService gameRelationService;
   private final SecurityService securityService;
   private final ReviewService reviewService;
+
+  private static final Logger log = LoggerFactory.getLogger(GameController.class);
 
   private GameController(GameService gameService, GameRelationService gameRelationService, SecurityService securityService, ReviewService reviewService) {
     this.gameService = gameService;
@@ -131,5 +135,38 @@ public class GameController {
   @GetMapping("/games")
   public ResponseEntity<List<Game>> getGamesByCategory(@RequestParam String category) {
     return new ResponseEntity<>(gameService.getGamesByCategory(category), HttpStatus.OK);
+  }
+
+  @GetMapping("/{ID}/report")
+  public ResponseEntity<Boolean> hasReportedGame(@PathVariable Long ID) {
+    try {
+      log.info("------------------------------------------------");
+      log.info(String.valueOf(gameRelationService.hasReportedGame(securityService.getAuthenticatedUser(), ID)));
+      return new ResponseEntity<>(
+              gameRelationService.hasReportedGame(securityService.getAuthenticatedUser(), ID),
+              HttpStatus.OK);
+
+    } catch (RuntimeException e) {
+      return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+    }
+  }
+  
+  @PostMapping("/{ID}/report")
+  public ResponseEntity<Boolean> reportGame(@PathVariable Long ID) {
+    try {
+      gameRelationService.reportGame(securityService.getAuthenticatedUser(), ID);
+      return new ResponseEntity<>(true, HttpStatus.OK);
+    } catch (RuntimeException e) {
+      return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+    }
+  }
+  @DeleteMapping("/{ID}/report")
+  public ResponseEntity<Boolean> unReportGame(@PathVariable Long ID) {
+    try {
+      gameRelationService.unReportGame(securityService.getAuthenticatedUser(), ID);
+      return new ResponseEntity<>(true, HttpStatus.OK);
+    } catch (RuntimeException e) {
+      return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+    }
   }
 }

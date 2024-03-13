@@ -6,6 +6,7 @@ import './GameDetails.css';
 import Timer from '../Timer/Timer';
 import { getGamesReviews } from '../../services/ReviewService';
 import ReviewPrompt from '../Review/ReviewPrompt';
+import ReportFlag from '../Flag/Flag.tsx';
 
 interface GameCardProps {
   emoji: string;
@@ -78,7 +79,8 @@ const GameDetails: React.FC = () => {
         <p><span className="label">Max Varighet:</span> <span>{game.duration_max !== undefined ? `${game.duration_max} Minutes` : 'N/A'}</span></p>
         <p><span className="label">Antall vurderinger:</span> <span>{game.reviewCount}</span></p>
         <p><span className="label">Antall ganger rapportert:</span> <span>{game.reportCount}</span></p>
-        <p><span className="label">Timer:</span> <Timer /> </p>
+        <div><span className="label">Timer:</span> <Timer /> </div>
+        <p><span className="label">Report:</span> <span><ReportFlag id={game.id ?? 0}/></span></p>
 
       </div>
       <br />
@@ -87,7 +89,6 @@ const GameDetails: React.FC = () => {
       <div className="reviews">
         <h2>Anmeldelser</h2>
         {reviews.map((review : Review, index) => (
-          console.log(review),
         <ReviewPrompt
           key={index}
           stars={review.stars ?? 0}

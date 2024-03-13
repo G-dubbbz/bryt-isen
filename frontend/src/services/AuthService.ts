@@ -21,11 +21,11 @@ const useAuthCheck = ({ setLoggedIn, shouldRedirect = true }: UseAuthCheckProps)
     } catch (error) {
       console.error("Error checking login status:", error);
     }
-  }, [navigate, setLoggedIn]);
+  }, [navigate, setLoggedIn, shouldRedirect]);
 
   useEffect(() => {
     fetchLoggedIn();
-  }, [fetchLoggedIn]);
+  }, [fetchLoggedIn, setLoggedIn]);
 };
 
 export default useAuthCheck;

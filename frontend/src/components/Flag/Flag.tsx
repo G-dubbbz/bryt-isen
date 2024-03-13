@@ -16,7 +16,7 @@ const ReportFlag = ({ id }: { id: number }) => {
       setIsFilled(Boolean(reported));
     }
     checkIfReported();
-  }, [id]);
+  }, [id, isLoggedIn]);
 
   const report = async () => {
     if (!isLoggedIn) return alert('You need to be logged in to report a game');

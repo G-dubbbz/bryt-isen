@@ -39,3 +39,25 @@
     text-align: center;
     margin-top: 50px;
   }
+
+  .game-dropdown-menu{
+    background-color: white;
+    display: inline-block;
+    width: 8rem;
+    position: absolute;
+    z-index: 10;
+    
+  }
+
+  .game-dopdown-item{
+    color: black !important;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+
+  }
+
+  .game-dropdown-item:hover {
+    background-color: #f1f1f1;
+  }
+  

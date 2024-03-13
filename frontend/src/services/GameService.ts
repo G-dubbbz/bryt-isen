@@ -127,10 +127,9 @@ async function hasReportedGame(id: number): Promise<Boolean> {
         method: 'GET',
         headers: getHeaders()
     });
-    console.log(request);
     const response: Response = await fetch(request);
-    console.log(response);
-    console.log(response.json());
+
+    console.log(response.json()); // Code breaks if this line is removed
 
     return response.bodyUsed;
 }

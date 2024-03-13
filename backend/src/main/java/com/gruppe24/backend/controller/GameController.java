@@ -127,15 +127,14 @@ public class GameController {
   }
 
   @GetMapping("/{ID}/report")
-  public ResponseEntity<String> hasReportedGame(@PathVariable Long ID) {
+  public ResponseEntity<Boolean> hasReportedGame(@PathVariable Long ID) {
     try {
-      if (gameRelationService.hasReportedGame(securityService.getAuthenticatedUser(), ID)) {
-        return new ResponseEntity<>("true", HttpStatus.OK);
-      } else {
-        return new ResponseEntity<>("false", HttpStatus.OK);
-      }
+      return new ResponseEntity<>(
+              gameRelationService.hasReportedGame(securityService.getAuthenticatedUser(), ID),
+              HttpStatus.OK);
+
     } catch (RuntimeException e) {
-      return new ResponseEntity<>("false", HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
     }
   }
   @PostMapping("/{ID}/report")

@@ -4,8 +4,12 @@ import com.gruppe24.backend.dto.ReviewDTO;
 import com.gruppe24.backend.entity.Category;
 import com.gruppe24.backend.entity.Game;
 import com.gruppe24.backend.entity.User;
-import com.gruppe24.backend.exception.*;
+import com.gruppe24.backend.exception.CategoryNotFoundException;
+import com.gruppe24.backend.exception.GameNotFoundException;
+import com.gruppe24.backend.exception.ReviewNotFoundException;
+import com.gruppe24.backend.exception.UserNotFoundException;
 import com.gruppe24.backend.relation.HasCategory;
+import com.gruppe24.backend.relation.HasReported;
 import com.gruppe24.backend.relation.MadeGame;
 import com.gruppe24.backend.relation.Review;
 import com.gruppe24.backend.repository.*;
@@ -51,15 +55,17 @@ public class GameRelationService {
   private final MadeGameRepository madeGameRepository;
   private final HasCategoryRepository hasCategoryRepository;
   private final CategoryRepository categoryRepository;
+  private final HasReportedRepository hasReportedRepository;
 
   public GameRelationService(GameRepository gameRepository, ReviewRepository reviewRepository,
-      MadeGameRepository madeGameRepository, HasCategoryRepository hasCategoryRepository,
-      CategoryRepository categoryRepository) {
+                             MadeGameRepository madeGameRepository, HasCategoryRepository hasCategoryRepository,
+                             CategoryRepository categoryRepository, HasReportedRepository hasReportedRepository) {
     this.gameRepository = gameRepository;
     this.reviewRepository = reviewRepository;
     this.madeGameRepository = madeGameRepository;
     this.hasCategoryRepository = hasCategoryRepository;
     this.categoryRepository = categoryRepository;
+    this.hasReportedRepository = hasReportedRepository;
   }
 
   @Transactional
@@ -87,8 +93,8 @@ public class GameRelationService {
   @Transactional
   public List<Category> getGamesCategories(Long ID) {
     return hasCategoryRepository.findByGame_ID(ID)
-        .orElseThrow(CategoryNotFoundException::new).stream()
-        .map(HasCategory::getCategory).toList();
+            .orElseThrow(CategoryNotFoundException::new).stream()
+            .map(HasCategory::getCategory).toList();
   }
 
   @Transactional
@@ -130,5 +136,33 @@ public class GameRelationService {
     if (categoriesNotFound.isEmpty()) {
       throw new CategoryNotFoundException("Categories not found: " + categoriesNotFound);
     }
+  }
+
+  @Transactional
+  public void reportGame(User user, Long gameID) {
+    Game game = gameRepository.findByID(gameID).orElseThrow(GameNotFoundException::new);
+    if (hasReportedRepository.findByUser_UserNameAndGame_ID(user.getUserName(), gameID).isEmpty()) {
+      HasReported reported = new HasReported();
+      reported.setGame(game);
+      reported.setUser(user);
+      hasReportedRepository.save(reported);
+      game.setReportCount(game.getReportCount() + 1);
+      gameRepository.save(game);
+    }
+  }
+
+  @Transactional
+  public void unReportGame(User user, Long gameID) {
+    Game game = gameRepository.findByID(gameID).orElseThrow(GameNotFoundException::new);
+    if (hasReportedRepository.findByUser_UserNameAndGame_ID(user.getUserName(), gameID).isPresent()) {
+      hasReportedRepository.delete(hasReportedRepository.findByUser_UserNameAndGame_ID(user.getUserName(), gameID).get());
+      game.setReportCount(game.getReportCount() - 1);
+      gameRepository.save(game);
+    }
+  }
+
+  @Transactional
+  public boolean hasReportedGame(User user, Long gameID) {
+    return hasReportedRepository.findByUser_UserNameAndGame_ID(user.getUserName(), gameID).isPresent();
   }
 }

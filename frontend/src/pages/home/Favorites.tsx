@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import FavoriteCard from "../../components/FavoriteCard/FavoriteCard";
 import "./Favorites.css";
 import React from "react";
@@ -6,49 +6,52 @@ import { List } from "../../services/Models";
 import { createList, getMyLists } from "../../services/Listservice";
 import { getGamesFromList } from "../../services/GameService";
 import Button from "../../components/Button/Button";
+import useAuthCheck from "../../services/AuthService";
 
 function Favorites() {
+  const [loggedIn, setLoggedIn] = useState(false);
   const [lists, setLists] = React.useState<Array<List>>([]);
   const [emojis, setEmojis] = React.useState<Map<number, string[]>>(new Map());
   const [showInputBox, setShowInputBox] = useState(false);
   const [playlistName, setPlaylistName] = useState("");
 
-  useEffect(() => {
-    const fetchLists = async () => {
-      try {
-        const list = await getMyLists();
-        setLists(list);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+  useAuthCheck({ setLoggedIn });
 
-    fetchLists();
-  }, []);
-
-  useEffect(() => {
-    const fetchEmojis = async () => {
-      try {
-        const emojiDict = new Map<number, string[]>();
-        for (const list of lists) {
-          const games = await getGamesFromList(list.id);
-          const tempEmojis: string[] = [];
-          for (const game of games) {
-            tempEmojis.push(game.emoji ?? "");
-            if (tempEmojis.length === 4) {
-              break;
-            }
+  const fetchEmojis = useCallback(async () => {
+    try {
+      const emojiDict = new Map<number, string[]>();
+      for (const list of lists) {
+        const games = await getGamesFromList(list.id);
+        const tempEmojis: string[] = [];
+        for (const game of games) {
+          tempEmojis.push(game.emoji ?? "");
+          if (tempEmojis.length === 4) {
+            break;
           }
-          emojiDict.set(list.id, tempEmojis);
         }
-        setEmojis(emojiDict);
-      } catch (error) {
-        console.error("Error fetching data:", error);
+        emojiDict.set(list.id, tempEmojis);
       }
-    };
-
-    fetchEmojis();
+      setEmojis(emojiDict);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   }, [lists]);
+
+  const fetchLists = useCallback(async () => {
+    try {
+      const list = await getMyLists();
+      setLists(list);
+      await fetchEmojis();
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }, [fetchEmojis]);
+
+  useEffect(() => {
+    if (loggedIn) {
+      fetchLists();
+    }
+  }, [loggedIn, fetchLists]);
 
   const handleCreatePlaylistClick = () => {
     setShowInputBox(true);

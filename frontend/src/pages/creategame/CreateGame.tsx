@@ -3,8 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import "./CreateGame.css";
 import { createGame } from "../../services/GameService";
 import { Game } from "../../services/Models";
+import useAuthCheck from "../../services/AuthService";
 
 function CreateGame() {
+  const setLoggedIn = () => {};
+  useAuthCheck({setLoggedIn});
+
   const emojis = [
     "😀",
     "😃",

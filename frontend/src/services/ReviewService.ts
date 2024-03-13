@@ -40,7 +40,8 @@ async function getMyReviews(): Promise<Array<Review>> {
     }
 }
 
-async function getGamesReviews(id: number): Promise<Array<Review>> {
+
+async function getGamesReviews(id: string): Promise<Array<Review>> {
     try {
         const response = await fetch(baseUrl + '/games/' + id + "/reviews", {headers : getHeaders()});
         const data = await response.json();
@@ -70,6 +71,20 @@ async function createReview(id: string, review: Review): Promise<Response> {
         throw error;
     }
 }
+
+async function updateReview(review: Review): Promise<void> {
+    const request: RequestInfo = new Request(baseUrl + '/review/update', {
+        method: 'PATCH',
+        headers: getHeaders(),
+        body: JSON.stringify(review)
+    });
+
+    return fetch(request)
+    .then(res => {
+      console.log("got response:", res)
+    });
+}
+
 async function deleteReview(gameID: number): Promise<void> {
     const request: RequestInfo = new Request(baseUrl + '/reviews/' + gameID, {
         method: 'DELETE',
@@ -82,4 +97,4 @@ async function deleteReview(gameID: number): Promise<void> {
     });
 }
 
-export { getReviews, getMyReviews, getGamesReviews, createReview, deleteReview };
+export { getReviews, getMyReviews, getGamesReviews, createReview, deleteReview, updateReview };

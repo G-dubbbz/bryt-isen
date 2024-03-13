@@ -1,8 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import StarRating from "../StarRating/Star";
 import { Link } from "react-router-dom";
-import { createReview } from "../../services/ReviewService"; // Import the createReview function
+import { createReview, getGamesReviews, updateReview } from "../../services/ReviewService"; // Import the createReview function
+import { getUserName } from "../../services/UserService"; // Import the createReview function
+
+async function findCurrentUserReview(gameId: string) {
+  try {
+    const currentUserId = await getUserName(); // Assuming this function exists and returns the user's ID
+    const reviews = await getGamesReviews(gameId); // Wait for the promise to resolve to get the reviews array
+    const existingReview = reviews.find(review => review.userName === currentUserId); // Use find on the resolved array
+    return existingReview; // This will be undefined if no matching review is found
+  } catch (error) {
+    console.error('Error finding review:', error);
+    throw error; // Rethrow or handle as needed
+  }
+}
 
 function GameReview() {
   const { id } = useParams<{ id?: string }>(); // Define id as optional
@@ -11,10 +24,26 @@ function GameReview() {
   const [rating, setRating] = useState(0);
   const [reviewText, setReviewText] = useState("");
 
+   // Fetch and set existing review if available
+   useEffect(() => {
+    const fetchReview = async () => {
+      const existingReview = await findCurrentUserReview(id || "");
+      if (existingReview) {
+        setRating(existingReview.stars ?? 0); // Assuming the existing review object has a 'stars' property
+        setReviewText(existingReview.description ?? ""); // Assuming the existing review object has a 'description' property
+      }
+    };
+
+    if (id) fetchReview();
+  }, [id]); // Dependency array includes 'id' to refetch if the game id changes
+
+
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
 
     try {
+      
+      
       // Call the createReview function from services
       const response : Response = await createReview(id || "", {
         stars: rating, description: reviewText,

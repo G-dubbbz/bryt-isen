@@ -50,6 +50,21 @@ async function getUser(): Promise<User> {
     }
 }
 
+async function getUserName() {
+    try {
+      // Call the getUser function and wait for the result
+      const user = await getUser();
+      // Access the username from the User object
+      const userName = user.userName; // Replace 'username' with the actual property name if different
+      // You can also return the username if needed
+      return userName;
+    } catch (error) {
+      console.error("Failed to fetch user or username:", error);
+      // Handle the error or return a default value/fallback
+      return null; // or throw error;
+    }
+  }
+
 async function isLoggedIn(): Promise<boolean> {
     const request: RequestInfo = new Request(baseUrl + '/users/isLoggedIn', {
         method: 'GET',
@@ -87,4 +102,4 @@ async function deleteUser(username: string): Promise<void> {
 
 
 
-export { registerUser, getUsers, getUser, isLoggedIn, createUser, deleteUser };
+export { registerUser, getUsers, getUser, isLoggedIn, createUser, deleteUser, getUserName };

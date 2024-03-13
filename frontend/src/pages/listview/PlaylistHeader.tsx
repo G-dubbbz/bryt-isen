@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { Game } from '../../services/Models';
 import { useNavigate } from 'react-router-dom';
 import copy from 'copy-to-clipboard'; // Import the copy function from the copy-to-clipboard package
+import { deleteList } from '../../services/Listservice';
 
 
 const PlaylistHeader = ({ name }: { name: string }) => {
@@ -51,8 +52,23 @@ const PlaylistHeader = ({ name }: { name: string }) => {
 
     const shareList = () => {
         const currentURL = window.location.href; // Get the current URL
-        copy(currentURL); // Copy the current URL to the clipboard
-        alert('Link copied to clipboard'); // Show a popup message
+        copy(currentURL); 
+        alert('Link kopiert til utklippstavle.'); // Show a popup message
+    };
+
+    const handleDelete = async () => {
+        if (window.confirm("Er du sikker på at du vil slette spillelisten?")) {
+            try {
+                if (id) {
+                    await deleteList(parseInt(id));
+                    navigate(`/favorites`);
+                    window.alert("Spilleliste slettet.");
+                    console.log('Playlist deleted successfully');
+                }
+            } catch (error) {
+                console.error('Error deleting playlist:', error);
+            }
+        }
     };
 
     return (
@@ -65,7 +81,7 @@ const PlaylistHeader = ({ name }: { name: string }) => {
                 Return
             </Link>
             <div className="playlist-header">
-            <div className="playlist-icon">
+                <div className="playlist-icon">
                     {emojis.map((emoji: string, index: number) => (
                         <div className="playlist-icon-emoji" key={index}>{emoji}</div>
                     ))}
@@ -76,6 +92,7 @@ const PlaylistHeader = ({ name }: { name: string }) => {
                         <div className="playlist-button play" onClick={playLeave}></div>
                         <div className="playlist-button shuffle" onClick={shuffleLeave}></div>
                         <div className="playlist-button share" onClick={shareList}></div>
+                        <div className="playlist-button delete" onClick={handleDelete}></div>
                     </div>
                 </div>
             </div>

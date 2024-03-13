@@ -15,10 +15,10 @@ function PlaylistView() {
     const [games, setGames] = useState<Array<Game>>([]);
     
     const handleRemoveGame = async (gameId: number) => {
-        if (window.confirm("Vil du fjerne spillet fra spillelisten?")) {
+        if (window.confirm("Er du sikker på at du vil fjerne spillet fra spillelisten?")) {
             if (list) {
                 await removeGameFromList(list.id, gameId);
-                // Update the games list after removing the game
+                window.location.reload();
                 const updatedGames = games.filter(game => game.id !== gameId);
                 setGames(updatedGames);
             }

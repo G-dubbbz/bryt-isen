@@ -85,10 +85,6 @@
     font-size: 20px;
 }
 
-/* Play symbol */
-/* .playlist-button.play::before {
-    content: '▶'; /* Unicode character for play icon */
-
 .playlist-button.play::before {
     content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' class='icon icon-tabler icon-tabler-player-play' width='24' height='24' viewBox='0 0 24 24' stroke-width='2' stroke='%23ffffff' fill='none' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath stroke='none' d='M0 0h24v24H0z' fill='none'/%3E%3Cpath d='M7 4v16l13 -8z' /%3E%3C/svg%3E");
     position: absolute;
@@ -126,4 +122,14 @@
     /* Adjust size */
     height: 60%;
     /* Adjust size */
+}
+
+.playlist-button.delete::before {
+    content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' class='icon icon-tabler icon-tabler-trash' width='24' height='24' viewBox='0 0 24 24' stroke-width='2' stroke='%23ffffff' fill='none' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath stroke='none' d='M0 0h24v24H0z' fill='none'/%3E%3Cline x1='4' y1='7' x2='20' y2='7' /%3E%3Cline x1='10' y1='11' x2='10' y2='17' /%3E%3Cline x1='14' y1='11' x2='14' y2='17' /%3E%3Cpath d='M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12' /%3E%3Cpath d='M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3' /%3E%3C/svg%3E");
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    height: 60%;
 }

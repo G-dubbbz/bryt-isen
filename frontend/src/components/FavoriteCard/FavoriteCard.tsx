@@ -8,6 +8,10 @@ export interface FavoriteCardProps {
   key: number;
 }
 
+const ListItemWrapper: React.FC<{ emoji: string }> = ({ emoji }) => {
+  return <span className="listemoji">{emoji}</span>;
+};
+
 const FavoriteCard: React.FC<FavoriteCardProps> = ({
   emojilist,
   listname,
@@ -22,8 +26,8 @@ const FavoriteCard: React.FC<FavoriteCardProps> = ({
   return (
     <div className="favorite-card" onClick={navToList}>
       <div className="favorite-card_thumbnail">
-        {emojilist.map((emoji: string) => (
-          <span className="listemoji">{emoji}</span>
+        {emojilist.map((emoji: string, index: number) => (
+          <ListItemWrapper key={index} emoji={emoji} />
         ))}
       </div>
       <a className="listname">{listname}</a>

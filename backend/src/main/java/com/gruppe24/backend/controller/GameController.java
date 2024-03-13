@@ -4,6 +4,7 @@ import com.gruppe24.backend.dto.GameDTO;
 import com.gruppe24.backend.dto.ReviewDTO;
 import com.gruppe24.backend.entity.Category;
 import com.gruppe24.backend.entity.Game;
+import com.gruppe24.backend.entity.User;
 import com.gruppe24.backend.service.GameRelationService;
 import com.gruppe24.backend.service.GameService;
 import com.gruppe24.backend.service.ReviewService;
@@ -102,6 +103,12 @@ public class GameController {
   public ResponseEntity<String> createReview(@PathVariable Long ID, @RequestBody ReviewDTO reviewDTO) {
     reviewService.createReview(securityService.getAuthenticatedUser(), ID, reviewDTO);
     return new ResponseEntity<>("Successfully created review", HttpStatus.CREATED);
+  }
+
+  @PatchMapping("/{ID}/reviews")
+  public ResponseEntity<String> updateReview(@PathVariable Long ID, @PathVariable User user, @RequestBody ReviewDTO reviewDTO) {
+    reviewService.updateReview(user, ID, reviewDTO);
+    return new ResponseEntity<>("Review successfully updated", HttpStatus.OK);
   }
 
   @DeleteMapping("/{ID}/reviews")

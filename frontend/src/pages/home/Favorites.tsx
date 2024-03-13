@@ -114,18 +114,6 @@ function Favorites() {
         </div>
       )}
       <div className="favorite-lists">
-        <FavoriteCard
-          emojilist={["🍕", "🍔", "🍟", "🏆", "🧪"]}
-          listname="Veryveryveryveryverylonglistname"
-          id={0}
-          key={999}
-        />
-        <FavoriteCard
-          emojilist={["😳", "✨", "🌈"]}
-          listname="Fadderuke"
-          id={0}
-          key={998}
-        />
         {lists.map((list: List) => (
           <FavoriteCard
             emojilist={emojis.get(list.id) ?? []}

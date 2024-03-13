@@ -80,7 +80,7 @@ const GameDetails: React.FC = () => {
         <p><span className="label">Antall vurderinger:</span> <span>{game.reviewCount}</span></p>
         <p><span className="label">Antall ganger rapportert:</span> <span>{game.reportCount}</span></p>
         <p><span className="label">Timer:</span> <Timer /> </p>
-        <p><span className="label">Report:</span> <span><Flag/></span></p>
+        <p><span className="label">Report:</span> <span><Flag id={game.id ?? 0}/></span></p>
 
       </div>
       <br />

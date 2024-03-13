@@ -125,4 +125,35 @@ public class GameController {
   public ResponseEntity<List<Game>> getGamesByCategory(@RequestParam String category) {
     return new ResponseEntity<>(gameService.getGamesByCategory(category), HttpStatus.OK);
   }
+
+  @GetMapping("/{ID}/report")
+  public ResponseEntity<String> hasReportedGame(@PathVariable Long ID) {
+    try {
+      if (gameRelationService.hasReportedGame(securityService.getAuthenticatedUser(), ID)) {
+        return new ResponseEntity<>("true", HttpStatus.OK);
+      } else {
+        return new ResponseEntity<>("false", HttpStatus.OK);
+      }
+    } catch (RuntimeException e) {
+      return new ResponseEntity<>("false", HttpStatus.NOT_FOUND);
+    }
+  }
+  @PostMapping("/{ID}/report")
+  public ResponseEntity<Boolean> reportGame(@PathVariable Long ID) {
+    try {
+      gameRelationService.reportGame(securityService.getAuthenticatedUser(), ID);
+      return new ResponseEntity<>(true, HttpStatus.OK);
+    } catch (RuntimeException e) {
+      return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+    }
+  }
+  @DeleteMapping("/{ID}/report")
+  public ResponseEntity<Boolean> unReportGame(@PathVariable Long ID) {
+    try {
+      gameRelationService.unReportGame(securityService.getAuthenticatedUser(), ID);
+      return new ResponseEntity<>(true, HttpStatus.OK);
+    } catch (RuntimeException e) {
+      return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
+    }
+  }
 }

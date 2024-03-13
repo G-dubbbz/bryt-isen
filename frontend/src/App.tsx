@@ -12,7 +12,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google'
 import Login from './components/LogIn/Login'
 import LoginSuccess from './components/LogIn/LoginSuccess'
 import Welcome from './components/LogIn/Welcome'
-import FavoriteDetails from './components/FavoriteCard/FavoriteDetails'
+import ListView from './pages/listview/PlaylistView'
 import GameReview from './components/GameCard/GameReview'
 import Logout from './components/LogOut/Logout'
 
@@ -29,11 +29,12 @@ function App() {
         <Route path="/all" element={<AllGames />} />
         <Route path="/create" element={<CreateGame />} />
         <Route path="/game/:id" element={<GameDetails />} />
-        <Route path="/lists/:id" element={<FavoriteDetails />} />
+        <Route path="/lists/:id" element={<ListView />} />
         <Route path="/register" element={<UserForm />} />
         <Route path="/login" element={<Login />} />
         <Route path="/login/success" element={<LoginSuccess />} />
         <Route path="/welcome" element={<Welcome />} />
+        <Route path="/listview/:id" element={<ListView />} />
         <Route path="/review/:id" element={<GameReview />} />
         <Route path="/logout" element={<Logout />} />
       </Routes>

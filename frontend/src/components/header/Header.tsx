@@ -2,17 +2,32 @@ import { useState } from 'react';
 import Button from "../Button/Button";
 import "./Header.css";
 import { Link, useResolvedPath, useMatch, useNavigate } from "react-router-dom";
+import { isLoggedIn } from '../../services/UserService';
+import ColorSchemeToggle from '../ColorSchemeChanger/ColorSchemeToggle';
 
 function Header() {
   const navigate = useNavigate();
   const [isDropdownVisible, setIsDropdownVisible] = useState(false); // State to control the visibility of the dropdown
+  const [loggedIn, setLoggedIn] = useState(false); // State to control the visibility of the dropdown
 
   // Function to toggle dropdown visibility
-  const toggleDropdown = () => setIsDropdownVisible(!isDropdownVisible);
+  const toggleDropdown = () =>  {
+    setIsDropdownVisible(!isDropdownVisible);
+    checkLoggedIn();
+  }
+
+  const checkLoggedIn = async () => {
+    const loggedIn = await isLoggedIn();
+    setLoggedIn(loggedIn);
+  }
 
   return (
     <>
       <div className="header-row-1">
+        <div className='left'>
+          <div className='moon'>
+            <ColorSchemeToggle />
+          </div>
         <Button onClick={() => navigate("/create")}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -30,8 +45,9 @@ function Header() {
             <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
             <path d="M13.5 6.5l4 4" />
           </svg>
-          <p>Create Game</p>
+          <p>Lag spill</p>
         </Button>
+        </div>
         <h1 id="title">Bryt Isen</h1>
         <div className="dropdown-container">
           <svg
@@ -53,9 +69,17 @@ function Header() {
           </svg>
           {isDropdownVisible && (
             <div className="dropdown-menu">
-              <Link to="/login" className="dropdown-item">Login</Link>
-              <Link to="/reviews" className="dropdown-item">My Reviews</Link>
-              <Link to="/logout" className="dropdown-item">Log Out</Link>
+              {loggedIn ? (
+                <>
+                  <Link to="/reviews" className="dropdown-item" onClick={toggleDropdown}>My Reviews</Link>
+                  <Link to="/logout" className="dropdown-item" onClick={toggleDropdown}>Log Out</Link>
+                </>
+              ) : (
+                <>
+                  <Link to="/login" className="dropdown-item" onClick={toggleDropdown}>Login</Link>
+                </>
+              )}
+              
             </div>
           )}
         </div>

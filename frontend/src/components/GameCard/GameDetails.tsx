@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getGame } from "../../services/GameService";
 import { Game, List, Review } from "../../services/Models";
 import "./GameDetails.css";
 import Timer from "../Timer/Timer";
 import { getGamesReviews } from "../../services/ReviewService";
 import ReviewPrompt from "../Review/ReviewPrompt";
-import { addGameToList, getMyLists } from "../../services/Listservice";
+import ReportFlag from "../Flag/Flag.tsx";
+import { addGameToList, getMyLists } from "../../services/Listservice.ts";
 
 interface GameCardProps {
   emoji: string;
@@ -16,9 +17,6 @@ interface GameCardProps {
 
 const GameCard: React.FC<GameCardProps> = ({ emoji, name, id }) => {
   const navigate = useNavigate();
-
-  const [lists, setLists] = useState<Array<{ id: string; name: string }>>([]);
-  const [selectedList, setSelectedList] = useState<string>("");
 
   const handleReviewClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
@@ -47,9 +45,9 @@ const GameDetails: React.FC = () => {
   };
 
   const doAddGameToList = (listId: number, gameId: number) => {
-    addGameToList(listId, gameId)
-    toggleListDropDown()
-  }
+    addGameToList(listId, gameId);
+    toggleListDropDown();
+  };
 
   useEffect(() => {
     const fetchGameDetails = async () => {
@@ -154,47 +152,51 @@ const GameDetails: React.FC = () => {
           <span className="label">Antall ganger rapportert:</span>{" "}
           <span>{game.reportCount}</span>
         </p>
-        <p>
+        <div>
           <span className="label">Timer:</span> <Timer />{" "}
+        </div>
+        <p>
+          <span className="label">Report:</span>{" "}
+          <span>
+            <ReportFlag id={game.id ?? 0} />
+          </span>
         </p>
       </div>
       <button onClick={addToFavorites}>Legg til i favoritter</button>
       <button onClick={toggleListDropDown}>Legg til i spilleliste</button>
       <div>
-      {isDropdownVisible && (
-  <div className="game-dropdown-menu">
-    {lists.map((list) => (
-      <div key={list.id} className="game-dropdown-item" onClick={() => doAddGameToList(Number(list.id), game?.id ?? 0)}>
-        <p>{list.name}</p>
+        {isDropdownVisible && (
+          <div className="game-dropdown-menu">
+            {lists.map((list) => (
+              <div
+                key={list.id}
+                className="game-dropdown-item"
+                onClick={() => doAddGameToList(Number(list.id), game?.id ?? 0)}
+              >
+                <p>{list.name}</p>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
-    ))}
-  </div>
-)}
+      <button onClick={shareGame}>Del</button>
+      <br />
+      <GameCard
+        emoji={""}
+        name={game.name ?? "Default"}
+        id={id ?? "Default"}
+      ></GameCard>
 
-        <button onClick={shareGame}>Del</button>
-        <br />
-        <GameCard
-          emoji={""}
-          name={game.name ?? "Default"}
-          id={id ?? "Default"}
-        />
-
-        <div className="reviews">
-          <h2>Anmeldelser</h2>
-          {reviews.map(
-            (review: Review, index) => (
-              console.log(review),
-              (
-                <ReviewPrompt
-                  key={index}
-                  stars={review.stars ?? 0}
-                  creator={review.userName ?? ""}
-                  text={review.description ?? ""}
-                />
-              )
-            )
-          )}
-        </div>
+      <div className="reviews">
+        <h2>Anmeldelser</h2>
+        {reviews.map((review: Review, index) => (
+          <ReviewPrompt
+            key={index}
+            stars={review.stars ?? 0}
+            creator={review.userName ?? ""}
+            text={review.description ?? ""}
+          />
+        ))}
       </div>
     </div>
   );

@@ -98,5 +98,38 @@ async function deleteGame(id: string): Promise<void> {
     });
 }
 
+async function reportGame(id: number): Promise<boolean> {
+    const request: RequestInfo = new Request(baseUrl + '/games/' + id + '/report', {
+        method: 'POST',
+        headers: getHeaders()
+    });
 
-export { getGames, getMyGames, getGamesFromList, getGame, createGame, updateGame, deleteGame};
+    const response: Response = await fetch(request);
+    console.log(response);
+
+    return response.ok;
+}
+
+async function unReportGame(id: number): Promise<boolean> {
+    const request: RequestInfo = new Request(baseUrl + '/games/' + id + '/report', {
+        method: 'DELETE',
+        headers: getHeaders()
+    });
+
+    const response: Response = await fetch(request);
+    console.log(response);
+
+    return response.ok;
+}
+
+async function hasReportedGame(id: number): Promise<boolean> {
+    const request: RequestInfo = new Request(baseUrl + '/games/' + id + '/report', {
+        method: 'GET',
+        headers: getHeaders()
+    });
+    const response: Response = await fetch(request);
+    const data = await response.json();
+    return data;
+}
+
+export { getGames, getMyGames, getGamesFromList, getGame, createGame, updateGame, deleteGame, reportGame, unReportGame, hasReportedGame};

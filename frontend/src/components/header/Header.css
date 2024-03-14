@@ -50,3 +50,18 @@
 .dropdown-item:hover {
   background-color: #f1f1f1;
 }
+
+.left {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 4rem;
+}
+
+.moon > svg:hover{
+  cursor: pointer;
+  background-color: #b6b6b621;
+  border-radius: 50%;
+}
+
+

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { getGame } from "../../services/GameService";
 import { Game } from "../../services/Models";
 import "./GameDetails.css";
@@ -13,6 +13,9 @@ interface GameCardProps {
 
 const GameCard: React.FC<GameCardProps> = ({ emoji, name, id }) => {
   const navigate = useNavigate();
+
+  const [lists, setLists] = useState<Array<{ id: string; name: string }>>([]);
+  const [selectedList, setSelectedList] = useState<string>("");
 
   const handleReviewClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
@@ -32,6 +35,18 @@ const GameDetails: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
   const [game, setGame] = useState<Game | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
+  const [lists, setLists] = useState<Array<List>>([]);
+
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+
+  const toggleListDropDown = () => {
+    setIsDropdownVisible(!isDropdownVisible);
+  };
+
+  const doAddGameToList = (listId: number, gameId: number) => {
+    addGameToList(listId, gameId)
+    toggleListDropDown()
+  }
 
   useEffect(() => {
     const fetchGameDetails = async () => {
@@ -47,7 +62,15 @@ const GameDetails: React.FC = () => {
         }
       }
     };
-
+    const fetchLists = async () => {
+      try {
+        const myLists = await getMyLists();
+        setLists(myLists);
+      } catch (error) {
+        console.error("Error fetching lists:", error);
+      }
+    };
+    fetchLists();
     fetchGameDetails();
   }, [id]);
 

@@ -5,6 +5,7 @@ import React from "react";
 import { List } from "../../services/Models";
 // import { Game, List } from "../../services/Models";
 import { getMyLists } from "../../services/Listservice";
+import { getGamesFromList } from "../../services/GameService";
 // import { getGamesFromList } from "../../services/GameService";
 
 function Favorites() {
@@ -23,25 +24,31 @@ function Favorites() {
     fetchLists();
   }, []);
 
-  // function getEmojis(id: number) {
-  //   const [emojis, setEmojis] = React.useState<Array<string>>([]);
+  const [emojis, setEmojis] = React.useState<Map<number, string[]>>(new Map());
 
-  //   useEffect(() => {
-  //     const getEmojisFromList = async (id: number) => {
-  //       try {
-  //         const games = await getGamesFromList(id);
-  //         // TODO: Sjekk om lista er tom, isåfall returner default emoji🧪🧪🧪🧪
-  //         let emojis = new Set(games.map((game: Game) => game.emoji ?? "🧪"));
-  //         setEmojis(Array.from(emojis));
-  //       } catch (error) {
-  //         console.error("Error fetching data:", error);
-  //       }
-  //     };
+  useEffect(() => {
+    const fetchEmojis = async () => {
+      try {
+        let emojiDict = new Map<number, string[]>();
+        for (let list of lists){
+          const games = await getGamesFromList(list.id);
+          let tempEmojis: string[] = [];
+          for (let game of games){
+            tempEmojis.push(game.emoji ?? "");
+            if (tempEmojis.length === 4){
+              break;
+            }
+          }
+          emojiDict.set(list.id, tempEmojis);
+        }
+        setEmojis(emojiDict);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
 
-  //     getEmojisFromList(id);
-  //   }, []);
-  //   return emojis;
-  // }
+    fetchEmojis();
+  }, []);
 
   return (
     <div className="favorite-lists">
@@ -59,14 +66,7 @@ function Favorites() {
       />
       {lists.map((list: List) => (
         <FavoriteCard
-          emojilist={
-            [
-              "🧪",
-              "🧪",
-              "🧪",
-              "🧪",
-            ] /* TODO: gjør at lista henter emojis fra spillene i lista, men må sjekke om den er tom */
-          }
+          emojilist={emojis.get(list.id) ?? []}
           listname={list.name ?? "Default"}
           id={list.id}
           key={list.id}

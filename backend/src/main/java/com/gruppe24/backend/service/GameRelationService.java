@@ -1,17 +1,14 @@
 package com.gruppe24.backend.service;
 
-import com.gruppe24.backend.dto.ReviewDTO;
 import com.gruppe24.backend.entity.Category;
 import com.gruppe24.backend.entity.Game;
 import com.gruppe24.backend.entity.User;
 import com.gruppe24.backend.exception.CategoryNotFoundException;
 import com.gruppe24.backend.exception.GameNotFoundException;
-import com.gruppe24.backend.exception.ReviewNotFoundException;
 import com.gruppe24.backend.exception.UserNotFoundException;
 import com.gruppe24.backend.relation.HasCategory;
 import com.gruppe24.backend.relation.HasReported;
 import com.gruppe24.backend.relation.MadeGame;
-import com.gruppe24.backend.relation.Review;
 import com.gruppe24.backend.repository.*;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -72,22 +69,6 @@ public class GameRelationService {
   public User getGamesCreator(Long ID) {
     MadeGame madeGame = madeGameRepository.findByGame_ID(ID).orElseThrow(UserNotFoundException::new);
     return madeGame.getUser();
-  }
-
-  @Transactional
-  public List<ReviewDTO> getGamesReviews(Long ID) {
-    List<Review> reviews = reviewRepository.findByGame_ID(ID).orElseThrow(ReviewNotFoundException::new);
-    return reviews.stream().map(this::convertToReviewDTO).toList();
-  }
-
-  private ReviewDTO convertToReviewDTO(Review review) {
-    ReviewDTO dto = new ReviewDTO();
-    dto.setDescription(review.getDescription());
-    dto.setStars(review.getStars());
-    dto.setCreatedAt(review.getCreatedAt());
-    dto.setUserName(review.getUser().getUserName());
-    dto.setGameID(review.getGame().getID());
-    return dto;
   }
 
   @Transactional

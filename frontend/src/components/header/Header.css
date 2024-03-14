@@ -15,17 +15,6 @@
   padding: 0 2rem;
 }
 
-@media (min-width: 768px) {
-  #title {
-    font-size: 5rem;
-  }
-
-  .header-links {
-    width: 50%;
-  }
-}
-
-
 .dropdown-container {
   position: relative;
   display: inline-block;
@@ -64,4 +53,29 @@
   border-radius: 50%;
 }
 
+@media (min-width: 768px) {
+  #title {
+    font-size: 5rem;
+  }
 
+  .header-links {
+    width: 50%;
+  }
+
+}
+
+@media (max-width: 767px) {
+  .header-row-1 {
+    padding: 0.5rem;
+  }
+
+  .left {
+    gap: 1rem;
+  }
+
+  .moon > svg:hover{
+    cursor: pointer;
+    background-color: #b6b6b621;
+    border-radius: 50%;
+  }
+}

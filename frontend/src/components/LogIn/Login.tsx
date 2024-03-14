@@ -27,13 +27,13 @@ const Login = () => {
       "http://localhost:8080/oauth2/authorization/google");
 
   return (
-    <div>
-      {redirected.redirected && (
+    <div className="login_div">
+    {redirected.redirected && (
         <h2>You must be logged in to use this function</h2>
       )}
       <h2>Klikk for å logge inn eller registrere bruker:</h2>
       <Button className="login_button" onClick={handleLogin}>
-        <p>Logg inn med Google</p>
+        <p className="login_button_text">Logg inn med Google</p>
       </Button>
     </div>
   );

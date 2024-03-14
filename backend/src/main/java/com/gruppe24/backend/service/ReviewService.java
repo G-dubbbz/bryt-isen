@@ -1,6 +1,5 @@
 package com.gruppe24.backend.service;
 
-import com.gruppe24.backend.controller.UserController;
 import com.gruppe24.backend.dto.ReviewDTO;
 import com.gruppe24.backend.entity.Game;
 import com.gruppe24.backend.entity.User;
@@ -107,11 +106,6 @@ public class ReviewService {
   }
 
   @Transactional
-  public List<Review> getUsersReviews(String username) {
-    return reviewRepository.findByUser_UserName(username).orElse(List.of());
-  }
-
-  @Transactional
   public void updateReview(User user, Long gameID, ReviewDTO reviewDTO) {
     Review review = reviewRepository.findByUser_UserNameAndGame_ID(user.getUserName(), gameID).orElseThrow(ReviewNotFoundException::new);
     reviewDTO.getDescription().ifPresent(review::setDescription);
@@ -119,4 +113,18 @@ public class ReviewService {
     reviewRepository.save(review);
   }
 
+  @Transactional
+  public List<Review> getUsersReviews(String username) {
+    return reviewRepository.findByUser_UserName(username).orElse(List.of());
+  }
+
+  @Transactional
+  public List<Review> getGamesReviews(Long ID) {
+    return reviewRepository.findByGame_ID(ID).orElseThrow(ReviewNotFoundException::new);
+  }
+
+  public Review getReview(User user, Long id) {
+    return reviewRepository.findByUser_UserNameAndGame_ID(user.getUserName(), id)
+            .orElseThrow(ReviewNotFoundException::new);
+  }
 }

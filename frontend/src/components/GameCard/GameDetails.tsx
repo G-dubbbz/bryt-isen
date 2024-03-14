@@ -18,9 +18,6 @@ interface GameCardProps {
 const GameCard: React.FC<GameCardProps> = ({ emoji, name, id }) => {
   const navigate = useNavigate();
 
-  const [lists, setLists] = useState<Array<{ id: string; name: string }>>([]);
-  const [selectedList, setSelectedList] = useState<string>("");
-
   const handleReviewClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     navigate(`/review/${id}`);

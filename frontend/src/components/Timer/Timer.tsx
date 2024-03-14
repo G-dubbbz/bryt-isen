@@ -27,6 +27,7 @@ const Timer = () => {
   }, [isActive, seconds]);
 
   return (
+    <>
     <div className="timer">
       <div className="time">{new Date(seconds * 1000).toISOString().substr(11, 8)}</div>
       <div className="buttons">
@@ -38,6 +39,7 @@ const Timer = () => {
         </button>
       </div>
     </div>
+    </>
   );
 };
 

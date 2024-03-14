@@ -50,26 +50,61 @@ async function getGamesReviews(id: number): Promise<Array<Review>> {
     }
 }
 
-async function createReview(id: string, review: Review): Promise<Response> {
+async function getThisReview(id: string): Promise<Review> {
     try {
-            const request: RequestInfo = new Request(baseUrl + '/games/' + id + '/reviews', {
-                method: 'POST',
-                headers: getHeaders(),
-                body: JSON.stringify(review)
-            });
-
-            const response = await fetch(request);
-
-
-            console.log("Review submitted successfully");
-            return response;
+        const request: RequestInfo = new Request(baseUrl + '/games/' + id + '/myreview', {
+            method: 'GET',
+            headers: getHeaders()
+        });
+        console.log(request)
+        const response = await fetch(request);
+        const data = await response.json();
+        return data;
     } catch (error) {
-        console.error("Error creating review:", error);
+        console.error('Error retrieving review:', error);
         throw error;
     }
 }
+
+async function createReview(review: Review): Promise<Response> {
+  try {
+    const request: RequestInfo = new Request(baseUrl + '/games/' + review.gameId + '/reviews', {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify(review)
+    });
+
+    const response = await fetch(request);
+
+
+    console.log("Review submitted successfully");
+    return response;
+  } catch (error) {
+    console.error("Error creating review:", error);
+    throw error;
+  }
+}
+
+async function updateReview(review: Review): Promise<Response> {
+  try {
+    const request: RequestInfo = new Request(baseUrl + '/games/' + review.gameId + '/reviews', {
+      method: 'PATCH',
+      headers: getHeaders(),
+      body: JSON.stringify(review)
+    });
+
+    const response = await fetch(request);
+
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.error("Error updating review:", error);
+    throw error;
+  }
+}
+
 async function deleteReview(gameID: number): Promise<void> {
-    const request: RequestInfo = new Request(baseUrl + '/reviews/' + gameID, {
+    const request: RequestInfo = new Request(baseUrl + '/games/' + gameID + '/reviews', {
         method: 'DELETE',
         headers: getHeaders(),
     });
@@ -80,4 +115,4 @@ async function deleteReview(gameID: number): Promise<void> {
     });
 }
 
-export { getReviews, getMyReviews, getGamesReviews, createReview, deleteReview };
+export { getReviews, getMyReviews, getGamesReviews, createReview, deleteReview, getThisReview, updateReview };

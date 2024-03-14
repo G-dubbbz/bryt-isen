@@ -92,7 +92,7 @@ const GameDetails: React.FC = () => {
         <ReviewPrompt
           key={index}
           stars={review.stars ?? 0}
-          creator={review.userName ?? ''}
+          creator={review.user?.userName ?? ''}
           text={review.description ?? ''}
         />
       ))}

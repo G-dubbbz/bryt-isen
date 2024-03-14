@@ -41,17 +41,24 @@ function Favorites() {
     try {
       const list = await getMyLists();
       setLists(list);
-      await fetchEmojis();
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  }, [fetchEmojis]);
+  }, []);
 
   useEffect(() => {
     if (loggedIn) {
+      console.log("Fetching lists");
       fetchLists();
     }
   }, [loggedIn, fetchLists]);
+
+  useEffect(() => {
+    if (lists.length > 0) {
+      console.log("Fetching emojis");
+      fetchEmojis();
+    }
+  }, [lists, fetchEmojis]);
 
   const handleCreatePlaylistClick = () => {
     setShowInputBox(true);

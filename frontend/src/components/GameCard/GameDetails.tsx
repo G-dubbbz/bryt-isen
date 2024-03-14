@@ -30,32 +30,23 @@ const GameDetails: React.FC = () => {
   const [game, setGame] = useState<Game | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
 
-  useEffect(() => {
-    const fetchGameDetails = async () => {
-      if (id) {
-        try {
-          const gameData = await getGame(id);
-          setGame(gameData);
-          // Fetch reviews for the game
-          const gameReviews = await getGamesReviews(Number(id));
-          setReviews(gameReviews);
-        } catch (error) {
-          console.error("Error fetching game details:", error);
-        }
+  const fetchGameDetails = async () => {
+    if (id) {
+      try {
+        const gameData = await getGame(id);
+        setGame(gameData);
+        // Fetch reviews for the game
+        const gameReviews = await getGamesReviews(Number(id));
+        setReviews(gameReviews);
+      } catch (error) {
+        console.error("Error fetching game details:", error);
       }
-    };
-
-    fetchGameDetails();
-  }, [id]);
-
-  // La oss regne ut average rating, fordi det er gøy
-  useEffect(() => {
-    if (reviews.length > 0) {
-      const averageRating =
-        reviews.reduce((sum, review) => sum + (review.stars ?? 0), 0) / reviews.length;
-      setGame((prevGame) => prevGame && { ...prevGame, rating: averageRating });
     }
-  }, [reviews]);
+  };
+
+  useEffect(() => {
+    fetchGameDetails();
+  }, [id, fetchGameDetails]);
 
   if (!game) {
     return <div className="loading">Loading...</div>;

@@ -7,29 +7,23 @@ import Timer from '../Timer/Timer';
 import { getGamesReviews } from '../../services/ReviewService';
 import ReviewPrompt from '../Review/ReviewPrompt';
 import ReportFlag from '../Flag/Flag.tsx';
+import useAuthCheck from '../../services/AuthService.ts';
 
-interface GameCardProps {
-  emoji: string;
-  name: string;
-  id: string;
-}
 
-const GameCard: React.FC<GameCardProps> = ({ emoji, name, id }) => {
+const CreateReviewButton: React.FC<{id: number}> = ({id}) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
-  const handleReviewClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-    navigate(`/review/${id}`);
-  };
+  useAuthCheck({setLoggedIn: setIsLoggedIn, shouldRedirect: false});
 
   return (
-    <div className="game-card">
-      <h1>{emoji}</h1>
-      <h3>{name}</h3>
-      <button onClick={handleReviewClick}>Vurder dette spillet</button>
-    </div>
-  );
-};
+    <>
+    {isLoggedIn && (
+      <button onClick={() => navigate(`/review/${id}`)}>Skriv en anmeldelse</button>
+    )}
+    </>
+    );
+}
 
 const GameDetails: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
@@ -84,19 +78,18 @@ const GameDetails: React.FC = () => {
 
       </div>
       <br />
-      <GameCard emoji={''} name={game.name ?? "Default"} id={id ?? "Default"}/>
-
-      <div className="reviews">
-        <h2>Anmeldelser</h2>
-        {reviews.map((review : Review, index) => (
-        <ReviewPrompt
-          key={index}
-          stars={review.stars ?? 0}
-          creator={review.user?.userName ?? ''}
-          text={review.description ?? ''}
-        />
-      ))}
-      </div>
+        <div className="reviews">
+          <h2>Anmeldelser</h2>
+          <CreateReviewButton id={game.id ?? 0} />
+          {reviews.map((review: Review, index) => (
+            <ReviewPrompt
+              key={index}
+              stars={review.stars ?? 0}
+              creator={review.user?.userName ?? ''}
+              text={review.description ?? ''}
+            />
+          ))}
+        </div>
     </div>
   );
 };

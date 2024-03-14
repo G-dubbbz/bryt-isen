@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { getGame } from "../../services/GameService";
-import { Game } from "../../services/Models";
+import { Game, List, Review } from "../../services/Models";
 import "./GameDetails.css";
-import { addGameToList, getMyLists } from "../../services/Listservice";
+import Timer from "../Timer/Timer";
+import { getGamesReviews } from "../../services/ReviewService";
+import ReviewPrompt from "../Review/ReviewPrompt";
+import ReportFlag from "../Flag/Flag.tsx";
+import { addGameToList, getMyLists } from "../../services/Listservice.ts";
 
 interface GameCardProps {
   emoji: string;
@@ -151,13 +155,52 @@ const GameDetails: React.FC = () => {
           <span className="label">Antall ganger rapportert:</span>{" "}
           <span>{game.reportCount}</span>
         </p>
+        <div>
+          <span className="label">Timer:</span> <Timer />{" "}
+        </div>
+        <p>
+          <span className="label">Report:</span>{" "}
+          <span>
+            <ReportFlag id={game.id ?? 0} />
+          </span>
+        </p>
       </div>
-      <br />
       <button onClick={addToFavorites}>Legg til i favoritter</button>
-      <button onClick={shareGame}>Del!</button>
-
+      <button onClick={toggleListDropDown}>Legg til i spilleliste</button>
+      <div>
+        {isDropdownVisible && (
+          <div className="game-dropdown-menu">
+            {lists.map((list) => (
+              <div
+                key={list.id}
+                className="game-dropdown-item"
+                onClick={() => doAddGameToList(Number(list.id), game?.id ?? 0)}
+              >
+                <p>{list.name}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+      <button onClick={shareGame}>Del</button>
       <br />
-      <GameCard emoji={""} name={game.name ?? "Default"} id={id ?? "Default"} />
+      <GameCard
+        emoji={""}
+        name={game.name ?? "Default"}
+        id={id ?? "Default"}
+      ></GameCard>
+
+      <div className="reviews">
+        <h2>Anmeldelser</h2>
+        {reviews.map((review: Review, index) => (
+          <ReviewPrompt
+            key={index}
+            stars={review.stars ?? 0}
+            creator={review.userName ?? ""}
+            text={review.description ?? ""}
+          />
+        ))}
+      </div>
     </div>
   );
 };

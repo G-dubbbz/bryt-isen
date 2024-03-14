@@ -3,10 +3,8 @@ import FavoriteCard from "../../components/FavoriteCard/FavoriteCard";
 import "./Favorites.css";
 import React from "react";
 import { List } from "../../services/Models";
-// import { Game, List } from "../../services/Models";
 import { getMyLists } from "../../services/Listservice";
 import { getGamesFromList } from "../../services/GameService";
-// import { getGamesFromList } from "../../services/GameService";
 
 function Favorites() {
   const [lists, setLists] = React.useState<Array<List>>([]);
@@ -29,13 +27,13 @@ function Favorites() {
   useEffect(() => {
     const fetchEmojis = async () => {
       try {
-        let emojiDict = new Map<number, string[]>();
-        for (let list of lists){
+        const emojiDict = new Map<number, string[]>();
+        for (const list of lists) {
           const games = await getGamesFromList(list.id);
-          let tempEmojis: string[] = [];
-          for (let game of games){
+          const tempEmojis: string[] = [];
+          for (const game of games) {
             tempEmojis.push(game.emoji ?? "");
-            if (tempEmojis.length === 4){
+            if (tempEmojis.length === 4) {
               break;
             }
           }
@@ -48,7 +46,7 @@ function Favorites() {
     };
 
     fetchEmojis();
-  }, []);
+  }, [lists]);
 
   return (
     <div className="favorite-lists">

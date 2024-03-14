@@ -3,7 +3,12 @@ import './Flag.css';
 import { hasReportedGame, reportGame, unReportGame } from '../../services/GameService';
 import useAuthCheck from '../../services/AuthService';
 
-const ReportFlag = ({ id }: { id: number }) => {
+interface ReportFlagProps {
+  id: number;
+  onUpdate: () => void; // Add this line
+}
+
+const ReportFlag: React.FC<ReportFlagProps> = ({id, onUpdate}) => {
   const [isFilled, setIsFilled] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -27,6 +32,7 @@ const ReportFlag = ({ id }: { id: number }) => {
       setIsFilled(true);
       await reportGame(id);
     }
+    onUpdate();
   }
 
   return (

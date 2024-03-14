@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getGame } from '../../services/GameService';
 import { Game, Review } from '../../services/Models';
@@ -30,7 +30,7 @@ const GameDetails: React.FC = () => {
   const [game, setGame] = useState<Game | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
 
-  const fetchGameDetails = async () => {
+  const fetchGameDetails = useCallback(async () => {
     if (id) {
       try {
         const gameData = await getGame(id);
@@ -42,11 +42,11 @@ const GameDetails: React.FC = () => {
         console.error("Error fetching game details:", error);
       }
     }
-  };
+  }, [id]);
 
   useEffect(() => {
     fetchGameDetails();
-  }, [id, fetchGameDetails]);
+  }, [fetchGameDetails]);
 
   if (!game) {
     return <div className="loading">Loading...</div>;
@@ -65,7 +65,7 @@ const GameDetails: React.FC = () => {
         <p><span className="label">Antall vurderinger:</span> <span>{game.reviewCount}</span></p>
         <p><span className="label">Antall ganger rapportert:</span> <span>{game.reportCount}</span></p>
         <div><span className="label">Timer:</span> <Timer /> </div>
-        <p><span className="label">Report:</span> <span><ReportFlag id={game.id ?? 0}/></span></p>
+        <p><span className="label">Report:</span> <span><ReportFlag id={game.id ?? 0} onUpdate={fetchGameDetails}/></span></p>
 
       </div>
       <br />

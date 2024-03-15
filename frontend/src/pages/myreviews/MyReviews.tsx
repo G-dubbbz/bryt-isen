@@ -21,7 +21,7 @@ function MyReviews() {
     };
 
     fetchReviews();
-  });
+  }, []);
 
   return (
     <div>

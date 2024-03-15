@@ -80,6 +80,7 @@ public class ReviewService {
     float newRating = (currentTotalRating + review.getStars()) / game.getReviewCount();
     game.setRating(newRating);
 
+    gameRepository.save(game);
     reviewRepository.save(review);
   }
 
@@ -95,13 +96,25 @@ public class ReviewService {
   @Transactional
   public void deleteReview(User user, Long gameID) {
     Game game = gameRepository.findByID(gameID).orElseThrow(GameNotFoundException::new);
+    log.info("----------------------");
+    log.info(game.toString());
+
     Review review = reviewRepository.findByUserAndGame(user, game).orElseThrow(ReviewNotFoundException::new);
+    log.info("----------------------");
+    log.info(review.toString());
 
     float currentTotalRating = game.getRating() * game.getReviewCount();
+    log.info(String.valueOf(currentTotalRating));
     game.setReviewCount(game.getReviewCount() - 1);
-    float newRating = (currentTotalRating - review.getStars()) / game.getReviewCount();
-    game.setRating(newRating);
+    if (game.getReviewCount() != 0) {
+      float newRating = (currentTotalRating - review.getStars()) / game.getReviewCount();
+      log.info(String.valueOf(newRating));
+      game.setRating(newRating);
+    } else {
+      game.setRating(0);
+    }
 
+    gameRepository.save(game);
     reviewRepository.delete(review);
   }
 

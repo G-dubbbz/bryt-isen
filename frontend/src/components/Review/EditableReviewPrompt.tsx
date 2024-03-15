@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./Review.css";
 import Button from "../Button/Button";
 import { useNavigate } from "react-router";
+import { deleteReview } from "../../services/ReviewService";
 
 const EditButton = ({id}: {id: number}) => {
   const navigate = useNavigate();
@@ -30,9 +31,15 @@ const EditButton = ({id}: {id: number}) => {
     </Button>
   );
 };
-const DeleteButton = () => {
+
+interface DeleteButtonProps {
+  removeReview: () => void;
+}
+
+
+const DeleteButton = (props: DeleteButtonProps) => {
   return (
-    <Button onClick={() => console.log("Delete")} className="review-button">
+    <Button onClick={() => props.removeReview()} className="review-button">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         className="buttonIcon"
@@ -80,6 +87,14 @@ const EditableReviewPrompt = ({
 
   const maxlength = 80;
 
+  const removeReview = async () => {
+    console.log("deleting review");
+    if (window.confirm("Are you sure you want to delete this review?")) {
+      await deleteReview(id);
+      window.location.reload();
+    }
+  };
+  
   return (
     <div className="reviewDiv">
       <div className="review-toprow">
@@ -120,7 +135,7 @@ const EditableReviewPrompt = ({
         </h1>
         <div className="review-buttonContainer">
           <EditButton id={id}/>
-          <DeleteButton />
+          <DeleteButton removeReview={removeReview}/>
         </div>
       </div>
       <h2>{creator} said:</h2>

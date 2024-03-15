@@ -1,13 +1,14 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getGame } from '../../services/GameService';
-import { Game, Review } from '../../services/Models';
+import { Game, List, Review } from '../../services/Models';
 import './GameDetails.css';
 import Timer from '../Timer/Timer';
 import { getGamesReviews } from '../../services/ReviewService';
 import ReviewPrompt from '../Review/ReviewPrompt';
 import ReportFlag from '../Flag/Flag.tsx';
 import useAuthCheck from '../../services/AuthService.ts';
+import { addGameToList, getMyLists } from '../../services/Listservice.ts';
 
 
 const CreateReviewButton: React.FC<{id: number}> = ({id}) => {
@@ -29,6 +30,18 @@ const GameDetails: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
   const [game, setGame] = useState<Game | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
+  const [lists, setLists] = useState<Array<List>>([]);
+
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+
+  const toggleListDropDown = () => {
+    setIsDropdownVisible(!isDropdownVisible);
+  };
+
+  const doAddGameToList = (listId: number, gameId: number) => {
+    addGameToList(listId, gameId)
+    toggleListDropDown()
+  }
 
   const fetchGameDetails = useCallback(async () => {
     if (id) {
@@ -42,7 +55,51 @@ const GameDetails: React.FC = () => {
         console.error("Error fetching game details:", error);
       }
     }
+    const fetchLists = async () => {
+      try {
+        const myLists = await getMyLists();
+        setLists(myLists);
+      } catch (error) {
+        console.error("Error fetching lists:", error);
+      }
+    };
+    fetchLists();
   }, [id]);
+
+  
+
+  const addToFavorites = async () => {
+    if (game !== null && game.id !== null) {
+      const lists = await getMyLists();
+      await addGameToList(lists[0].id, game.id ?? 0);
+    }
+    //alert("Spillet er lagt til i favoritter!");
+
+    //addGameToList
+    //listnumber 1
+    //game id som er link
+  };
+
+  function shareGame(): void {
+    // Check if the Clipboard API is supported by the browser
+    if (!navigator.clipboard) {
+      console.error("Clipboard API not supported");
+      return;
+    }
+
+    // Get the current URL
+    const url: string = window.location.href;
+
+    // Copy the URL to the clipboard
+    navigator.clipboard
+      .writeText(url)
+      .then(() => {
+        console.log("URL copied to clipboard");
+      })
+      .catch((error) => {
+        console.error("Failed to copy URL to clipboard:", error);
+      });
+  }
 
   useEffect(() => {
     fetchGameDetails();
@@ -68,6 +125,24 @@ const GameDetails: React.FC = () => {
         <p><span className="label">Report:</span> <span><ReportFlag id={game.id ?? 0} onUpdate={fetchGameDetails}/></span></p>
 
       </div>
+      <button onClick={addToFavorites}>Legg til i favoritter</button>
+      <button onClick={toggleListDropDown}>Legg til i spilleliste</button>
+      <div>
+        {isDropdownVisible && (
+          <div className="game-dropdown-menu">
+            {lists.map((list) => (
+              <div
+                key={list.id}
+                className="game-dropdown-item"
+                onClick={() => doAddGameToList(Number(list.id), game?.id ?? 0)}
+              >
+                <p>{list.name}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+      <button onClick={shareGame}>Del</button>
       <br />
         <div className="reviews">
           <h2>Anmeldelser</h2>

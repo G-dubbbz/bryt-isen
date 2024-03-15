@@ -1,20 +1,30 @@
 import { useEffect, useState } from 'react';
 import './Flag.css';
 import { hasReportedGame, reportGame, unReportGame } from '../../services/GameService';
+import useAuthCheck from '../../services/AuthService';
 
-const ReportFlag = ({ id }: { id: number }) => {
+interface ReportFlagProps {
+  id: number;
+  onUpdate: () => void; // Add this line
+}
+
+const ReportFlag: React.FC<ReportFlagProps> = ({id, onUpdate}) => {
   const [isFilled, setIsFilled] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useAuthCheck({ setLoggedIn: setIsLoggedIn, shouldRedirect: false });
 
   useEffect(() => {
+    if (!isLoggedIn) return;
     async function checkIfReported() {
       const reported : boolean = await hasReportedGame(id);
       setIsFilled(Boolean(reported));
     }
     checkIfReported();
-  }, [id]);
+  }, [id, isLoggedIn]);
 
   const report = async () => {
-    if (!sessionStorage.getItem('token')) return alert('You need to be logged in to report a game');
+    if (!isLoggedIn) return alert('You need to be logged in to report a game');
     if (isFilled) {
       setIsFilled(false);
       await unReportGame(id);
@@ -22,6 +32,7 @@ const ReportFlag = ({ id }: { id: number }) => {
       setIsFilled(true);
       await reportGame(id);
     }
+    onUpdate();
   }
 
   return (

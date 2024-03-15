@@ -2,10 +2,12 @@ import { useEffect } from "react";
 import Button from "../Button/Button";
 import "./Login.css";
 import { isLoggedIn } from "../../services/UserService";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
+  const redirected = useParams<{ redirected?: string }>();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -26,6 +28,9 @@ const Login = () => {
 
   return (
     <div className="login_div">
+    {redirected.redirected && (
+        <h2>You must be logged in to use this function</h2>
+      )}
       <h2>Klikk for å logge inn eller registrere bruker:</h2>
       <Button className="login_button" onClick={handleLogin}>
         <p className="login_button_text">Logg inn med Google</p>

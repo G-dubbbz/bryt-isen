@@ -12,6 +12,7 @@ function MyReviews() {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
+        console.log("Fetching reviews");
         const list = await getMyReviews();
         list.reverse();
         setReviews(list);
@@ -21,7 +22,7 @@ function MyReviews() {
     };
 
     fetchReviews();
-  });
+  }, []);
 
   return (
     <div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getGame } from '../../services/GameService';
 import { Game, Review } from '../../services/Models';
@@ -7,61 +7,46 @@ import Timer from '../Timer/Timer';
 import { getGamesReviews } from '../../services/ReviewService';
 import ReviewPrompt from '../Review/ReviewPrompt';
 import ReportFlag from '../Flag/Flag.tsx';
+import useAuthCheck from '../../services/AuthService.ts';
 
-interface GameCardProps {
-  emoji: string;
-  name: string;
-  id: string;
-}
 
-const GameCard: React.FC<GameCardProps> = ({ emoji, name, id }) => {
+const CreateReviewButton: React.FC<{id: number}> = ({id}) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
-  const handleReviewClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-    navigate(`/review/${id}`);
-  };
+  useAuthCheck({setLoggedIn: setIsLoggedIn, shouldRedirect: false});
 
   return (
-    <div className="game-card">
-      <h1>{emoji}</h1>
-      <h3>{name}</h3>
-      <button onClick={handleReviewClick}>Vurder dette spillet</button>
-    </div>
-  );
-};
+    <>
+    {isLoggedIn && (
+      <button onClick={() => navigate(`/review/${id}`)}>Skriv en anmeldelse</button>
+    )}
+    </>
+    );
+}
 
 const GameDetails: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
   const [game, setGame] = useState<Game | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
 
-  useEffect(() => {
-    const fetchGameDetails = async () => {
-      if (id) {
-        try {
-          const gameData = await getGame(id);
-          setGame(gameData);
-          // Fetch reviews for the game
-          const gameReviews = await getGamesReviews(Number(id));
-          setReviews(gameReviews);
-        } catch (error) {
-          console.error("Error fetching game details:", error);
-        }
+  const fetchGameDetails = useCallback(async () => {
+    if (id) {
+      try {
+        const gameData = await getGame(id);
+        setGame(gameData);
+        // Fetch reviews for the game
+        const gameReviews = await getGamesReviews(Number(id));
+        setReviews(gameReviews);
+      } catch (error) {
+        console.error("Error fetching game details:", error);
       }
-    };
-
-    fetchGameDetails();
+    }
   }, [id]);
 
-  // La oss regne ut average rating, fordi det er gøy
   useEffect(() => {
-    if (reviews.length > 0) {
-      const averageRating =
-        reviews.reduce((sum, review) => sum + (review.stars ?? 0), 0) / reviews.length;
-      setGame((prevGame) => prevGame && { ...prevGame, rating: averageRating });
-    }
-  }, [reviews]);
+    fetchGameDetails();
+  }, [fetchGameDetails]);
 
   if (!game) {
     return <div className="loading">Loading...</div>;
@@ -80,23 +65,22 @@ const GameDetails: React.FC = () => {
         <p><span className="label">Antall vurderinger:</span> <span>{game.reviewCount}</span></p>
         <p><span className="label">Antall ganger rapportert:</span> <span>{game.reportCount}</span></p>
         <div><span className="label">Timer:</span> <Timer /> </div>
-        <p><span className="label">Report:</span> <span><ReportFlag id={game.id ?? 0}/></span></p>
+        <p><span className="label">Report:</span> <span><ReportFlag id={game.id ?? 0} onUpdate={fetchGameDetails}/></span></p>
 
       </div>
       <br />
-      <GameCard emoji={''} name={game.name ?? "Default"} id={id ?? "Default"}/>
-
-      <div className="reviews">
-        <h2>Anmeldelser</h2>
-        {reviews.map((review : Review, index) => (
-        <ReviewPrompt
-          key={index}
-          stars={review.stars ?? 0}
-          creator={review.user?.userName ?? ''}
-          text={review.description ?? ''}
-        />
-      ))}
-      </div>
+        <div className="reviews">
+          <h2>Anmeldelser</h2>
+          <CreateReviewButton id={game.id ?? 0} />
+          {reviews.map((review: Review, index) => (
+            <ReviewPrompt
+              key={index}
+              stars={review.stars ?? 0}
+              creator={review.user?.userName ?? ''}
+              text={review.description ?? ''}
+            />
+          ))}
+        </div>
     </div>
   );
 };

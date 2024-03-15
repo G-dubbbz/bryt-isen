@@ -25,6 +25,16 @@ public class ContainsGame {
   @JoinColumn(name = "ListID")
   private GameList gameList;
 
+  private int numberInList;
+
+  public int getNumberInList() {
+    return numberInList;
+  }
+
+  public void setNumberInList(int numberInList) {
+    this.numberInList = numberInList;
+  }
+
   public Game getGame() {
     return game;
   }
@@ -41,6 +51,12 @@ public class ContainsGame {
     this.gameList = gameList;
   }
 
-  // TODO: ADD TOSTRING
-
+  @Override
+  public String toString() {
+    return "ContainsGame{" +
+            "game=" + game +
+            ", gameList=" + gameList +
+            ", numberInList=" + numberInList +
+            '}';
+  }
 }

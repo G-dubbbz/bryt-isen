@@ -1,12 +1,7 @@
 package com.gruppe24.backend.service;
 
-import com.gruppe24.backend.dto.ReviewDTO;
 import com.gruppe24.backend.entity.Game;
 import com.gruppe24.backend.entity.GameList;
-import com.gruppe24.backend.entity.User;
-import com.gruppe24.backend.exception.GameNotFoundException;
-import com.gruppe24.backend.exception.InvalidDtoException;
-import com.gruppe24.backend.exception.ReviewNotFoundException;
 import com.gruppe24.backend.exception.UserNotFoundException;
 import com.gruppe24.backend.relation.HasGameList;
 import com.gruppe24.backend.relation.MadeGame;
@@ -108,7 +103,7 @@ public class UserRelationService {
       List<GameList> lists = hasGameLists.stream().map(HasGameList::getGameList).toList();
       hasGameListRepository.deleteAllInBatch(hasGameLists);
       lists.forEach(list -> {
-        containsGameRepository.findByGameListID(list.getID()).ifPresent(containsGameRepository::deleteAllInBatch);
+        containsGameRepository.findByGameListIDOrderByNumberInList(list.getID()).ifPresent(containsGameRepository::deleteAllInBatch);
         gameListRepository.delete(list);
       });
     });

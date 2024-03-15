@@ -11,6 +11,8 @@ import java.util.Optional;
 @Repository
 public interface ContainsGameRepository extends JpaRepository<ContainsGame, ContainsGameID> {
 
-  Optional<List<ContainsGame>> findByGameListID(Long ID);
+  Optional<List<ContainsGame>> findByGameListIDOrderByNumberInList(Long ID);
+
+  Optional<ContainsGame> findByGameList_IDAndGame_ID(Long listID, Long gameID);
 
 }

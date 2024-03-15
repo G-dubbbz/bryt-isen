@@ -1,39 +1,16 @@
 import { Link, useParams } from 'react-router-dom';
-import { getGamesFromList } from '../../services/GameService';
 import './PlaylistHeader.css';
-import { useEffect, useState } from 'react';
 import { Game } from '../../services/Models';
 import { useNavigate } from 'react-router-dom';
 import copy from 'copy-to-clipboard'; // Import the copy function from the copy-to-clipboard package
 import { deleteList } from '../../services/Listservice';
 
 
-const PlaylistHeader = ({ name }: { name: string }) => {
+const PlaylistHeader = ({ name, games, emojis }: { name: string, games: Array<Game>, emojis: Array<string> }) => {
 
     const navigate = useNavigate();
     const { id } = useParams<{ id?: string }>();
-    const [games, setGames] = useState<Array<Game>>([]);
-    const [emojis, setEmojis] = useState<Array<string>>([]);
 
-
-    useEffect(() => {
-        const fetchList = async () => {
-            if (id == undefined) {
-                return
-            }
-            const games = await getGamesFromList(parseInt(id));
-            setGames(games);
-
-            const tempEmojis: string[] = [];
-            games.slice(0, 4).forEach((game: Game) => {
-                if (game.emoji) {
-                    tempEmojis.push(game.emoji);
-                }
-            });
-            setEmojis(tempEmojis);
-        };
-        fetchList();
-    }, [id]);
 
     const playLeave = () => {
         if (games.length > 0) {

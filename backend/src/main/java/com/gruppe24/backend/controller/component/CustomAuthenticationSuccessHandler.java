@@ -23,7 +23,7 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
   private final UserRepository userRepository;
 
-  private static final long EXPIRATION_TIME = 900_000;
+  private static final long EXPIRATION_TIME = 900_000_000;
   private static final String SECRET = "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";
 
   private static final Logger log = LoggerFactory.getLogger(CustomAuthenticationSuccessHandler.class);

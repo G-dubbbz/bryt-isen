@@ -65,15 +65,10 @@ async function createList(list: List): Promise<void> {
 }
 
 async function updateList(list: List): Promise<void> {
-    const request: RequestInfo = new Request(baseUrl + '/lists/update', {
-        method: 'PUT',
+    new Request(baseUrl + '/lists/' + list.id, {
+        method: 'PATCH',
         headers: getHeaders(),
         body: JSON.stringify(list)
-    });
-
-    return fetch(request)
-    .then(res => {
-      console.log("got response:", res)
     });
 }
 
@@ -101,6 +96,15 @@ async function addGameToList(listId: number, gameId: number): Promise<void> {
     });
 }
 
+async function updateListOrder(listId: number, gameIdsInOrder: Array<number>): Promise<void> {
+    const request: RequestInfo = new Request(baseUrl + '/lists/' + listId + '/order', {
+        method: 'PUT',
+        headers: getHeaders(),
+        body: JSON.stringify(gameIdsInOrder)
+    });
+    fetch(request)
+}
+
 async function removeGameFromList(listId: number, gameId: number): Promise<void> {
     const request: RequestInfo = new Request(baseUrl + '/lists/' + listId + '/' + gameId, {
         method: 'DELETE',
@@ -113,4 +117,4 @@ async function removeGameFromList(listId: number, gameId: number): Promise<void>
     });
 }
 
-export { getLists, getMyLists, getList, createList, updateList, deleteList, addGameToList, removeGameFromList};
+export { getLists, getMyLists, getList, createList, updateList, deleteList, addGameToList, updateListOrder, removeGameFromList};

@@ -3,6 +3,7 @@ package com.gruppe24.backend.controller;
 import com.gruppe24.backend.dto.GameListDTO;
 import com.gruppe24.backend.entity.Game;
 import com.gruppe24.backend.entity.GameList;
+import com.gruppe24.backend.relation.ContainsGame;
 import com.gruppe24.backend.service.GameListRelationService;
 import com.gruppe24.backend.service.GameListService;
 import com.gruppe24.backend.service.SecurityService;
@@ -122,6 +123,13 @@ public class ListController {
     gameListRelationService.addGameToList(gameID, ID);
     return new ResponseEntity<>("Game successfully added to list", HttpStatus.OK);
   }
+
+  @PutMapping("/{ID}/order")
+  public ResponseEntity<String> updateListOrder(@PathVariable Long ID, @RequestBody List<Long> gameIDwithOrder) {
+    gameListRelationService.updateListOrder(gameIDwithOrder, ID);
+    return new ResponseEntity<>("List successfully updated", HttpStatus.OK);
+  }
+
 
   @DeleteMapping("/{ID}/{gameID}")
   public ResponseEntity<String> removeGameFromList(@PathVariable Long ID, @PathVariable Long gameID) {

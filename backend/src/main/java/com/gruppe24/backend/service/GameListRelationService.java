@@ -42,21 +42,34 @@ public class GameListRelationService {
 
   @Transactional
   public List<Game> getGames(Long listID) {
-    if (containsGameRepository.findByGameListID(listID).isEmpty()) {
+    if (containsGameRepository.findByGameListIDOrderByNumberInList(listID).isEmpty()) {
       throw new GameNotFoundException("Games not found from list");
     }
-    return containsGameRepository.findByGameListID(listID).get().stream()
+    return containsGameRepository.findByGameListIDOrderByNumberInList(listID).get().stream()
             .map(ContainsGame::getGame).toList();
   }
 
   @Transactional
   public void addGameToList(Long gameID, Long listID) {
     ContainsGame containsGame = new ContainsGame();
+    List<ContainsGame> list = containsGameRepository.findByGameListIDOrderByNumberInList(listID)
+            .orElseThrow(ListNotFoundException::new);
     containsGame.setGame(gameRepository.findByID(gameID).orElseThrow(GameNotFoundException::new));
     containsGame.setGameList(gameListRepository.findByID(listID).orElseThrow(ListNotFoundException::new));
+    containsGame.setNumberInList(list.size());
     containsGameRepository.save(containsGame);
   }
 
+  @Transactional
+  public void updateListOrder(List<Long> gameIDs, Long listID) {
+    for (int i = 0; i < gameIDs.size(); i++) {
+      ContainsGame containsGame = containsGameRepository.findByGameList_IDAndGame_ID(listID, gameIDs.get(i))
+              .orElseThrow(ListNotFoundException::new);
+      containsGame.setNumberInList(i);
+      containsGameRepository.save(containsGame);
+    }
+  }
+  
   @Transactional
   public void removeGameFromList(Long gameID, Long listID) {
     Game game = gameRepository.getReferenceById(gameID);
@@ -67,7 +80,7 @@ public class GameListRelationService {
 
   @Transactional
   public void removeAllGamesFromList(Long ID) {
-    List<ContainsGame> containsGames = containsGameRepository.findByGameListID(ID).orElseThrow(RelationNotFoundException::new);
+    List<ContainsGame> containsGames = containsGameRepository.findByGameListIDOrderByNumberInList(ID).orElseThrow(RelationNotFoundException::new);
     containsGameRepository.deleteAllInBatch(containsGames);
   }
 

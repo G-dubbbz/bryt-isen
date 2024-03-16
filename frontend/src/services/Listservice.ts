@@ -51,6 +51,21 @@ async function getList(id: number): Promise<List> {
     }
 }
 
+async function viewList(id: number): Promise<List> {
+    try {
+        const request: RequestInfo = new Request(baseUrl + '/lists/' + id + "/view", {
+            method: 'GET',
+            headers: getHeaders(),
+        });
+        const response = await fetch(request);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error retrieving list:', error);
+        throw error;
+    }
+}
+
 async function createList(list: List): Promise<void> {
     const request: RequestInfo = new Request(baseUrl + '/lists/create', {
         method: 'POST',
@@ -117,4 +132,4 @@ async function removeGameFromList(listId: number, gameId: number): Promise<void>
     });
 }
 
-export { getLists, getMyLists, getList, createList, updateList, deleteList, addGameToList, updateListOrder, removeGameFromList};
+export { getLists, getMyLists, getList, viewList, createList, updateList, deleteList, addGameToList, updateListOrder, removeGameFromList};

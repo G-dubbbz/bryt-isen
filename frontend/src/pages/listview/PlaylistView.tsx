@@ -9,10 +9,14 @@ import { DndContext, useSensors, PointerSensor, closestCenter, DragEndEvent } fr
 import { SortableContext, arrayMove, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import SortableGameInList from '../../components/Listview/Draggable';
 import { restrictToParentElement, restrictToVerticalAxis } from '@dnd-kit/modifiers';
+import NonEditableItemInList from '../../components/Listview/NonEditableListItem';
 
 function PlaylistView() {
     
     const { id } = useParams<{ id?: string }>();
+    const { view } = useParams<{ view?: string }>();
+    const isView = view === 'view';
+
     const [list, setList] = useState<List>();
     const [games, setGames] = useState<Array<Game>>([]);
     const [items, setItems] = useState<Array<number>>([]);
@@ -53,10 +57,10 @@ function PlaylistView() {
     });
 
     useEffect(() => {
-        if (list) {
+        if (list && !isView) {
             updateListOrder(list.id, items);
         }
-    }, [items, list]);
+    }, [items, list, isView]);
 
     const handleEndDrag = (event: DragEndEvent) => {
         const {active, over} = event;
@@ -74,7 +78,17 @@ function PlaylistView() {
             <div className='header'>
                 <PlaylistHeader name={list?.name ?? "name not found"} games={games} emojis={[...Array(games.length).keys()].map(i => games[i].emoji as unknown as string).slice(0,4)}/>
             </div>
-
+            {isView ? 
+            <>
+            <div className="game-items-container">
+                {
+                    items.map((item) => {
+                        const game = games.find(game => game.id === item);
+                        return game ? <NonEditableItemInList key={item} game={game} /> : null;
+                    })
+                }
+            </div>
+            </> : <>
             <div className="game-items-container">
                 <SortableContext items={items} strategy={verticalListSortingStrategy}>
                     {
@@ -85,6 +99,7 @@ function PlaylistView() {
                     }
                 </SortableContext>
             </div>
+            </>}
         </div>
         </DndContext>
     )

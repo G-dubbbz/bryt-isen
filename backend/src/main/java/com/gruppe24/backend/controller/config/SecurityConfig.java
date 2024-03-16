@@ -35,6 +35,7 @@ public class SecurityConfig {
               auth.requestMatchers("/", "/error").permitAll();
               auth.requestMatchers("/games", "/games/**").permitAll();
               auth.requestMatchers("/users/isLoggedIn").permitAll();
+              auth.requestMatchers("/lists/{id}/view").permitAll();
               auth.requestMatchers("/games/create", "/games/{id}/delete", "/games/{ID}/update").authenticated();
               auth.requestMatchers("/registration").authenticated();
               auth.anyRequest().authenticated();

@@ -18,9 +18,11 @@ function GameReview() {
       if (reviewText === "" && id !== undefined && !updating) {
         try {
           const myReviews = await getThisReview(id);
-          setRating(myReviews.stars ?? 0);
-          setReviewText(myReviews.description ?? "");
-          setUpdating(true);
+          if (myReviews && (myReviews.stars !== undefined || myReviews.description !== undefined)) {
+            setRating(myReviews.stars ?? 0);
+            setReviewText(myReviews.description ?? "");
+            setUpdating(true);
+          }
         } catch (error) {
           console.error("Error fetching game details:", error);
         }

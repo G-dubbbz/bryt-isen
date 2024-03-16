@@ -28,7 +28,7 @@ const PlaylistHeader = ({ name, games, emojis }: { name: string, games: Array<Ga
     };
 
     const shareList = () => {
-        const currentURL = window.location.href; // Get the current URL
+        const currentURL = window.location.href + "/view"; // Get the current URL
         copy(currentURL); 
         alert('Link kopiert til utklippstavle.'); // Show a popup message
     };

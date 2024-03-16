@@ -96,19 +96,12 @@ public class ReviewService {
   @Transactional
   public void deleteReview(User user, Long gameID) {
     Game game = gameRepository.findByID(gameID).orElseThrow(GameNotFoundException::new);
-    log.info("----------------------");
-    log.info(game.toString());
 
     Review review = reviewRepository.findByUserAndGame(user, game).orElseThrow(ReviewNotFoundException::new);
-    log.info("----------------------");
-    log.info(review.toString());
-
     float currentTotalRating = game.getRating() * game.getReviewCount();
-    log.info(String.valueOf(currentTotalRating));
     game.setReviewCount(game.getReviewCount() - 1);
     if (game.getReviewCount() != 0) {
       float newRating = (currentTotalRating - review.getStars()) / game.getReviewCount();
-      log.info(String.valueOf(newRating));
       game.setRating(newRating);
     } else {
       game.setRating(0);
@@ -120,9 +113,18 @@ public class ReviewService {
 
   @Transactional
   public void updateReview(User user, Long gameID, ReviewDTO reviewDTO) {
+    Game game = gameRepository.findByID(gameID).orElseThrow(GameNotFoundException::new);
     Review review = reviewRepository.findByUser_UserNameAndGame_ID(user.getUserName(), gameID).orElseThrow(ReviewNotFoundException::new);
+
+    float oldRating = game.getRating() * game.getReviewCount() - review.getStars();
+
     reviewDTO.getDescription().ifPresent(review::setDescription);
     reviewDTO.getStars().ifPresent(review::setStars);
+
+    float newRating = (oldRating + review.getStars()) / game.getReviewCount();
+    game.setRating(newRating);
+
+    gameRepository.save(game);
     reviewRepository.save(review);
   }
 

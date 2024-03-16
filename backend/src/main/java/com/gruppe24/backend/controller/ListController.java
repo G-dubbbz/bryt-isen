@@ -91,6 +91,11 @@ public class ListController {
     return new ResponseEntity<>(gameListService.getList(ID), HttpStatus.OK);
   }
 
+  @GetMapping("/{ID}/view")
+  public ResponseEntity<GameList> getViewedGameList(@PathVariable Long ID) {
+    return new ResponseEntity<>(gameListService.getList(ID), HttpStatus.OK);
+  }
+
   @PostMapping("/create")
   public ResponseEntity<GameList> createGameList(@RequestBody GameListDTO gameListDTO) {
     GameList list = gameListService.createGameList(gameListDTO);

@@ -21,7 +21,8 @@
   display: none;
 }
 
-.hamburger-menu {
+.hamburger-menu,
+.close-hamburger {
   display: flex;
   gap: 10px;
   align-items: center;
@@ -29,6 +30,21 @@
   margin: 20px 30px;
   font-weight: 600;
   font-size: large;
+}
+
+.mobile-filter {
+  display: block;
+  position: fixed;
+  top: 0;
+  right: 100%;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #456480;
+  transition: 0.4s;
+}
+
+.mobile-filter.is-active {
+  right: 0%;
 }
 
 @media (min-width: 768px) {
@@ -49,5 +65,8 @@
   }
   #wide {
     flex: 1;
+  }
+  .mobile-search {
+    display: none;
   }
 }

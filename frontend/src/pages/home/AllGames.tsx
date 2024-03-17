@@ -55,6 +55,27 @@ const AllGames: React.FC = () => {
     setFilteredGames(results);
   };
 
+  useEffect(() => {
+    const mobileFilter = document.querySelector(".mobile-filter");
+    const hamburgerMenu = document.querySelector(".hamburger-menu");
+    const closeHamburger = document.querySelector(".close-hamburger");
+    const applyFilter = document.querySelector(".apply-filter-button");
+
+    const toggleMobileFilter = () => {
+      mobileFilter?.classList.toggle("is-active");
+    };
+
+    hamburgerMenu?.addEventListener("click", toggleMobileFilter);
+    closeHamburger?.addEventListener("click", toggleMobileFilter);
+    applyFilter?.addEventListener("click", toggleMobileFilter);
+
+    // Clean up function to remove event listeners when component unmounts
+    return () => {
+      hamburgerMenu?.removeEventListener("click", toggleMobileFilter);
+      closeHamburger?.removeEventListener("click", toggleMobileFilter);
+    };
+  }, []);
+
   return (
     <div id="parent">
       <div id="narrow" className="search-and-filter">
@@ -78,7 +99,31 @@ const AllGames: React.FC = () => {
           <path d="M4 12l16 0" />
           <path d="M4 18l16 0" />
         </svg>
-        Search and Filter
+        Filtrer
+      </div>
+      <div className="mobile-search">
+        <Search onSearch={handleSearch} />
+      </div>
+      <div className="mobile-filter">
+        <div className="close-hamburger">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="44"
+            height="44"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="#ffffff"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M18 6l-12 12" />
+            <path d="M6 6l12 12" />
+          </svg>
+          Lukk meny
+        </div>
+        <Filter onFilterApplied={handleFilter} />
       </div>
       <div id="wide" className="game-grid">
         {filteredGames.map((game) => (

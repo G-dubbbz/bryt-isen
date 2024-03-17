@@ -44,7 +44,9 @@ const AllGames: React.FC = () => {
         (minDuration === 0 && maxDuration === 24) ||
         (gameMaxDuration >= minDuration && gameMinDuration <= maxDuration);
 
-      const hasCategory = categories.length === 0 || categories.some((category) => game.categories?.some((gameCategory) => gameCategory.name === category.name));
+      const hasCategory = categories.length === 0 || categories.every(category => 
+        game.categories?.some(gameCategory => gameCategory.name === category.name)
+      );
   
       
       return meetsPlayerCriteria && meetsDurationCriteria && hasCategory;

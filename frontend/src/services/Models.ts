@@ -1,5 +1,4 @@
 export interface Game {
-    categories: string[];
     id?: number;
     name?: string;
     description?: string;
@@ -12,6 +11,7 @@ export interface Game {
     duration_max: number;
     reviewCount: number;
     reportCount: number;
+    categories?: Array<Category>;
 }
 
 export interface List {
@@ -35,6 +35,5 @@ export interface Review {
  }
 
 export interface Category {
-    gameId?: number;
-    categoryName?: string;
+    name: string;
 }

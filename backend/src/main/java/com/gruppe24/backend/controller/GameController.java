@@ -65,8 +65,9 @@ public class GameController {
    * @return A list of {@link Game} entites
    */
   @GetMapping
-  public ResponseEntity<List<Game>> readGames() {
-    return new ResponseEntity<>(gameService.readGames(), HttpStatus.OK);
+  public ResponseEntity<List<GameDTO>> readGames() {
+    List<Game> games = gameService.readGames();
+    return new ResponseEntity<>(gameRelationService.convertToDto(games), HttpStatus.OK);
   }
 
   @GetMapping("/{ID}")
@@ -168,5 +169,10 @@ public class GameController {
     } catch (RuntimeException e) {
       return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
     }
+  }
+
+  @GetMapping("/categories")
+  public ResponseEntity<List<Category>> getAllCategories() {
+    return new ResponseEntity<>(gameRelationService.getAllCategories(), HttpStatus.OK);
   }
 }

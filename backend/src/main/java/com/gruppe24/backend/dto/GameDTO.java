@@ -1,5 +1,8 @@
 package com.gruppe24.backend.dto;
 
+import com.gruppe24.backend.entity.Category;
+
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -10,6 +13,7 @@ import java.util.Optional;
  */
 public class GameDTO {
 
+  private Long ID;
   private String name;
   private String description;
   private String rules;
@@ -18,6 +22,17 @@ public class GameDTO {
   private int players_max;
   private int duration_min;
   private int duration_max;
+
+
+  public Optional<Long> getID() {
+    return Optional.of(ID);
+  }
+
+  public void setID(Long ID) {
+    this.ID = ID;
+  }
+
+  private List<Category> categories;
 
   public Optional<String> getName() {
     return Optional.ofNullable(name);
@@ -84,4 +99,11 @@ public class GameDTO {
   }
 
 
+  public Optional<List<Category>> getCategories() {
+    return Optional.of(categories);
+  }
+
+  public void setCategories(List<Category> categories) {
+    this.categories = categories;
+  }
 }

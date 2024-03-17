@@ -1,5 +1,6 @@
 package com.gruppe24.backend.service;
 
+import com.gruppe24.backend.dto.GameDTO;
 import com.gruppe24.backend.entity.Category;
 import com.gruppe24.backend.entity.Game;
 import com.gruppe24.backend.entity.User;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Provides services for managing relationships and interactions related to Game
@@ -48,17 +50,15 @@ import java.util.List;
 @Service
 public class GameRelationService {
   private final GameRepository gameRepository;
-  private final ReviewRepository reviewRepository;
   private final MadeGameRepository madeGameRepository;
   private final HasCategoryRepository hasCategoryRepository;
   private final CategoryRepository categoryRepository;
   private final HasReportedRepository hasReportedRepository;
 
-  public GameRelationService(GameRepository gameRepository, ReviewRepository reviewRepository,
+  public GameRelationService(GameRepository gameRepository,
                              MadeGameRepository madeGameRepository, HasCategoryRepository hasCategoryRepository,
                              CategoryRepository categoryRepository, HasReportedRepository hasReportedRepository) {
     this.gameRepository = gameRepository;
-    this.reviewRepository = reviewRepository;
     this.madeGameRepository = madeGameRepository;
     this.hasCategoryRepository = hasCategoryRepository;
     this.categoryRepository = categoryRepository;
@@ -145,5 +145,34 @@ public class GameRelationService {
   @Transactional
   public boolean hasReportedGame(User user, Long gameID) {
     return hasReportedRepository.findByUser_UserNameAndGame_ID(user.getUserName(), gameID).isPresent();
+  }
+
+  public List<Category> getAllCategories() {
+    return categoryRepository.findAll();
+  }
+
+  public List<GameDTO> convertToDto(List<Game> games) {
+    List<GameDTO> gameDTOs = new ArrayList<>();
+    for (Game game: games) {
+      GameDTO gameDTO = new GameDTO();
+      gameDTO.setID(game.getID());
+      gameDTO.setName(game.getName());
+      gameDTO.setDescription(game.getDescription());
+      gameDTO.setRules(game.getRules());
+      gameDTO.setEmoji(game.getEmoji());
+      gameDTO.setDuration_min(game.getDuration_min());
+      gameDTO.setDuration_max(game.getDuration_max());
+      gameDTO.setPlayers_min(game.getPlayers_min());
+      gameDTO.setPlayers_max(game.getPlayers_max());
+
+      gameDTO.setCategories(hasCategoryRepository.findByGame_ID(game.getID())
+              .orElseThrow(RuntimeException::new)
+              .stream()
+              .map(HasCategory::getCategory)
+              .collect(Collectors.toList()));
+
+      gameDTOs.add(gameDTO);
+    }
+    return gameDTOs;
   }
 }

@@ -106,4 +106,20 @@ public class GameDTO {
   public void setCategories(List<Category> categories) {
     this.categories = categories;
   }
+
+  @Override
+  public String toString() {
+    return "GameDTO{" +
+            "ID=" + ID +
+            ", name='" + name + '\'' +
+            ", description='" + description + '\'' +
+            ", rules='" + rules + '\'' +
+            ", emoji='" + emoji + '\'' +
+            ", players_min=" + players_min +
+            ", players_max=" + players_max +
+            ", duration_min=" + duration_min +
+            ", duration_max=" + duration_max +
+            ", categories=" + categories +
+            '}';
+  }
 }

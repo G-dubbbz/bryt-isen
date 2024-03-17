@@ -9,6 +9,8 @@ import com.gruppe24.backend.service.GameRelationService;
 import com.gruppe24.backend.service.GameService;
 import com.gruppe24.backend.service.ReviewService;
 import com.gruppe24.backend.service.SecurityService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -52,6 +54,8 @@ public class GameController {
   private final SecurityService securityService;
   private final ReviewService reviewService;
 
+  private static final Logger log = LoggerFactory.getLogger(GameController.class);
+
   private GameController(GameService gameService, GameRelationService gameRelationService, SecurityService securityService, ReviewService reviewService) {
     this.gameService = gameService;
     this.gameRelationService = gameRelationService;
@@ -77,8 +81,10 @@ public class GameController {
 
   @PostMapping("/create")
   public ResponseEntity<Game> createGame(@RequestBody GameDTO gameDTO) {
+    log.info(gameDTO.toString());
     Game game = gameService.createGame(gameDTO);
     gameRelationService.createMadeGameRelation(game, securityService.getAuthenticatedUser());
+    gameRelationService.addCategories(game.getID(), gameDTO.getCategories().orElse(List.of()));
     return new ResponseEntity<>(game, HttpStatus.CREATED);
   }
 
@@ -129,7 +135,7 @@ public class GameController {
   }
 
   @PostMapping("/{ID}/categories")
-  public ResponseEntity<String> addGamesCategories(@PathVariable Long ID, @RequestBody List<String> categories) {
+  public ResponseEntity<String> addCategoryToGame(@PathVariable Long ID, @RequestBody List<Category> categories) {
     gameRelationService.addCategories(ID, categories);
     return new ResponseEntity<>("Successfully added categories to game", HttpStatus.CREATED);
   }

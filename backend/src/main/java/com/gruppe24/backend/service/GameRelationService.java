@@ -12,6 +12,8 @@ import com.gruppe24.backend.relation.HasReported;
 import com.gruppe24.backend.relation.MadeGame;
 import com.gruppe24.backend.repository.*;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -54,6 +56,8 @@ public class GameRelationService {
   private final HasCategoryRepository hasCategoryRepository;
   private final CategoryRepository categoryRepository;
   private final HasReportedRepository hasReportedRepository;
+
+  private static final Logger log = LoggerFactory.getLogger(GameRelationService.class);
 
   public GameRelationService(GameRepository gameRepository,
                              MadeGameRepository madeGameRepository, HasCategoryRepository hasCategoryRepository,
@@ -100,22 +104,19 @@ public class GameRelationService {
   }
 
   @Transactional
-  public void addCategories(Long gameID, List<String> categories) {
+  public void addCategories(Long gameID, List<Category> categories) {
+    log.info("-------------------------------------------");
+    log.info(categories.toString());
     Game game = gameRepository.findByID(gameID).orElseThrow(GameNotFoundException::new);
-    ArrayList<String> categoriesNotFound = new ArrayList<>();
-    for (String categoryName : categories) {
-      if (categoryRepository.findByName(categoryName).isEmpty()) {
-        categoriesNotFound.add(categoryName);
-        continue;
-      }
-      Category category = categoryRepository.findByName(categoryName).get();
+    log.info(game.toString());
+    for (Category category : categories) {
+      Category dbCategory = categoryRepository.findByName(category.getName())
+              .orElseThrow(CategoryNotFoundException::new);
       HasCategory hasCategory = new HasCategory();
       hasCategory.setGame(game);
-      hasCategory.setCategory(category);
+      hasCategory.setCategory(dbCategory);
+      log.info(hasCategory.toString());
       hasCategoryRepository.save(hasCategory);
-    }
-    if (categoriesNotFound.isEmpty()) {
-      throw new CategoryNotFoundException("Categories not found: " + categoriesNotFound);
     }
   }
 

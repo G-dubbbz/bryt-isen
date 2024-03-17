@@ -26,38 +26,59 @@ const AllGames: React.FC = () => {
 
   const handleSearch = (searchTerm: string) => {
     const results = games.filter((game) =>
-      (game.name ?? "").toLowerCase().includes(searchTerm.toLowerCase()),
+      (game.name ?? "").toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredGames(results);
   };
 
-  const handleFilter = (numPlayers: number, minDuration: number, maxDuration: number) => {
-    const results = games.filter(game => {
+  const handleFilter = (
+    numPlayers: number,
+    minDuration: number,
+    maxDuration: number
+  ) => {
+    const results = games.filter((game) => {
       const gameMinPlayers = game.players_min ?? 0;
       const gameMaxPlayers = game.players_max ?? Number.MAX_SAFE_INTEGER;
       const gameMinDuration = game.duration_min ?? 0;
       const gameMaxDuration = game.duration_max ?? Number.MAX_SAFE_INTEGER;
-  
-      const meetsPlayerCriteria = numPlayers === 0 || (gameMinPlayers <= numPlayers && gameMaxPlayers >= numPlayers);
 
-      const meetsDurationCriteria = 
+      const meetsPlayerCriteria =
+        numPlayers === 0 ||
+        (gameMinPlayers <= numPlayers && gameMaxPlayers >= numPlayers);
+
+      const meetsDurationCriteria =
         (minDuration === 0 && maxDuration === 24) ||
         (gameMaxDuration >= minDuration && gameMinDuration <= maxDuration);
-  
-      
+
       return meetsPlayerCriteria && meetsDurationCriteria;
     });
     setFilteredGames(results);
   };
-  
-  
-  
 
   return (
     <div id="parent">
       <div id="narrow" className="search-and-filter">
         <Search onSearch={handleSearch} />
         <Filter onFilterApplied={handleFilter} />
+      </div>
+      <div className="hamburger-menu">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="44"
+          height="44"
+          viewBox="0 0 24 24"
+          stroke-width="2"
+          stroke="#ffffff"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M4 6l16 0" />
+          <path d="M4 12l16 0" />
+          <path d="M4 18l16 0" />
+        </svg>
+        Search and Filter
       </div>
       <div id="wide" className="game-grid">
         {filteredGames.map((game) => (

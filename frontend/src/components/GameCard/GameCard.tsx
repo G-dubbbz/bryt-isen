@@ -19,7 +19,7 @@ const GameCard: React.FC<GameCardProps> = ({ emoji, name, id }) => {
 
   return (
     <div className="games-card" onClick={leave}>
-      <h1>{emoji}</h1>
+      <h1 className="game-card-emoji">{emoji}</h1>
       <h3>{name}</h3>
     </div>
   );

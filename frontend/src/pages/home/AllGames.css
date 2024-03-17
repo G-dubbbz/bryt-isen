@@ -17,14 +17,37 @@
   margin: 0;
 }
 
-#parent {
-  display: flex;
-  align-items: flex-start;
+.search-and-filter {
+  display: none;
 }
 
-#narrow {
-  width: 15rem;
+.hamburger-menu {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-direction: row;
+  margin: 20px 30px;
+  font-weight: 600;
+  font-size: large;
 }
-#wide {
-  flex: 1;
+
+@media (min-width: 768px) {
+  .search-and-filter {
+    display: flex;
+    flex-direction: column;
+  }
+  .hamburger-menu {
+    display: none;
+  }
+  #parent {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+  }
+  #narrow {
+    width: 15rem;
+  }
+  #wide {
+    flex: 1;
+  }
 }

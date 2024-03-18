@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./CreateGame.css";
 import { createGame } from "../../services/GameService";
-import { Game } from "../../services/Models";
+import { Category, Game } from "../../services/Models";
 import useAuthCheck from "../../services/AuthService";
+import { getAllCategories } from "../../services/CategoryService";
 
 function CreateGame() {
   const setLoggedIn = () => {};
@@ -162,7 +163,8 @@ function CreateGame() {
   const [gameMaxH, setGameMaxH] = useState("");
   const [gameMinPlayer, setGameMinPlayer] = useState("");
   const [gameMaxPlayer, setGameMaxPlayer] = useState("");
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<Array<Category>>([]);
+  const [categories, setCategories] = useState<Array<Category>>([]);
 
   const navigate = useNavigate();
   const leave = () => {
@@ -174,8 +176,8 @@ function CreateGame() {
     const { checked, value } = e.target;
     setSelectedCategories(prev =>
       checked
-        ? [...prev, value]
-        : prev.filter(category => category !== value)
+        ? [...prev, { name: value }]
+        : prev.filter(category => category.name !== value)
     );
   };
 
@@ -197,7 +199,21 @@ function CreateGame() {
     createGame(game).then(() => leave());
   };
 
-  const categoryOptions = ["E1", "E2", "E3", "E4"];
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const allCategories = await getAllCategories();
+        setCategories(allCategories);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+    fetchCategories();
+  }, [setCategories]);
+
+  useEffect(() => {
+    console.log('Selected Categories:', selectedCategories);
+  }, [selectedCategories]);
 
   return (
     <>
@@ -295,16 +311,17 @@ function CreateGame() {
         </div>
         <label htmlFor="game_categories">Kategorier:</label>
         <div className="input_row">
-          {categoryOptions.map((category, index) => (
+          {categories.map((category, index) => (
             <div className="checkbox_item" key={index}>
               <input
                 type="checkbox"
-                id={category}
+                id={category.name}
                 name="categories"
-                value={category}
+                value={category.name}
+                checked={selectedCategories.some(selected => selected.name === category.name)}
                 onChange={handleCategoryChange}
               />
-              <label htmlFor={category}>{category}</label>
+              <label htmlFor={category.name}>{category.name}</label>
             </div>
           ))}
         </div>

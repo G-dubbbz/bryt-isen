@@ -6,11 +6,11 @@ import copy from 'copy-to-clipboard'; // Import the copy function from the copy-
 import { deleteList } from '../../services/Listservice';
 
 
-const PlaylistHeader = ({ name, games, emojis }: { name: string, games: Array<Game>, emojis: Array<string> }) => {
+const PlaylistHeader = ({ name, games, emojis, viewing }: { name: string, games: Array<Game>, emojis: Array<string>, viewing: boolean }) => {
 
     const navigate = useNavigate();
     const { id } = useParams<{ id?: string }>();
-
+    
 
     const playLeave = () => {
         if (games.length > 0) {
@@ -69,7 +69,7 @@ const PlaylistHeader = ({ name, games, emojis }: { name: string, games: Array<Ga
                         <div className="playlist-button play" onClick={playLeave}></div>
                         <div className="playlist-button shuffle" onClick={shuffleLeave}></div>
                         <div className="playlist-button share" onClick={shareList}></div>
-                        <div className="playlist-button delete" onClick={handleDelete}></div>
+                        {!viewing && <div className="playlist-button delete" onClick={handleDelete}></div> }
                     </div>
                 </div>
             </div>

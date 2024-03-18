@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Game, List } from "../../services/Models"
 import { getGamesFromList } from '../../services/GameService';
 import { useParams } from 'react-router-dom';
-import { getList, removeGameFromList, updateListOrder } from '../../services/Listservice';
+import { getList, removeGameFromList, updateListOrder, viewList } from '../../services/Listservice';
 import { DndContext, useSensors, PointerSensor, closestCenter, DragEndEvent } from '@dnd-kit/core';
 import { SortableContext, arrayMove, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import SortableGameInList from '../../components/Listview/Draggable';
@@ -37,15 +37,20 @@ function PlaylistView() {
             if (id == undefined) {
                 return
             }
-            const list = await getList(parseInt(id));
-            setList(list);
+            if (isView) {
+                const list = await viewList(parseInt(id));
+                setList(list);
+            } else {
+                const list = await getList(parseInt(id));
+                setList(list);
+            }
             const games = await getGamesFromList(parseInt(id))
             setGames(games)
             const arrayOfNumbers = [...Array(games.length).keys()].map(i => games[i].id as number);
             setItems(arrayOfNumbers);
         }
         fetchList();
-    }, [id]);
+    }, [id, isView]);
 
     const sensors = useSensors({
         sensor: PointerSensor,
@@ -76,7 +81,7 @@ function PlaylistView() {
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleEndDrag} modifiers={[restrictToVerticalAxis, restrictToParentElement]}>
         <div className="playlist-view">
             <div className='header'>
-                <PlaylistHeader name={list?.name ?? "name not found"} games={games} emojis={[...Array(games.length).keys()].map(i => games[i].emoji as unknown as string).slice(0,4)}/>
+                <PlaylistHeader name={list?.name ?? "name not found"} games={games} emojis={[...Array(games.length).keys()].map(i => games[i].emoji as unknown as string).slice(0,4)} viewing={isView}/>
             </div>
             {isView ? 
             <>

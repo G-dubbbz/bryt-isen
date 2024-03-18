@@ -8,9 +8,10 @@ export interface GameCardProps {
   name: string;
   id?: number; // Add id prop
   players: number;
+  rating: number;
 }
 
-const GameCard: React.FC<GameCardProps> = ({ emoji, name, id }) => {
+const GameCard: React.FC<GameCardProps> = ({ emoji, name, id, rating }) => {
   const navigate = useNavigate();
 
   const leave = () => {
@@ -21,6 +22,12 @@ const GameCard: React.FC<GameCardProps> = ({ emoji, name, id }) => {
     <div className="games-card" onClick={leave}>
       <h1 className="game-card-emoji">{emoji}</h1>
       <h3>{name}</h3>
+        <div className="star-rating">
+        <div className="star-icon">
+          <span role="img" aria-label="star">⭐</span>
+        </div>
+        <div className="rating-value">{rating.toFixed(1)}</div>
+      </div>
     </div>
   );
 }

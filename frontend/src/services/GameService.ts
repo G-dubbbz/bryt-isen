@@ -18,7 +18,6 @@ async function getGames(): Promise<Array<Game>> {
         const games: Array<Game> = [];
         data.forEach((game: unknown) => {
             const parsedGame = game as Game;
-            console.log(parsedGame);
             games.push(parsedGame);
         });
         return games;

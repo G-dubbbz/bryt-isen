@@ -107,7 +107,7 @@ const Filter: React.FC<FilterProps> = ({ onFilterApplied }) => {
           </div>
         ))}
       </div>
-      <button type="submit">Apply Filters</button>
+      <button type="submit" className="apply-filter-button">Apply Filters</button>
     </form>
   );
 };

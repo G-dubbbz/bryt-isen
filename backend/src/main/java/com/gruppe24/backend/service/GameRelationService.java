@@ -1,5 +1,6 @@
 package com.gruppe24.backend.service;
 
+import com.gruppe24.backend.dto.GameDTO;
 import com.gruppe24.backend.entity.Category;
 import com.gruppe24.backend.entity.Game;
 import com.gruppe24.backend.entity.User;
@@ -11,11 +12,14 @@ import com.gruppe24.backend.relation.HasReported;
 import com.gruppe24.backend.relation.MadeGame;
 import com.gruppe24.backend.repository.*;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Provides services for managing relationships and interactions related to Game
@@ -48,17 +52,17 @@ import java.util.List;
 @Service
 public class GameRelationService {
   private final GameRepository gameRepository;
-  private final ReviewRepository reviewRepository;
   private final MadeGameRepository madeGameRepository;
   private final HasCategoryRepository hasCategoryRepository;
   private final CategoryRepository categoryRepository;
   private final HasReportedRepository hasReportedRepository;
 
-  public GameRelationService(GameRepository gameRepository, ReviewRepository reviewRepository,
+  private static final Logger log = LoggerFactory.getLogger(GameRelationService.class);
+
+  public GameRelationService(GameRepository gameRepository,
                              MadeGameRepository madeGameRepository, HasCategoryRepository hasCategoryRepository,
                              CategoryRepository categoryRepository, HasReportedRepository hasReportedRepository) {
     this.gameRepository = gameRepository;
-    this.reviewRepository = reviewRepository;
     this.madeGameRepository = madeGameRepository;
     this.hasCategoryRepository = hasCategoryRepository;
     this.categoryRepository = categoryRepository;
@@ -100,22 +104,19 @@ public class GameRelationService {
   }
 
   @Transactional
-  public void addCategories(Long gameID, List<String> categories) {
+  public void addCategories(Long gameID, List<Category> categories) {
+    log.info("-------------------------------------------");
+    log.info(categories.toString());
     Game game = gameRepository.findByID(gameID).orElseThrow(GameNotFoundException::new);
-    ArrayList<String> categoriesNotFound = new ArrayList<>();
-    for (String categoryName : categories) {
-      if (categoryRepository.findByName(categoryName).isEmpty()) {
-        categoriesNotFound.add(categoryName);
-        continue;
-      }
-      Category category = categoryRepository.findByName(categoryName).get();
+    log.info(game.toString());
+    for (Category category : categories) {
+      Category dbCategory = categoryRepository.findByName(category.getName())
+              .orElseThrow(CategoryNotFoundException::new);
       HasCategory hasCategory = new HasCategory();
       hasCategory.setGame(game);
-      hasCategory.setCategory(category);
+      hasCategory.setCategory(dbCategory);
+      log.info(hasCategory.toString());
       hasCategoryRepository.save(hasCategory);
-    }
-    if (categoriesNotFound.isEmpty()) {
-      throw new CategoryNotFoundException("Categories not found: " + categoriesNotFound);
     }
   }
 
@@ -145,5 +146,34 @@ public class GameRelationService {
   @Transactional
   public boolean hasReportedGame(User user, Long gameID) {
     return hasReportedRepository.findByUser_UserNameAndGame_ID(user.getUserName(), gameID).isPresent();
+  }
+
+  public List<Category> getAllCategories() {
+    return categoryRepository.findAll();
+  }
+
+  public List<GameDTO> convertToDto(List<Game> games) {
+    List<GameDTO> gameDTOs = new ArrayList<>();
+    for (Game game: games) {
+      GameDTO gameDTO = new GameDTO();
+      gameDTO.setID(game.getID());
+      gameDTO.setName(game.getName());
+      gameDTO.setDescription(game.getDescription());
+      gameDTO.setRules(game.getRules());
+      gameDTO.setEmoji(game.getEmoji());
+      gameDTO.setDuration_min(game.getDuration_min());
+      gameDTO.setDuration_max(game.getDuration_max());
+      gameDTO.setPlayers_min(game.getPlayers_min());
+      gameDTO.setPlayers_max(game.getPlayers_max());
+
+      gameDTO.setCategories(hasCategoryRepository.findByGame_ID(game.getID())
+              .orElseThrow(RuntimeException::new)
+              .stream()
+              .map(HasCategory::getCategory)
+              .collect(Collectors.toList()));
+
+      gameDTOs.add(gameDTO);
+    }
+    return gameDTOs;
   }
 }

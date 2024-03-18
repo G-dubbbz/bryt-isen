@@ -41,6 +41,11 @@ public class HasCategory {
         this.category = category;
     }
 
-    // TODO: ADD TOSTRING
-    
+    @Override
+    public String toString() {
+        return "HasCategory{" +
+                "game=" + game +
+                ", category=" + category +
+                '}';
+    }
 }

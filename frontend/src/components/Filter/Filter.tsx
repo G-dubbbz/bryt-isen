@@ -1,23 +1,39 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Filter.css';
+import { getAllCategories } from '../../services/CategoryService';
+import { Category } from '../../services/Models';
 
 interface FilterValues {
   numPlayers: string;
   minDuration: string;
   maxDuration: string;
-  categories: string[];
+  categories: Array<Category>;
 }
 
 interface FilterProps {
-  onFilterApplied: (numPlayers: number, minDuration: number, maxDuration: number, categories: string[]) => void;
+  onFilterApplied: (numPlayers: number, minDuration: number, maxDuration: number, categories: Array<Category>) => void;
 }
 
 const Filter: React.FC<FilterProps> = ({ onFilterApplied }) => {
+  const [categories, setCategories] = useState<Array<Category>>([]);
+
+  useEffect(() => {
+    const getCategpries = async () => {
+      try {
+        const alllCategories = await getAllCategories();
+        setCategories(alllCategories);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
+    getCategpries();
+  }, [setCategories]);
+
   const [filters, setFilters] = useState<FilterValues>({
     numPlayers: '',
     minDuration: '',
     maxDuration: '',
-    categories: []
+    categories: Array<Category>(),
   });
   
 
@@ -31,12 +47,24 @@ const Filter: React.FC<FilterProps> = ({ onFilterApplied }) => {
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { checked, value } = e.target;
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      categories: checked
-        ? [...prevFilters.categories, value]
-        : prevFilters.categories.filter((category) => category !== value)
-    }));
+    console.log('checked:', checked, 'value:', value);
+    setFilters((prevFilters) => {
+      const isCategoryIncluded = prevFilters.categories.some((category) => category.name === value);
+  
+      let updatedCategories;
+      if (checked && !isCategoryIncluded) {
+        updatedCategories = [...prevFilters.categories, { name: value }];
+      } else if (!checked && isCategoryIncluded) {
+        updatedCategories = prevFilters.categories.filter((category) => category.name !== value);
+      } else {
+        updatedCategories = prevFilters.categories;
+      }
+  
+      return {
+        ...prevFilters,
+        categories: updatedCategories,
+      };
+    });
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -48,9 +76,6 @@ const Filter: React.FC<FilterProps> = ({ onFilterApplied }) => {
 
     onFilterApplied(numPlayers, minDuration, maxDuration, filters.categories);
   };
-
-
-  const categories = ['E1', 'E2', 'E3', 'E4'];
 
   return (
     <form className="filter-form" onSubmit={handleSubmit}>
@@ -74,11 +99,11 @@ const Filter: React.FC<FilterProps> = ({ onFilterApplied }) => {
             <input
               type="checkbox"
               id={`category-${index}`}
-              value={category}
+              value={category.name}
               onChange={handleCategoryChange}
-              checked={filters.categories.includes(category)}
+              checked={filters.categories.some((c) => c.name === category.name)}
             />
-            <label htmlFor={`category-${index}`}>{category}</label>
+            <label htmlFor={`category-${index}`}>{category.name}</label>
           </div>
         ))}
       </div>

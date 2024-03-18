@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import "./AllGames.css";
 import { getGames } from "../../services/GameService";
-import { Game } from "../../services/Models";
+import { Category, Game } from "../../services/Models";
 import GameCard from "../../components/GameCard/GameCard";
 import Search from "../../components/Search/Search";
 import Filter from "../../components/Filter/Filter";
@@ -31,12 +31,8 @@ const AllGames: React.FC = () => {
     setFilteredGames(results);
   };
 
-  const handleFilter = (
-    numPlayers: number,
-    minDuration: number,
-    maxDuration: number
-  ) => {
-    const results = games.filter((game) => {
+  const handleFilter = (numPlayers: number, minDuration: number, maxDuration: number, categories: Array<Category>) => {
+    const results = games.filter(game => {
       const gameMinPlayers = game.players_min ?? 0;
       const gameMaxPlayers = game.players_max ?? Number.MAX_SAFE_INTEGER;
       const gameMinDuration = game.duration_min ?? 0;
@@ -50,7 +46,12 @@ const AllGames: React.FC = () => {
         (minDuration === 0 && maxDuration === 24) ||
         (gameMaxDuration >= minDuration && gameMinDuration <= maxDuration);
 
-      return meetsPlayerCriteria && meetsDurationCriteria;
+      const hasCategory = categories.length === 0 || categories.every(category => 
+        game.categories?.some(gameCategory => gameCategory.name === category.name)
+      );
+  
+      
+      return meetsPlayerCriteria && meetsDurationCriteria && hasCategory;
     });
     setFilteredGames(results);
   };

@@ -2,16 +2,18 @@ import { Category } from "./Models";
 
 const baseUrl = 'http://localhost:8080';
 
-const headers: Headers = new Headers();
-headers.set('Content-Type', 'application/json');
-headers.set('Accept', 'application/json');
-const token = sessionStorage.getItem('token');
-headers.set('Authorization', 'Bearer ' + token);
-console.log("token: " + token);
+function getHeaders() {
+    const headers: Headers = new Headers();
+    headers.set('Content-Type', 'application/json');
+    headers.set('Accept', 'application/json');
+    const token = sessionStorage.getItem('token');
+    headers.set('Authorization', 'Bearer ' + token);
+    return headers;
+}
 
 async function getCategoriesFromGame(id: string): Promise<Array<Category>> {
     try {
-        const response = await fetch(baseUrl + '/games/' + id + '/categories', {headers: headers});
+        const response = await fetch(baseUrl + '/games/' + id + '/categories', {headers: getHeaders()});
         const data = await response.json();
         return data;
     } catch (error) {
@@ -23,7 +25,7 @@ async function getCategoriesFromGame(id: string): Promise<Array<Category>> {
 async function addCategoryToGame(gameId: string, categoryName: string): Promise<void> {
     const request: RequestInfo = new Request(baseUrl + '/games/' + gameId + '/categories/' + categoryName, {
         method: 'POST',
-        headers: headers
+        headers: getHeaders(),
     });
 
     return fetch(request)
@@ -32,4 +34,15 @@ async function addCategoryToGame(gameId: string, categoryName: string): Promise<
     });
 }
 
-export { getCategoriesFromGame, addCategoryToGame };
+async function getAllCategories(): Promise<Array<Category>> {
+    try {
+        const response = await fetch(baseUrl + '/games/categories', {headers: getHeaders()});
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error retrieving game categories:', error);
+        throw error;
+    }
+}
+
+export { getCategoriesFromGame, addCategoryToGame, getAllCategories };

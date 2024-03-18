@@ -11,18 +11,14 @@ import useAuthCheck from "../../services/AuthService.ts";
 import { addGameToList, getMyLists } from "../../services/Listservice.ts";
 
 const CreateReviewButton: React.FC<{ id: number }> = ({ id }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
-  useAuthCheck({ setLoggedIn: setIsLoggedIn, shouldRedirect: false });
 
   return (
     <>
-      {isLoggedIn && (
-        <button onClick={() => navigate(`/review/${id}`)}>
-          Skriv en anmeldelse
-        </button>
-      )}
+      <button onClick={() => navigate(`/review/${id}`)}>
+        Skriv en anmeldelse
+      </button>
     </>
   );
 };
@@ -32,6 +28,10 @@ const GameDetails: React.FC = () => {
   const [game, setGame] = useState<Game | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [lists, setLists] = useState<Array<List>>([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+
+  useAuthCheck({ setLoggedIn: setIsLoggedIn, shouldRedirect: false });
 
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   function toggleDropdown() {
@@ -55,7 +55,11 @@ const GameDetails: React.FC = () => {
         console.error("Error fetching game details:", error);
       }
     }
+  }, [id]);
+
+  useEffect(() => {
     const fetchLists = async () => {
+      if (!isLoggedIn) return;
       try {
         const myLists = await getMyLists();
         setLists(myLists);
@@ -64,7 +68,7 @@ const GameDetails: React.FC = () => {
       }
     };
     fetchLists();
-  }, [id]);
+  }, [isLoggedIn]);
 
   const addToFavorites = async () => {
     if (game !== null && game.id !== null) {
@@ -190,7 +194,7 @@ const GameDetails: React.FC = () => {
           </p>
         </div>
         <div className="reviews">
-          <CreateReviewButton id={game.id ?? 0} />
+          {isLoggedIn && <CreateReviewButton id={game.id ?? 0} /> }
           {reviews.map((review: Review, index) => (
             <ReviewPrompt
               key={index}

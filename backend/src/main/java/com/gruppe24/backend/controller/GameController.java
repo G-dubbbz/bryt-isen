@@ -69,9 +69,8 @@ public class GameController {
    * @return A list of {@link Game} entites
    */
   @GetMapping
-  public ResponseEntity<List<GameDTO>> readGames() {
-    List<Game> games = gameService.readGames();
-    return new ResponseEntity<>(gameRelationService.convertToDto(games), HttpStatus.OK);
+  public ResponseEntity<List<Game>> readGames() {
+    return new ResponseEntity<>(gameService.readGames(), HttpStatus.OK);
   }
 
   @GetMapping("/{ID}")

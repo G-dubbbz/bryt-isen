@@ -89,7 +89,7 @@ const AllGames: React.FC = () => {
           width="44"
           height="44"
           viewBox="0 0 24 24"
-          stroke-width="2"
+          strokeWidth="2"
           stroke="#ffffff"
           fill="none"
           strokeLinecap="round"
@@ -112,7 +112,7 @@ const AllGames: React.FC = () => {
             width="44"
             height="44"
             viewBox="0 0 24 24"
-            stroke-width="2"
+            strokeWidth="2"
             stroke="#ffffff"
             fill="none"
             strokeLinecap="round"
@@ -133,8 +133,8 @@ const AllGames: React.FC = () => {
             name={game.name ?? "Default"}
             key={game.id ?? 0}
             id={game.id}
-            players={1}
-          />
+            players={1} 
+            rating={game.rating ?? 0}          />
         ))}
       </div>
     </div>

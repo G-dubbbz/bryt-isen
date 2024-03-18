@@ -1,30 +1,31 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { getGame } from '../../services/GameService';
-import { Game, List, Review } from '../../services/Models';
-import './GameDetails.css';
-import Timer from '../Timer/Timer';
-import { getGamesReviews } from '../../services/ReviewService';
-import ReviewPrompt from '../Review/ReviewPrompt';
-import ReportFlag from '../Flag/Flag.tsx';
-import useAuthCheck from '../../services/AuthService.ts';
-import { addGameToList, getMyLists } from '../../services/Listservice.ts';
+import React, { useEffect, useState, useCallback } from "react";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import { getGame } from "../../services/GameService";
+import { Game, List, Review } from "../../services/Models";
+import "./GameDetails.css";
+import Timer from "../Timer/Timer";
+import { getGamesReviews } from "../../services/ReviewService";
+import ReviewPrompt from "../Review/ReviewPrompt";
+import ReportFlag from "../Flag/Flag.tsx";
+import useAuthCheck from "../../services/AuthService.ts";
+import { addGameToList, getMyLists } from "../../services/Listservice.ts";
 
-
-const CreateReviewButton: React.FC<{id: number}> = ({id}) => {
+const CreateReviewButton: React.FC<{ id: number }> = ({ id }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
-  useAuthCheck({setLoggedIn: setIsLoggedIn, shouldRedirect: false});
+  useAuthCheck({ setLoggedIn: setIsLoggedIn, shouldRedirect: false });
 
   return (
     <>
-    {isLoggedIn && (
-      <button onClick={() => navigate(`/review/${id}`)}>Skriv en anmeldelse</button>
-    )}
+      {isLoggedIn && (
+        <button onClick={() => navigate(`/review/${id}`)}>
+          Skriv en anmeldelse
+        </button>
+      )}
     </>
-    );
-}
+  );
+};
 
 const GameDetails: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
@@ -32,16 +33,15 @@ const GameDetails: React.FC = () => {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [lists, setLists] = useState<Array<List>>([]);
 
-  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-
-  const toggleListDropDown = () => {
-    setIsDropdownVisible(!isDropdownVisible);
-  };
+  const [isDropdownVisible, setDropdownVisible] = useState(false);
+  function toggleDropdown() {
+    setDropdownVisible(!isDropdownVisible);
+  }
 
   const doAddGameToList = (listId: number, gameId: number) => {
-    addGameToList(listId, gameId)
-    toggleListDropDown()
-  }
+    addGameToList(listId, gameId);
+    toggleDropdown();
+  };
 
   const fetchGameDetails = useCallback(async () => {
     if (id) {
@@ -66,18 +66,11 @@ const GameDetails: React.FC = () => {
     fetchLists();
   }, [id]);
 
-  
-
   const addToFavorites = async () => {
     if (game !== null && game.id !== null) {
       const lists = await getMyLists();
       await addGameToList(lists[0].id, game.id ?? 0);
     }
-    //alert("Spillet er lagt til i favoritter!");
-
-    //addGameToList
-    //listnumber 1
-    //game id som er link
   };
 
   function shareGame(): void {
@@ -110,53 +103,105 @@ const GameDetails: React.FC = () => {
   }
 
   return (
-    <div className="container">
-      <h1 className="heading">{game.name}</h1>
-      <p className="description">Beskrivelse: {game.description}</p>
-      <div className="info">
-        <p><span className="label">Vurdering</span> <span>{game.rating}</span></p>
-        <p><span className="label">Min Spillere</span> <span>{game.players_min}</span></p>
-        <p><span className="label">Max Spillere</span> <span>{game.players_max}</span></p>
-        <p><span className="label">Min Varighet:</span> <span>{game.duration_min !== undefined ? `${game.duration_min} Minutes` : 'N/A'}</span></p>
-        <p><span className="label">Max Varighet:</span> <span>{game.duration_max !== undefined ? `${game.duration_max} Minutes` : 'N/A'}</span></p>
-        <p><span className="label">Antall vurderinger:</span> <span>{game.reviewCount}</span></p>
-        <p><span className="label">Antall ganger rapportert:</span> <span>{game.reportCount}</span></p>
-        <div><span className="label">Timer:</span> <Timer /> </div>
-        <p><span className="label">Report:</span> <span><ReportFlag id={game.id ?? 0} onUpdate={fetchGameDetails}/></span></p>
-
-      </div>
-      <button onClick={addToFavorites}>Legg til i favoritter</button>
-      <button onClick={toggleListDropDown}>Legg til i spilleliste</button>
-      <div>
-        {isDropdownVisible && (
-          <div className="game-dropdown-menu">
-            {lists.map((list) => (
-              <div
-                key={list.id}
-                className="game-dropdown-item"
-                onClick={() => doAddGameToList(Number(list.id), game?.id ?? 0)}
-              >
-                <p>{list.name}</p>
-              </div>
-            ))}
+    <>
+      <Link className="return-text" to="/all">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="icon icon-tabler icon-tabler-arrow-back"
+          width="34"
+          height="34"
+          viewBox="0 0 24 24"
+          strokeWidth="2"
+          stroke="#ffffff"
+          fill="none"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M9 11l-4 4l4 4m-4 -4h11a4 4 0 0 0 0 -8h-1" />
+        </svg>
+        Return
+      </Link>
+      <div className="container">
+        <div className="game-header">
+          <div className="game-header-emoji">{game.emoji}</div>
+          <div className="header-right">
+            <h2>{game.name}</h2>
+            <div className="players">
+              <p>
+                <span>Min Spillere: {game.players_min}</span>
+                <span>Max Spillere: {game.players_max}</span>
+              </p>
+              <p>
+                Varighet: {game.duration_min} til {game.duration_max} minutter
+              </p>
+            </div>
           </div>
-        )}
-      </div>
-      <button onClick={shareGame}>Del</button>
-      <br />
+        </div>
+        <div className="subheader-row">
+          <div className="timer">
+            <span>Timer:</span> <Timer />{" "}
+          </div>
+          <button onClick={addToFavorites}>Legg til i favoritter</button>
+          <div className="lt-spilleliste-kapp" onClick={() => toggleDropdown()}>
+            Legg til i spilleliste
+            {isDropdownVisible && (
+              <div className="game-dropdown-menu">
+                {lists.map((list) => (
+                  <div
+                    key={list.id}
+                    className="game-dropdown-item"
+                    onClick={() =>
+                      doAddGameToList(Number(list.id), game?.id ?? 0)
+                    }
+                  >
+                    <p>{list.name}</p>
+                  </div>
+                ))}
+              </div>
+              )}
+          </div>
+          <button onClick={shareGame}>Del Spillet</button>
+        </div>
+        <h2>Beskrivelse</h2>
+        <p className="description">{game.description}</p>
+        <h2>Regler</h2>
+        <p className="description">{game.rules}</p>
+        <h2>Rapporter</h2>
+        <p>Rapporter spillet hvis du føler at innholdet er upassende.</p>
+        <div className="reports">
+          <p>
+            <span className="label">
+              Antall ganger rapportert: {game.reportCount}
+            </span>
+          </p>
+          <p>
+            <span className="label">Rapporter:</span>{" "}
+            <span>
+              <ReportFlag id={game.id ?? 0} onUpdate={fetchGameDetails} />
+            </span>
+          </p>
+        </div>
+        <h2>Vurderinger</h2>
+        <div className="vurderinger">
+          <p>
+            <span>Antall Vurderinger: {game.reviewCount}</span>
+            <span>Vurdering: {game.rating}</span>
+          </p>
+        </div>
         <div className="reviews">
-          <h2>Anmeldelser</h2>
           <CreateReviewButton id={game.id ?? 0} />
           {reviews.map((review: Review, index) => (
             <ReviewPrompt
               key={index}
               stars={review.stars ?? 0}
-              creator={review.user?.userName ?? ''}
-              text={review.description ?? ''}
+              creator={review.user?.userName ?? ""}
+              text={review.description ?? ""}
             />
           ))}
         </div>
-    </div>
+      </div>
+    </>
   );
 };
 

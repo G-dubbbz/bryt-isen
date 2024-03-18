@@ -13,21 +13,21 @@
 
 body {
   color: rgb(255, 255, 255);
-  background: rgb(233, 198, 240);
+  background: rgb(188, 223, 248);
   background: linear-gradient(
     135deg,
-    rgb(111, 200, 244) 0%,
-    rgb(195, 225, 246) 100%
+    rgb(188, 223, 248) 0%,
+    rgb(53, 88, 120) 100%
   );
 }
 
 body.dark {
   color: rgb(255, 255, 255);
-  background: rgb(107, 102, 138);
+  background: rgb(60, 100, 128);
   background: linear-gradient(
     135deg,
-    rgba(107, 102, 138, 1) 0%,
-    rgba(47, 61, 49, 1) 100%
+    rgba(60, 100, 128) 0%,
+    rgba(15, 34, 27) 100%
   );
 }
 

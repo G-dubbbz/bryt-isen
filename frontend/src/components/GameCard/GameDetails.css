@@ -118,6 +118,10 @@
   font-weight: bold;
 }
 
+.description {
+  white-space: pre-line;
+}
+
 @media (min-width: 768px) {
   .game-header {
     flex-direction: row;

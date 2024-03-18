@@ -166,7 +166,7 @@ const GameDetails: React.FC = () => {
         <h2>Beskrivelse</h2>
         <p className="description">{game.description}</p>
         <h2>Regler</h2>
-        <p>{game.rules}</p>
+        <p className="description">{game.rules}</p>
         <h2>Rapporter</h2>
         <p>Rapporter spillet hvis du føler at innholdet er upassende.</p>
         <div className="reports">

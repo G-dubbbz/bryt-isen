@@ -89,7 +89,7 @@
 .game-header-emoji {
   font-size: 5.5rem;
   text-shadow: 2px 2px 2px rgba(66, 66, 66, 0.5);
-  width: 200px;
+  min-width: 200px;
   height: 160px;
   background: linear-gradient(
     180deg,

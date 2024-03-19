@@ -103,4 +103,8 @@ public class GameListService {
     return gameListRepository.save(gameList);
   }
 
+  public boolean isDeletable(Long ID) {
+    GameList gameList = gameListRepository.findByID(ID).orElseThrow(ListNotFoundException::new);
+    return !gameList.getName().equals("Favourites");
+  }
 }

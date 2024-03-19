@@ -110,10 +110,13 @@ public class ListController {
 
   @DeleteMapping("/{ID}")
   public ResponseEntity<String> deleteGameList(@PathVariable Long ID) {
-    gameListRelationService.deleteHasGameListRelation(securityService.getAuthenticatedUser(), ID);
-    gameListRelationService.removeAllGamesFromList(ID);
-    gameListService.deleteGameList(ID);
-    return new ResponseEntity<>("List successfully deleted", HttpStatus.OK);
+    if (gameListService.isDeletable(ID)) {
+      gameListRelationService.deleteHasGameListRelation(securityService.getAuthenticatedUser(), ID);
+      gameListRelationService.removeAllGamesFromList(ID);
+      gameListService.deleteGameList(ID);
+      return new ResponseEntity<>("List successfully deleted", HttpStatus.OK);
+    }
+    return new ResponseEntity<>("Cant delete this list", HttpStatus.UNAUTHORIZED);
   }
 
   // GameList relation handling

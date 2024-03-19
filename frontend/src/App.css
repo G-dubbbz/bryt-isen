@@ -8,10 +8,14 @@
 footer {
   margin: 5rem 1rem 8rem 1rem;
   font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.700);
+  color: rgba(255, 255, 255, 0.7);
 }
 
 hr {
   margin: 2rem 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.500);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+main {
+  min-height: 70vh;
 }

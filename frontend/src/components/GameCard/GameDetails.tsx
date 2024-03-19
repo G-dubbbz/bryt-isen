@@ -85,6 +85,7 @@ const GameDetails: React.FC = () => {
       .writeText(url)
       .then(() => {
         console.log("URL copied to clipboard");
+        alert('Link kopiert til utklippstavle.'); // Show a popup message
       })
       .catch((error) => {
         console.error("Failed to copy URL to clipboard:", error);

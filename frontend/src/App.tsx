@@ -24,6 +24,7 @@ function App() {
   return (
     <GoogleOAuthProvider clientId={clientId}>
       <Header />
+      <main>
       <Routes>
         <Route path="/" element={<TopGames />} />
         <Route path="/favorites" element={<Favorites />} />
@@ -41,6 +42,7 @@ function App() {
         <Route path="reviews" element={<MyReviews />} />
         <Route path="/logout" element={<Logout />} />
       </Routes>
+      </main>
       <footer>
         <hr />
         <p>Laget av Gruppe24</p>

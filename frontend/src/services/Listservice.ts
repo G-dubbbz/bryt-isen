@@ -93,6 +93,11 @@ async function deleteList(id: number): Promise<void> {
         headers: getHeaders()
     });
 
+    const response = await fetch(request);
+    if (response.status !== 200) {
+        throw new Error('Cant delete this list');
+    }
+
     return fetch(request)
     .then(res => {
       console.log("got response:", res)

@@ -42,7 +42,13 @@ const PlaylistHeader = ({ name, games, emojis, viewing }: { name: string, games:
                     window.alert("Spilleliste slettet.");
                     console.log('Playlist deleted successfully');
                 }
-            } catch (error) {
+            }
+            catch (error) {
+                console.log((error as Error).message)
+                if ((error as Error).message === "Cant delete this list") {
+                    window.alert("Du kan ikke slette denne spillelisten.");
+                    return;
+                }
                 console.error('Error deleting playlist:', error);
             }
         }

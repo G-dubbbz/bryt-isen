@@ -45,6 +45,7 @@ const Filter: React.FC<FilterProps> = ({ onFilterApplied }) => {
     }));
   };
 
+
   const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { checked, value } = e.target;
     console.log('checked:', checked, 'value:', value);
@@ -65,6 +66,7 @@ const Filter: React.FC<FilterProps> = ({ onFilterApplied }) => {
         categories: updatedCategories,
       };
     });
+
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -94,18 +96,21 @@ const Filter: React.FC<FilterProps> = ({ onFilterApplied }) => {
       </div>
       <div className="filter-section categories">
         <label>Categories:</label>
-        {categories.map((category, index) => (
-          <div key={index}>
-            <input
-              type="checkbox"
-              id={`category-${index}`}
-              value={category.name}
-              onChange={handleCategoryChange}
-              checked={filters.categories.some((c) => c.name === category.name)}
-            />
-            <label htmlFor={`category-${index}`}>{category.name}</label>
-          </div>
-        ))}
+        {categories.map((category, index) => {
+          const isChecked = filters.categories.some((c) => c.name === category.name);
+          return (
+            <div key={index}>
+              <input
+                type="checkbox"
+                id={`category-${index}`}
+                value={category.name}
+                onChange={handleCategoryChange}
+                checked={isChecked}
+              />
+              <label htmlFor={`category-${index}`} onClick={() => handleCategoryChange}>{category.name}</label>
+            </div>
+          );
+        })}
       </div>
       <button type="submit" className="apply-filter-button">Apply Filters</button>
     </form>

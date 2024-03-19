@@ -8,7 +8,7 @@ import { getAllCategories } from "../../services/CategoryService";
 
 function CreateGame() {
   const setLoggedIn = () => {};
-  useAuthCheck({setLoggedIn});
+  useAuthCheck({ setLoggedIn });
 
   const emojis = [
     "😀",
@@ -163,7 +163,9 @@ function CreateGame() {
   const [gameMaxH, setGameMaxH] = useState("");
   const [gameMinPlayer, setGameMinPlayer] = useState("");
   const [gameMaxPlayer, setGameMaxPlayer] = useState("");
-  const [selectedCategories, setSelectedCategories] = useState<Array<Category>>([]);
+  const [selectedCategories, setSelectedCategories] = useState<Array<Category>>(
+    []
+  );
   const [categories, setCategories] = useState<Array<Category>>([]);
 
   const navigate = useNavigate();
@@ -174,10 +176,10 @@ function CreateGame() {
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { checked, value } = e.target;
-    setSelectedCategories(prev =>
+    setSelectedCategories((prev) =>
       checked
         ? [...prev, { name: value }]
-        : prev.filter(category => category.name !== value)
+        : prev.filter((category) => category.name !== value)
     );
   };
 
@@ -194,7 +196,7 @@ function CreateGame() {
       players_max: parseInt(gameMaxPlayer),
       categories: selectedCategories,
       reviewCount: 0,
-      reportCount: 0
+      reportCount: 0,
     };
     createGame(game).then(() => leave());
   };
@@ -212,7 +214,7 @@ function CreateGame() {
   }, [setCategories]);
 
   useEffect(() => {
-    console.log('Selected Categories:', selectedCategories);
+    console.log("Selected Categories:", selectedCategories);
   }, [selectedCategories]);
 
   return (
@@ -318,20 +320,34 @@ function CreateGame() {
           />
         </div>
         <label htmlFor="game_categories">Kategorier:</label>
-        <div className="input_row">
-          {categories.map((category, index) => (
-            <div className="checkbox_item" key={index}>
-              <input
-                type="checkbox"
-                id={category.name}
-                name="categories"
-                value={category.name}
-                checked={selectedCategories.some(selected => selected.name === category.name)}
-                onChange={handleCategoryChange}
-              />
-              <label htmlFor={category.name}>{category.name}</label>
-            </div>
-          ))}
+        <div className="input_row categories">
+          {categories.map((category, index) => {
+            const isChecked = selectedCategories.some(
+              (selected) => selected.name === category.name
+            );
+            return (
+              <div
+                className={`checkbox_item ${isChecked ? "isActive" : ""}`}
+                key={index}
+                onClick={() => handleCategoryChange}
+              >
+                <input
+                  type="checkbox"
+                  id={category.name}
+                  name="categories"
+                  value={category.name}
+                  checked={isChecked}
+                  onChange={handleCategoryChange}
+                />
+                <label
+                  htmlFor={category.name}
+                  onClick={() => handleCategoryChange}
+                >
+                  {category.name}
+                </label>
+              </div>
+            );
+          })}
         </div>
         <label htmlFor="game_emoji">Logo:</label>
         <div className="emoji_picker">

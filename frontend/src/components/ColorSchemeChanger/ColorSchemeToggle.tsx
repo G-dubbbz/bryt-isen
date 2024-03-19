@@ -1,12 +1,86 @@
 import useScheme from "./SchemeHook";
 
 const ToggleDarkMode = () => {
-    const { isDarkMode, setDarkMode } = useScheme();
-    return (
-        <svg width="40" height="40" viewBox="0 0 91 91" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={() => setDarkMode(!isDarkMode)}>
-        <path d="M77.7767 40.9258H87M82.3883 36.3147V45.5369M45.495 4.03689C46.1037 4.03689 46.7079 4.03689 47.3074 4.03689C41.383 9.54121 37.5749 16.9473 36.5451 24.9677C35.5153 32.9882 37.3289 41.1159 41.6707 47.938C46.0125 54.7602 52.6079 59.8453 60.3104 62.3097C68.013 64.774 76.3357 64.4616 83.8318 61.4268C80.9483 68.3641 76.2354 74.3888 70.1959 78.858C64.1565 83.3272 57.017 86.0733 49.539 86.8035C42.061 87.5337 34.525 86.2205 27.735 83.004C20.9449 79.7875 15.1554 74.7884 10.984 68.5399C6.81262 62.2914 4.41588 55.0278 4.04941 47.5241C3.68294 40.0204 5.36049 32.558 8.90312 25.9328C12.4458 19.3076 17.7206 13.7683 24.1649 9.9056C30.6093 6.04292 37.9814 4.00181 45.495 4V4.03689ZM68.5533 8.648C68.5533 11.0939 69.5251 13.4396 71.2548 15.1691C72.9845 16.8986 75.3305 17.8702 77.7767 17.8702C75.3305 17.8702 72.9845 18.8418 71.2548 20.5713C69.5251 22.3008 68.5533 24.6466 68.5533 27.0924C68.5533 24.6466 67.5816 22.3008 65.8519 20.5713C64.1222 18.8418 61.7762 17.8702 59.33 17.8702C61.7762 17.8702 64.1222 16.8986 65.8519 15.1691C67.5816 13.4396 68.5533 11.0939 68.5533 8.648Z" stroke="white" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-    )
-}
+  const { isDarkMode, setDarkMode } = useScheme();
+  return isDarkMode ? (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="icon icon-tabler icon-tabler-sun-filled"
+      width="40"
+      height="40"
+      viewBox="0 0 24 24"
+      strokeWidth="2"
+      stroke="#000000"
+      fill="none"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      onClick={() => setDarkMode(!isDarkMode)}
+    >
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path
+        d="M12 19a1 1 0 0 1 .993 .883l.007 .117v1a1 1 0 0 1 -1.993 .117l-.007 -.117v-1a1 1 0 0 1 1 -1z"
+        stroke-width="0"
+        fill="black"
+      />
+      <path
+        d="M18.313 16.91l.094 .083l.7 .7a1 1 0 0 1 -1.32 1.497l-.094 -.083l-.7 -.7a1 1 0 0 1 1.218 -1.567l.102 .07z"
+        stroke-width="0"
+        fill="black"
+      />
+      <path
+        d="M7.007 16.993a1 1 0 0 1 .083 1.32l-.083 .094l-.7 .7a1 1 0 0 1 -1.497 -1.32l.083 -.094l.7 -.7a1 1 0 0 1 1.414 0z"
+        stroke-width="0"
+        fill="black"
+      />
+      <path
+        d="M4 11a1 1 0 0 1 .117 1.993l-.117 .007h-1a1 1 0 0 1 -.117 -1.993l.117 -.007h1z"
+        stroke-width="0"
+        fill="black"
+      />
+      <path
+        d="M21 11a1 1 0 0 1 .117 1.993l-.117 .007h-1a1 1 0 0 1 -.117 -1.993l.117 -.007h1z"
+        stroke-width="0"
+        fill="black"
+      />
+      <path
+        d="M6.213 4.81l.094 .083l.7 .7a1 1 0 0 1 -1.32 1.497l-.094 -.083l-.7 -.7a1 1 0 0 1 1.217 -1.567l.102 .07z"
+        stroke-width="0"
+        fill="black"
+      />
+      <path
+        d="M19.107 4.893a1 1 0 0 1 .083 1.32l-.083 .094l-.7 .7a1 1 0 0 1 -1.497 -1.32l.083 -.094l.7 -.7a1 1 0 0 1 1.414 0z"
+        stroke-width="0"
+        fill="black"
+      />
+      <path
+        d="M12 2a1 1 0 0 1 .993 .883l.007 .117v1a1 1 0 0 1 -1.993 .117l-.007 -.117v-1a1 1 0 0 1 1 -1z"
+        stroke-width="0"
+        fill="black"
+      />
+      <path
+        d="M12 7a5 5 0 1 1 -4.995 5.217l-.005 -.217l.005 -.217a5 5 0 0 1 4.995 -4.783z"
+        stroke-width="0"
+        fill="black"
+      />
+    </svg>
+  ) : (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="40"
+      height="40"
+      viewBox="0 0 24 24"
+      strokeWidth="2"
+      stroke="black"
+      fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      onClick={() => setDarkMode(!isDarkMode)}
+    >
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+      <path d="M17 4a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 0 2 -2" />
+      <path d="M19 11h2m-1 -1v2" />
+    </svg>
+  );
+};
 
 export default ToggleDarkMode;

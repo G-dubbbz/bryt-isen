@@ -122,6 +122,49 @@ input {
   width: 200px;
 }
 
+.checkbox_item {
+  background-color: rgb(133, 161, 176);
+  border: 3px solid rgb(133, 161, 176);
+  height: 28px;
+  min-width: 48px;
+  text-align: center;
+  margin: 5px;
+  padding: 10px;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.checkbox_item.isActive {
+  background-color: rgb(133, 161, 176);
+  border-color: rgb(98, 131, 149);
+}
+
+.checkbox_item:hover {
+  background-color: rgb(98, 131, 149);
+  border-color: rgb(98, 131, 149);
+}
+
+.checkbox_item input {
+  display: none;
+}
+
+.checkbox_item label {
+  cursor: pointer;
+}
+
+.checkbox_item.isActive label::before {
+  content: "✔";
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.categories {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
 @media (min-width: 768px) {
   .create_game_form {
     margin: 0 5rem;
@@ -129,7 +172,7 @@ input {
 }
 
 @media (min-width: 1024px) {
- .create_game_form {
+  .create_game_form {
     max-width: 60%;
     margin: auto;
   }

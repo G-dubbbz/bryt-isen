@@ -21,6 +21,7 @@
 }
 
 .dropdown-menu {
+  display: none;
   position: absolute;
   right: 0;
   top: 110%;
@@ -29,6 +30,10 @@
   border-radius: 12px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
+}
+
+.dropdown-menu.visible {
+  display: block;
 }
 
 .dropdown-menu::before {
@@ -65,6 +70,16 @@
   background-color: #b6b6b621;
   border-radius: 50%;
 }
+
+.moon {
+  display: none;
+}
+
+.moon.visible {
+  display: block;
+}
+
+
 
 @media (min-width: 768px) {
   #title {

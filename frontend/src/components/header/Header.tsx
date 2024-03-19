@@ -9,7 +9,7 @@ function Header() {
   const navigate = useNavigate();
   const [isDropdownVisible, setIsDropdownVisible] = useState(false); // State to control the visibility of the dropdown
   const [loggedIn, setLoggedIn] = useState(false); // State to control the visibility of the dropdown
-
+    
   // Function to toggle dropdown visibility
   const toggleDropdown = () => {
     setIsDropdownVisible(!isDropdownVisible);
@@ -64,8 +64,9 @@ function Header() {
             <path d="M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
             <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
           </svg>
-          {isDropdownVisible && (
-            <div className="dropdown-menu">
+          <div className={`dropdown-menu ${isDropdownVisible ? 'visible' : ''}`}>
+            {isDropdownVisible && (
+              <>
               {loggedIn ? (
                 <>
                   <Link
@@ -82,9 +83,6 @@ function Header() {
                   >
                     Logg Ut
                   </Link>
-                  <div className='moon'>
-                    <ColorSchemeToggle />
-                  </div>
                 </>
               ) : (
                 <>
@@ -95,14 +93,15 @@ function Header() {
                   >
                     Logg Inn
                   </Link>
-                  <div className='moon'>
-                    <ColorSchemeToggle />
-                  </div>
                 </>
               )}
+              </>
+            )}
+            <div className={`moon ${isDropdownVisible ? 'visible' : ''}`}>
+                  <ColorSchemeToggle />
             </div>
-          )}
-        </div>
+          </div>
+          </div>
       </div>
       <div className="header-links">
         <CustomLink to="/">Topplister</CustomLink>

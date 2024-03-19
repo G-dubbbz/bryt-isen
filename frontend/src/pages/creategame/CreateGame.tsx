@@ -239,10 +239,12 @@ function CreateGame() {
       <form className="create_game_form">
         <label htmlFor="game_name">Navn på leken:</label>
         <input
+          style={{ paddingTop: '0.5em', paddingLeft: '1em', paddingBottom: '0.5em' }}
           type="text"
+          className="input-field"
           id="game_name"
           name="game_name"
-          placeholder="Game Name"
+          placeholder="Navn på leken ..."
           value={gameName}
           required
           onChange={(e) => setGameName(e.target.value)}
@@ -251,7 +253,8 @@ function CreateGame() {
         <textarea
           id="game_description"
           name="game_description"
-          placeholder="Game Description"
+          className="text-field"
+          placeholder="Beskrivelse ..."
           value={gameDescription}
           required
           onChange={(e) => setGameDescription(e.target.value)}
@@ -260,7 +263,8 @@ function CreateGame() {
         <textarea
           id="game_rules"
           name="game_rules"
-          placeholder="Game Rules"
+          className="text-field"
+          placeholder="Regler ..."
           value={gameRules}
           required
           onChange={(e) => setGameRules(e.target.value)}
@@ -270,18 +274,20 @@ function CreateGame() {
         <div className="input_row">
           <input
             type="number"
+            className="input-field"
             id="game_minh"
             name="game_minh"
-            placeholder="Min. Hours"
+            placeholder="Min. minutter ..."
             value={gameMinH}
             required
             onChange={(e) => setGameMinH(e.target.value)}
           />
           <input
             type="number"
+            className="input-field"
             id="game_maxh"
             name="game_maxh"
-            placeholder="Max. Hours"
+            placeholder="Max. minutter ..."
             value={gameMaxH}
             required
             onChange={(e) => setGameMaxH(e.target.value)}
@@ -292,18 +298,20 @@ function CreateGame() {
         <div className="input_row">
           <input
             type="number"
+            className="input-field"
             id="game_minplayer"
             name="game_minplayer"
-            placeholder="Min"
+            placeholder="Min. spillere ..."
             value={gameMinPlayer}
             required
             onChange={(e) => setGameMinPlayer(e.target.value)}
           />
           <input
             type="number"
+            className="input-field"
             id="game_maxplayer"
             name="game_maxplayer"
-            placeholder="Max"
+            placeholder="Max. spillere ..."
             value={gameMaxPlayer}
             required
             onChange={(e) => setGameMaxPlayer(e.target.value)}
@@ -328,14 +336,28 @@ function CreateGame() {
         <label htmlFor="game_emoji">Logo:</label>
         <div className="emoji_picker">
           <p id="emoji">{emoji}</p>
-          <input type="button" value="Bytt Emoji" onClick={changeEmoji} />
+          <button className="emoji-button" onClick={(e) => {
+            e.preventDefault();
+            changeEmoji();
+          }}>
+            <svg 
+            xmlns="http://www.w3.org/2000/svg"
+            className="buttonIcon"
+            width="22" 
+            height="22" 
+            viewBox="0 0 30 30" 
+            strokeWidth="1.5"
+            fill="none" 
+            >
+              <path d="M2 12.8754C2.39681 9.86095 3.88333 7.09382 6.18129 5.09201C8.47924 3.09021 11.4311 1.99097 14.4843 2.00006C17.5375 2.00915 20.4827 3.12595 22.7686 5.1414C25.0545 7.15685 26.5243 9.93278 26.903 12.9496C27.2817 15.9663 26.5433 19.0171 24.826 21.5309C23.1086 24.0446 20.5301 25.8489 17.5731 26.6061C14.6161 27.3633 11.4834 27.0214 8.76128 25.6444C6.03918 24.2675 3.91436 21.9499 2.78458 19.1254M2 26.9379V19.1254H9.84576" stroke="white" strokeWidth="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          <p>Bytt emoji</p>
+        </button>
         </div>
-        <input
-          type="submit"
-          id="create_button"
-          value="Lag Spillet"
-          onClick={handleSubmit as React.MouseEventHandler<HTMLInputElement>}
-        />
+        
+        <button className = "submit-button" onClick={handleSubmit}>
+          <p>Lag spill</p>
+        </button>
       </form>
     </>
   );

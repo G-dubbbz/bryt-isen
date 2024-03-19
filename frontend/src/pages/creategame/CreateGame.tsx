@@ -174,7 +174,7 @@ function CreateGame() {
     setTimeout(() => navigate("/all"), 200);
   };
 
-  const handleCategoryChange = (categoryName: String) => {
+  const handleCategoryChange = (categoryName: string) => {
     setSelectedCategories(prevCategories => {
       const isAlreadySelected = prevCategories.some(category => category.name === categoryName);
 

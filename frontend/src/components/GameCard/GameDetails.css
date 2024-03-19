@@ -106,7 +106,9 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
   margin-top: 1.5rem;
 }
 
@@ -125,5 +127,8 @@
 @media (min-width: 768px) {
   .game-header {
     flex-direction: row;
+  }
+  .subheader-row {
+    justify-content: space-between;
   }
 }

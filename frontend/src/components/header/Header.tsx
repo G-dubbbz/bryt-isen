@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState } from "react";
 import Button from "../Button/Button";
 import "./Header.css";
 import { Link, useResolvedPath, useMatch, useNavigate } from "react-router-dom";
-import { isLoggedIn } from '../../services/UserService';
-import ColorSchemeToggle from '../ColorSchemeChanger/ColorSchemeToggle';
+import { isLoggedIn } from "../../services/UserService";
+import ColorSchemeToggle from "../ColorSchemeChanger/ColorSchemeToggle";
 
 function Header() {
   const navigate = useNavigate();
@@ -11,42 +11,39 @@ function Header() {
   const [loggedIn, setLoggedIn] = useState(false); // State to control the visibility of the dropdown
 
   // Function to toggle dropdown visibility
-  const toggleDropdown = () =>  {
+  const toggleDropdown = () => {
     setIsDropdownVisible(!isDropdownVisible);
     checkLoggedIn();
-  }
+  };
 
   const checkLoggedIn = async () => {
     const loggedIn = await isLoggedIn();
     setLoggedIn(loggedIn);
-  }
+  };
 
   return (
     <>
       <div className="header-row-1">
-        <div className='left'>
-          <div className='moon'>
-            <ColorSchemeToggle />
-          </div>
-        <Button onClick={() => navigate("/create")}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="buttonIcon"
-            width="22"
-            height="22"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="#ffffff"
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
-            <path d="M13.5 6.5l4 4" />
-          </svg>
-          <p>Lag spill</p>
-        </Button>
+        <div className="left">
+          <Button onClick={() => navigate("/create")}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="buttonIcon"
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="#ffffff"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+              <path d="M13.5 6.5l4 4" />
+            </svg>
+            <p>Lag spill</p>
+          </Button>
         </div>
         <h1 id="title">Bryt Isen</h1>
         <div className="dropdown-container">
@@ -61,7 +58,7 @@ function Header() {
             fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"
-            style={{ cursor: 'pointer' }} // Change cursor to pointer on hover
+            style={{ cursor: "pointer" }} // Change cursor to pointer on hover
           >
             <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
             <path d="M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
@@ -71,15 +68,38 @@ function Header() {
             <div className="dropdown-menu">
               {loggedIn ? (
                 <>
-                  <Link to="/reviews" className="dropdown-item" onClick={toggleDropdown}>My Reviews</Link>
-                  <Link to="/logout" className="dropdown-item" onClick={toggleDropdown}>Log Out</Link>
+                  <Link
+                    to="/reviews"
+                    className="dropdown-item"
+                    onClick={toggleDropdown}
+                  >
+                    My Reviews
+                  </Link>
+                  <Link
+                    to="/logout"
+                    className="dropdown-item"
+                    onClick={toggleDropdown}
+                  >
+                    Log Out
+                  </Link>
+                  <div className='moon'>
+                    <ColorSchemeToggle />
+                  </div>
                 </>
               ) : (
                 <>
-                  <Link to="/login" className="dropdown-item" onClick={toggleDropdown}>Login</Link>
+                  <Link
+                    to="/login"
+                    className="dropdown-item"
+                    onClick={toggleDropdown}
+                  >
+                    Login
+                  </Link>
+                  <div className='moon'>
+                    <ColorSchemeToggle />
+                  </div>
                 </>
               )}
-              
             </div>
           )}
         </div>

@@ -70,13 +70,6 @@ const GameDetails: React.FC = () => {
     fetchLists();
   }, [isLoggedIn]);
 
-  const addToFavorites = async () => {
-    if (game !== null && game.id !== null) {
-      const lists = await getMyLists();
-      await addGameToList(lists[0].id, game.id ?? 0);
-    }
-  };
-
   function shareGame(): void {
     // Check if the Clipboard API is supported by the browser
     if (!navigator.clipboard) {
@@ -146,7 +139,6 @@ const GameDetails: React.FC = () => {
           <div className="timer">
             <span>Timer:</span> <Timer />{" "}
           </div>
-          <button onClick={addToFavorites}>Legg til i favoritter</button>
           <div className="lt-spilleliste-kapp" onClick={() => toggleDropdown()}>
             Legg til i spilleliste
             {isDropdownVisible && (

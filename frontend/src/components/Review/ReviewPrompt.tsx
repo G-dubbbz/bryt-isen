@@ -67,7 +67,7 @@ const ReviewPrompt = ({
         <div>
           {text}
           <button onClick={toggleShowFullDesc}>
-            Show less
+            Vis mindre
             <svg
               width="20"
               height="10"
@@ -95,7 +95,7 @@ const ReviewPrompt = ({
                 : text}
               {text.length > maxlength && (
                 <button className="toggleShow" onClick={toggleShowFullDesc}>
-                  Show more
+                  Vis mer
                   <svg
                     width="20"
                     height="10"

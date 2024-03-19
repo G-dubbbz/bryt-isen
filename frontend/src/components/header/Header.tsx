@@ -73,14 +73,14 @@ function Header() {
                     className="dropdown-item"
                     onClick={toggleDropdown}
                   >
-                    My Reviews
+                  Mine Anmeldelser
                   </Link>
                   <Link
                     to="/logout"
                     className="dropdown-item"
                     onClick={toggleDropdown}
                   >
-                    Log Out
+                    Logg Ut
                   </Link>
                   <div className='moon'>
                     <ColorSchemeToggle />
@@ -93,7 +93,7 @@ function Header() {
                     className="dropdown-item"
                     onClick={toggleDropdown}
                   >
-                    Login
+                    Logg Inn
                   </Link>
                   <div className='moon'>
                     <ColorSchemeToggle />

@@ -124,7 +124,7 @@ public class UserRelationService {
   @Transactional
   public void createFavoriteList(String username) {
     GameList gameList = new GameList();
-    gameList.setName("Favourites");
+    gameList.setName("Favoritter");
     HasGameList hasGameList = new HasGameList();
     hasGameList.setUser(userRepository.findById(username).orElseThrow(UserNotFoundException::new));
     hasGameList.setGameList(gameList);

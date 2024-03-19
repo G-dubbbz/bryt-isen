@@ -35,7 +35,7 @@ const Timer = () => {
           {isActive ? 'Pause' : 'Start'}
         </button>
         <button onClick={reset}>
-          Reset
+          Tilbakestill
         </button>
       </div>
     </div>

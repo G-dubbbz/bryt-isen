@@ -171,20 +171,25 @@ function CreateGame() {
   const navigate = useNavigate();
   const leave = () => {
     // Wait a bit before navigating to allow the backend to update
-    setTimeout(() => navigate("/all"), 1500);
+    setTimeout(() => navigate("/all"), 200);
   };
 
-  const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { checked, value } = e.target;
-    setSelectedCategories((prev) =>
-      checked
-        ? [...prev, { name: value }]
-        : prev.filter((category) => category.name !== value)
-    );
+  const handleCategoryChange = (categoryName: string) => {
+    setSelectedCategories(prevCategories => {
+      const isAlreadySelected = prevCategories.some(category => category.name === categoryName);
+
+      if (isAlreadySelected) {
+          return prevCategories.filter(category => category.name !== categoryName);
+      } else {
+          const categoryToAdd = categories.find(category => category.name === categoryName);
+          return [...prevCategories, categoryToAdd].filter(Boolean) as Category[];
+      }
+    });
   };
 
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    e.stopPropagation();
     const game: Game = {
       name: gameName,
       description: gameDescription,
@@ -238,7 +243,7 @@ function CreateGame() {
         <h2>Avbryt</h2>
       </Link>
 
-      <form className="create_game_form">
+      <form className="create_game_form" onSubmit={handleSubmit}>
         <label htmlFor="game_name">Navn på leken:</label>
         <input
           style={{ paddingTop: '0.5em', paddingLeft: '1em', paddingBottom: '0.5em' }}
@@ -272,7 +277,12 @@ function CreateGame() {
           onChange={(e) => setGameRules(e.target.value)}
         />
         <label htmlFor="game_minh">Varighet:</label>{" "}
-        {/* TODO: Add restrictions for nonsensical inputs*/}
+        {Number(gameMinH) < 0 && (
+          <p className="error">Min. antall minutter være større enn 0.</p>
+        )}
+        {Number(gameMinH) >= Number(gameMaxH) && (
+          <p className="error">Max antall minutter må være større enn min antall minutter.</p>
+        )}
         <div className="input_row">
           <input
             type="number"
@@ -296,7 +306,12 @@ function CreateGame() {
           />
         </div>
         <label htmlFor="game_minplayer">Antall Spillere:</label>{" "}
-        {/* TODO: Add restrictions for nonsensical inputs*/}
+        {Number(gameMinPlayer) < 0 && (
+          <p className="error">Min. antall spillere må være større enn 0.</p>
+        )}
+        {Number(gameMinPlayer) >= Number(gameMaxPlayer) && (
+          <p className="error">Max antall spillere må være større enn min antall spillere.</p>
+        )}
         <div className="input_row">
           <input
             type="number"
@@ -329,7 +344,7 @@ function CreateGame() {
               <div
                 className={`checkbox_item ${isChecked ? "isActive" : ""}`}
                 key={index}
-                onClick={() => handleCategoryChange}
+                onClick={() => handleCategoryChange(category.name)}
               >
                 <input
                   type="checkbox"
@@ -337,14 +352,12 @@ function CreateGame() {
                   name="categories"
                   value={category.name}
                   checked={isChecked}
-                  onChange={handleCategoryChange}
+                  onChange={(e) => {
+                    e.stopPropagation();
+                    handleCategoryChange(category.name);
+                  }}
                 />
-                <label
-                  htmlFor={category.name}
-                  onClick={() => handleCategoryChange}
-                >
-                  {category.name}
-                </label>
+                <label htmlFor={category.name}>{category.name}</label>
               </div>
             );
           })}
@@ -371,7 +384,8 @@ function CreateGame() {
         </button>
         </div>
         
-        <button className = "submit-button" onClick={handleSubmit}>
+        <button className="submit-button" type="submit" 
+        disabled={Number(gameMinPlayer) >= Number(gameMaxPlayer) || Number(gameMinH) >= Number(gameMaxH) || Number(gameMinPlayer) < 0 || Number(gameMinH) < 0}>
           <p>Lag spill</p>
         </button>
       </form>

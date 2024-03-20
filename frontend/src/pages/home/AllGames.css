@@ -36,11 +36,15 @@
   display: block;
   position: fixed;
   top: 0;
+  bottom: 0;
   right: 100%;
   width: 100%;
   min-height: 100vh;
   background-color: #456480;
   transition: 0.4s;
+  overflow-y: scroll;
+  padding-bottom: 2rem;
+  z-index: 100;
 }
 
 .mobile-filter.is-active {

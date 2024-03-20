@@ -37,22 +37,29 @@ Denne seksjonen inneholder brukerhistorier ment å avdekke behovene til applikas
 
 > "Som en bruker, vil jeg sortere spill etter forskjellige attributter som antall likerklikk eller antall ganger spilt, slik at jeg enkelt kan oppdage nytt innhold."
 
-## Køfunksjonalitet (Brukerhistorie 9)
+## Timing av spill (Brukerhistorie 9)
+> "Som en bruker, vil jeg kunne se en timer/stoppeklokke inne på hvert spill slik at jeg kan se hvor mye tid jeg har brukt."
+
+## Hente ut randomisert spill (Brukerhistorie 10)
+> "Som en bruker, vil jeg kunne hente ut et random spill fra lista med mine favoritter."
+
+
+## Køfunksjonalitet (Brukerhistorie 11)
 
 > "Som en bruker, ønsker jeg å opprette køer med spill og dele dem med andre, slik at jeg kan legge til rette for organiserte spilløkter."
 
-## Oversikt over Egne Anmeldelser (Brukerhistorie 10)
+## Oversikt over Egne Anmeldelser (Brukerhistorie 12)
 
 > "Som en bruker, ønsker jeg å få tilgang til en oversikt over mine egne anmeldelser, slik at jeg kan følge mine bidrag og tilbakemeldinger om spill."
 
-## Rapportering av Spill og Anmeldelser (Brukerhistorie 11)
+## Rapportering av Spill og Anmeldelser (Brukerhistorie 13)
 
 > "Som en bruker, ønsker jeg å rapportere upassende spill og anmeldelser, slik at jeg kan bidra til at fellesskapet opprettholder et trygt og respektfullt miljø."
 
-## Lys- og Mørk Modus (Brukerhistorie 12)
+## Lys- og Mørk Modus (Brukerhistorie 14)
 
 > "Som en bruker, ønsker jeg muligheten til å bytte mellom lys- og mørk modus for nettstedet, slik at jeg kan velge en foretrukket visuell stil."
 
-## Integrasjon av Annonser (Brukerhistorie 13)
+## Integrasjon av Annonser (Brukerhistorie 15)
 
 > "Som en interessent, ønsker jeg å integrere annonser på nettstedet, slik at jeg kan gi en inntektskilde for plattformen."

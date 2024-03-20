@@ -41,11 +41,15 @@
   min-height: 100vh;
   background-color: #456480;
   transition: 0.4s;
+  overflow-y: auto;
+  padding-bottom: 2rem;
   z-index: 100;
 }
 
 .mobile-filter.is-active {
   right: 0%;
+  overflow-y: auto;
+  padding-bottom: 2rem;
 }
 
 @media (min-width: 768px) {

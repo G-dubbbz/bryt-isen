@@ -16,6 +16,7 @@ const AllGames: React.FC = () => {
         const list = await getGames();
         setGames(list);
         setFilteredGames(list);
+        console.log("Games fetched:", list);
       } catch (error) {
         console.error("Error fetching data:", error);
       }

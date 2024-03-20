@@ -23,6 +23,8 @@ public class GameDTO {
   private int duration_min;
   private int duration_max;
 
+  private float rating;
+
 
   public Optional<Long> getID() {
     return Optional.of(ID);
@@ -121,5 +123,13 @@ public class GameDTO {
             ", duration_max=" + duration_max +
             ", categories=" + categories +
             '}';
+  }
+
+  public float getRating() {
+    return rating;
+  }
+
+  public void setRating(float rating) {
+    this.rating = rating;
   }
 }

@@ -165,6 +165,7 @@ public class GameRelationService {
       gameDTO.setDuration_max(game.getDuration_max());
       gameDTO.setPlayers_min(game.getPlayers_min());
       gameDTO.setPlayers_max(game.getPlayers_max());
+      gameDTO.setRating(game.getRating());
 
       gameDTO.setCategories(hasCategoryRepository.findByGame_ID(game.getID())
               .orElseThrow(RuntimeException::new)

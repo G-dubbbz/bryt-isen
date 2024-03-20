@@ -28,8 +28,8 @@ const Login = () => {
 
   return (
     <div className="login_div">
-    {redirected.redirected && (
-        <h2>You must be logged in to use this function</h2>
+      {redirected.redirected && (
+        <p>Du må være logget inn for å bruke denne funksjonen</p>
       )}
       <h2>Klikk for å logge inn eller registrere bruker:</h2>
       <Button className="login_button" onClick={handleLogin}>

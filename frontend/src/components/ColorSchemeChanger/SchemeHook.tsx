@@ -13,7 +13,6 @@ const useScheme = () => {
       undefined
     );
 
-
     const [isDarkMode, setDarkMode] = useColorSchemeState('isDarkMode', false);
     
     const val = useMemo(() => 

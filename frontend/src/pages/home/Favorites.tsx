@@ -96,7 +96,7 @@ function Favorites() {
           />
           <div className="button-container">
             <button className="ok-button" onClick={handleOkClick}>OK</button>
-            <button className="cancel-button" onClick={() => setShowInputBox(false)}>Cancel</button>
+            <button className="cancel-button" onClick={() => setShowInputBox(false)}>Avbryt</button>
           </div>
         </div>
       ) : (

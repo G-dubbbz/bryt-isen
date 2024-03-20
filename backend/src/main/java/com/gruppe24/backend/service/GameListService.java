@@ -89,7 +89,7 @@ public class GameListService {
   @Transactional
   public void deleteGameList(Long ID) {
     GameList list = gameListRepository.findByID(ID).orElseThrow(ListNotFoundException::new);
-    if (list.getName().equals("Favourites")) {
+    if (list.getName().equals("Favoritter")) {
       throw new IllegalArgumentException("Cannot delete permanent list");
     }
     gameListRepository.delete(list);
@@ -99,12 +99,12 @@ public class GameListService {
   @Transactional
   public GameList createPermanentGameList() {
     GameList gameList = new GameList();
-    gameList.setName("Favourites");
+    gameList.setName("Favoritter");
     return gameListRepository.save(gameList);
   }
 
   public boolean isDeletable(Long ID) {
     GameList gameList = gameListRepository.findByID(ID).orElseThrow(ListNotFoundException::new);
-    return !gameList.getName().equals("Favourites");
+    return !gameList.getName().equals("Favoritter");
   }
 }

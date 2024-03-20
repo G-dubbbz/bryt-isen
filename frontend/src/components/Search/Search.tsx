@@ -8,7 +8,7 @@ const Search: React.FC<{ onSearch: (searchTerm: string) => void }> = ({
     <div className="search-container">
       <input
         type="text"
-        placeholder="Search..."
+        placeholder="Søk etter leker..."
         className="search-input"
         onChange={(e) => onSearch(e.target.value)}
       />

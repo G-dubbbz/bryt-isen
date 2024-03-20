@@ -143,7 +143,7 @@ const EditableReviewPrompt = ({
         <div>
           {text}
           <button onClick={toggleShowFullDesc}>
-            Show less
+            Vis mindre
             <svg
               width="20"
               height="10"
@@ -171,7 +171,7 @@ const EditableReviewPrompt = ({
                 : text}
               {text.length > maxlength && (
                 <button className="toggleShow" onClick={toggleShowFullDesc}>
-                  Show more
+                  Vis mer
                   <svg
                     width="20"
                     height="10"

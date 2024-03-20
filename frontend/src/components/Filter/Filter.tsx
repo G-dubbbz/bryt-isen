@@ -46,19 +46,17 @@ const Filter: React.FC<FilterProps> = ({ onFilterApplied }) => {
   };
 
 
-  const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { checked, value } = e.target;
-    console.log('checked:', checked, 'value:', value);
+  const handleCategoryChange = (categoryName: string) => {
     setFilters((prevFilters) => {
-      const isCategoryIncluded = prevFilters.categories.some((category) => category.name === value);
+      const isCategoryIncluded = prevFilters.categories.some(category => category.name === categoryName);
   
       let updatedCategories;
-      if (checked && !isCategoryIncluded) {
-        updatedCategories = [...prevFilters.categories, { name: value }];
-      } else if (!checked && isCategoryIncluded) {
-        updatedCategories = prevFilters.categories.filter((category) => category.name !== value);
+      if (!isCategoryIncluded) {
+        // If the category is not already included, add it to the list
+        updatedCategories = [...prevFilters.categories, { name: categoryName }];
       } else {
-        updatedCategories = prevFilters.categories;
+        // If the category is already included, remove it from the list
+        updatedCategories = prevFilters.categories.filter(category => category.name !== categoryName);
       }
   
       return {
@@ -66,7 +64,6 @@ const Filter: React.FC<FilterProps> = ({ onFilterApplied }) => {
         categories: updatedCategories,
       };
     });
-
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -99,12 +96,17 @@ const Filter: React.FC<FilterProps> = ({ onFilterApplied }) => {
         {categories.map((category, index) => {
           const isChecked = filters.categories.some((c) => c.name === category.name);
           return (
-            <div key={index}>
+            <div className={`checkbox_item ${isChecked ? "isActive" : ""}`} key={index}
+            onClick={() => handleCategoryChange(category.name)}>
               <input
                 type="checkbox"
                 id={`category-${index}`}
                 value={category.name}
-                onChange={handleCategoryChange}
+                onChange={(e) => {
+                  e.stopPropagation();
+                  handleCategoryChange(category.name);
+                }}
+
                 checked={isChecked}
               />
               <label htmlFor={`category-${index}`} onClick={() => handleCategoryChange}>{category.name}</label>

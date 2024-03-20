@@ -41,6 +41,7 @@
   min-height: 100vh;
   background-color: #456480;
   transition: 0.4s;
+  z-index: 100;
 }
 
 .mobile-filter.is-active {

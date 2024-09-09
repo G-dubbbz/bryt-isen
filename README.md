@@ -1,11 +1,11 @@
 # Bryt Isen
 
 This is the project "Bryt Isen" made in the NTNU course TDT4140 - Programvareutvikling. The project is made in collaboration with:
-Arthur Brunborg
-Christoffer Ulvang Thorvaldsen
-Dag Kristian Andersen
-Marie Aakvaag
-Nora Wirkola Langli
+Arthur Brunborg,
+Christoffer Ulvang Thorvaldsen,
+Dag Kristian Andersen,
+Marie Aakvaag,
+Nora Wirkola Langli,
 Silje Holm Johannesen
 
 ## To preview the frontend:  
